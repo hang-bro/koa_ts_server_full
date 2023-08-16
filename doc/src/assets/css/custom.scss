@@ -1,0 +1,44 @@
+body {
+  cursor: url(../cursor/normal.cur), auto;
+}
+a {
+  cursor: url(../cursor/link.cur), auto;
+}
+.cursor-pointer {
+  cursor: url(../cursor/link.cur), auto;
+}
+button,input{
+  &:hover{
+  cursor: url(../cursor/link.cur), auto;
+
+  }
+}
+.no-scroll {
+  &::-webkit-scrollbar {
+    width: 0;
+  }
+}
+
+main {
+  background-image: linear-gradient(rgba(193, 239, 207, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(193, 239, 207, 0.3) 1px, transparent 1px);
+  background-size: 1.5em 1.5em;
+}
+
+.ant-pagination-item-link {
+  display: flex;
+  align-items: center;
+}
+
+.cell.el-tooltip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// 文字渐变色
+.text-bg {
+  background-image: linear-gradient(to right, #69ff97 10%, #00e4ff 100%);
+  background-clip: text;
+  color: transparent;
+}

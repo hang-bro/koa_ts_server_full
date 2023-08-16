@@ -1,0 +1,6 @@
+{
+  "watch":["server/**/*.ts"],
+  "ignore":["node_modules","./server/public/*"],
+  "exec":"ts-node --files server/index.ts",
+  "ext":".ts"
+}

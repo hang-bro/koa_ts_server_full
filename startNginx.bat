@@ -1,0 +1,1 @@
+cmd /k "cd /d D:\nginx-1.24.0 && start nginx && exit"
