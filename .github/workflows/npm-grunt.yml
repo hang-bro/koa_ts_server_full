@@ -1,28 +1,50 @@
-name: NodeJS with Grunt
+name: 部署 koa_ts_server_full doc
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  #触发事件，当收到推送的时候执行
+  push
 
 jobs:
+  # 任务ID
   build:
+    # 运行环境
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-
+    # 步骤
     steps:
-    - uses: actions/checkout@v3
+      - name: Checkout Code
+        # 使用别人的action
+        uses: actions/checkout@v2
+      # 步骤名称
+      - name: use node
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: 14 # node版本
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: npm install
+        # 步骤执行指令
+        run: npm install
+        #working-directory此命令的运行目录
+        working-directory: ./ui
 
-    - name: Build
-      run: |
-        npm install
-        grunt
+      - name: build
+        #执行build命令，根据个人情况修改，如有多种配置可以改成build:prod,build:dev
+        run: npm run build
+        working-directory: ./ui
+
+      # 命名这个任务为发布Deploy
+      - name: Deploy
+        # 因为构建之后，需要把代码上传到服务器上，所以需要连接到ssh，并且做一个拷贝操作
+        uses: cross-the-world/scp-pipeline@master
+        env:
+          WELCOME: "ssh scp ssh pipelines"
+          LASTSSH: "Doing something after copying"
+        with:
+          host: ${{ secrets.USER_HOST }}
+          user: ${{ secrets.USER_NAME }}
+          pass: ${{ secrets.USER_PASS }}
+          port: 22
+          connect_timeout: 10s
+          #将dist所有的文件传输到服务器
+          local: "./ui/dist/*"
+          #remote推送的是服务器内的文件地址,修改成你自己的文件地址
+          remote: /home/nginx/backend
