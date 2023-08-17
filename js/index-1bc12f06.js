@@ -1,1 +1,0 @@
-import{u as c}from"./index-ef55ec88.js";import{d as n,o as s,c as r,e as a}from"./index-b92ab863.js";const v=n({__name:"index",setup(u){const{isSupported:i,isConnected:l,device:p,requestDevice:t,server:m}=c({acceptAllDevices:!0}),o=()=>{t().then(e=>{alert(e)})};return(e,d)=>(s(),r("main",null,[a("button",{onClick:o},"Request Bluetooth Device")]))}});export{v as default};
