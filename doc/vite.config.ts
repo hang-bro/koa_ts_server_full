@@ -4,7 +4,7 @@
  * @LastEditors: HYH
  * @LastEditTime: 2023-07-28 20:08:45
  */
-import { resolve } from 'path'
+import path, { resolve } from 'path'
 import { defineConfig, loadEnv, searchForWorkspaceRoot } from 'vite'
 import usePlugin from './vite/usePlugin'
 
@@ -46,7 +46,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       //
     },
     build: {
-      // outDir: path.join(__dirname, '../server/public/doc'),
+      outDir: path.join(__dirname, '../'),
       emptyOutDir: true,
       rollupOptions: {
         output: {
