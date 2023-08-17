@@ -24,12 +24,12 @@ jobs:
         # 步骤执行指令
         run: npm install
         #working-directory此命令的运行目录
-        working-directory: ./doc
+        working-directory: ./docs
 
       - name: build
         #执行build命令，根据个人情况修改，如有多种配置可以改成build:prod,build:dev
         run: npm run build
-        working-directory: ./doc
+        working-directory: ./docs
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
