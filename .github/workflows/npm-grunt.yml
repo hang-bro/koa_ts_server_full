@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: 16 # node版本
 
-      - name:  npm install
+      - name: npm install
         # 步骤执行指令
         run: npm install
         #working-directory此命令的运行目录
@@ -31,3 +31,10 @@ jobs:
         run: npm run build
         working-directory: ./doc
 
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+	        github_token: ${{ secrets.GITHUB_TOKEN }}
+	        publish_dir: ./dist
+
+ 
