@@ -39,6 +39,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
           GITHUB_REPOSITORY: koa_ts_server_full
-        run:
-          npm run deploy
-          # git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
+        run: npm run deploy
+        working-directory: ./doc
