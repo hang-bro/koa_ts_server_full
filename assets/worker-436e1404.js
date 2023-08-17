@@ -1,0 +1,1 @@
+(function(){"use strict";const e=(s,o)=>s+o;self.addEventListener("message",s=>{console.log("接收到index.vue消息==>"+s.data),postMessage("this is a Worker.js message"),console.log("  add(6,6) ==>",e(6,6))})})();
