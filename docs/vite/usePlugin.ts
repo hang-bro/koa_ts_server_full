@@ -38,14 +38,14 @@ export default (isProduction?: boolean): PluginOption[] => {
     }),
     // brotli 压缩
     viteCompression({
-      disable: false, //是否禁用
+      disable: true, //是否禁用
       threshold: 10240,
       algorithm: 'brotliCompress',
       ext: '.br',
     }),
     // gzip压缩
     viteCompression({
-      disable: false, //是否禁用
+      disable: true, //是否禁用
       threshold: 10240,
       algorithm: 'gzip',
       ext: '.gz',

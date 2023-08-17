@@ -14,7 +14,12 @@ async function main() {
   // if (fs.existsSync(distDir)) fs.rmSync(distDir, { recursive: true })
   // if (fs.existsSync(distZipDir)) fs.rmSync(distZipDir, { recursive: true })
   console.log(`distDir ==>`, distDir)
-  await $`cd ./docs && npx vite build --outDir="../github-page"`
+  // await $`cd ./docs && npx vite build --outDir="../github-page" --base="/koa_ts_server_full_doc"`
+  await $`cd ./docs`
+  await $`cd ../`
+  await $`git add .`
+  await $`git commit -m"commit"`
+  await $`git push`
 }
 
 main()
