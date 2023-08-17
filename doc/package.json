@@ -6,7 +6,7 @@
   "main": "./src/main.ts",
   "scripts": {
     "dev": "vite --mode dev",
-    "build": "vite build --mode",
+    "build": "vite build --mode prod",
     "build:test": "vite build --mode dev",
     "p": "vite preview"
   },
