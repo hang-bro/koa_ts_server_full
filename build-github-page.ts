@@ -17,6 +17,7 @@ async function main() {
   // await $`cd ./docs && npx vite build --outDir="../github-page" --base="/koa_ts_server_full_doc"`
   await $`cd ./docs`
   await $`cd ../`
+  await $`cd ./github-page`
   await $`git add .`
   await $`git commit -m"commit"`
   await $`git push`
