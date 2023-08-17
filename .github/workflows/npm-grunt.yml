@@ -32,12 +32,7 @@ jobs:
         working-directory: ./doc
 
       - name: Deploy
-        # uses: peaceiris/actions-gh-pages@v3
-        # with:
-        #   github_token: ${{ secrets.TOKEN }}
-        #   publish_dir: ./public
-        env:
-          GITHUB_TOKEN: ${{ secrets.TOKEN }}
-          GITHUB_REPOSITORY: koa_ts_server_full
-        run: npm run deploy
-        working-directory: ./doc
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.TOKEN }}
+          publish_dir: ./public
