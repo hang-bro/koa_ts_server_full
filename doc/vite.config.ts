@@ -46,7 +46,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       //
     },
     build: {
-      outDir: path.join(__dirname, '../'),
+      outDir: path.join(__dirname, '../dist'),
       emptyOutDir: true,
       rollupOptions: {
         output: {
