@@ -51,5 +51,17 @@ export default class AdminController {
     return response.success(ctx, downloadUrls)
   }
 
+  @Get('/patchBook')
+  async patchBook(ctx: Context) {
+    const { url, start } = ctx.query
+    let arr = []
+    const HTML1 = await patchService.getHTML(`${url}/${start}.html`)
+    const HTML2 = await patchService.getHTML(`${url}/${start}_2.html`)
+    const HTML3 = await patchService.getHTML(`${url}/${start}_3.html`)
+    const str1 = cheerio.load(HTML1)('#nr1').text().toString().split('。')
+    const str2 = cheerio.load(HTML2)('#nr1').text().toString().split('。')
+    const str3 = cheerio.load(HTML3)('#nr1').text().toString().split('。')
 
+    return response.success(ctx, arr.concat(str1).concat(str2).concat(str3))
+  }
 }
