@@ -15,6 +15,19 @@ import Layout from '@/components/layout/index.vue'
 import { useStore } from './hooks/useStore'
 import { ElNotification } from 'element-plus'
 const locale = ref(zhCn)
+
+onBeforeMount(() => {
+  if (!import.meta.env.DEV) {
+    try {
+      console.error('生产环境禁止调试！'),
+        setInterval(() => {
+          debugger
+        }, 50)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+})
 onMounted(() => {
   useStore((store) => {
     document.documentElement.classList.add(store.config.theme || 'light')

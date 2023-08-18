@@ -1,8 +1,9 @@
 import 'animate.css'
+import 'intro.js/introjs.css' // intro.js的基础样式文件
 import '@/assets/icon/iconfont.css'
 import '@/assets/css/base.css'
 import '@/assets/css/custom.scss'
-import 'virtual:svg-icons-register'  //不引入不能生效
+import 'virtual:svg-icons-register' //不引入不能生效
 import dayjs from '@/utils/dayjs'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import { App, Plugin } from 'vue'

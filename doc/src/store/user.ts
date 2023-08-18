@@ -8,7 +8,7 @@ import { defineStore } from 'pinia'
 
 export type IUserStore = ReturnType<typeof userStore>
 
- const userStore = defineStore('userStore', {
+const userStore = defineStore('userStore', {
   /** state==>必须是一个方法 && 返回值为对象 */
   state: () => {
     return {
@@ -19,12 +19,18 @@ export type IUserStore = ReturnType<typeof userStore>
       address: '',
       token: '',
       role: '',
+      /**是否经过引导 */
+      isIntroduced: false,
     }
   },
   actions: {
     /**设置信息 */
     setInfo(info: UserModel) {
-      Object.keys(info).forEach((key) => (this[key] = info[key]))
+      Object.keys(info).forEach((key) => {
+        if (info[key] !== null) {
+          this[key] = info[key]
+        }
+      })
     },
   },
   /**pinia持久化方式 */

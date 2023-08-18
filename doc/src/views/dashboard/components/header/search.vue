@@ -1,6 +1,6 @@
 <template>
   <!-- 搜索 -->
-  <div class="relative" ref="searchRef">
+  <div class="relative" ref="searchRef" id="header-search">
     <input
       class="p-1.5 bg-gray-100 w-[150px] focus:w-[250px] text-base indent-1 rounded-md placeholder:text-sm outline-none transition-all border"
       v-model="state.searchValue"

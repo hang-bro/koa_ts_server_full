@@ -45,6 +45,7 @@ export default class AdminController {
   }
 
   @Post('', '注册 用户 ')
+  @NoAuth('/api/register')
   /**注册 用户 */
   async regist(ctx: Context) {
     const schema = Joi.object({

@@ -113,7 +113,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  swiper.destroy()
+  swiper && swiper.destroy()
 })
 </script>
 <style lang="scss" scoped></style>
