@@ -71,7 +71,6 @@
   },
   "devDependencies": {
     "@inquirer/prompts": "^2.3.0",
-    "@types/dotenv": "^8.2.0",
     "@types/ffmpeg": "^1.0.4",
     "@types/fluent-ffmpeg": "^2.1.21",
     "@types/jsonwebtoken": "^8.5.9",
@@ -82,7 +81,6 @@
     "@types/koa-session": "^5.10.4",
     "@types/koa-sslify": "^4.0.3",
     "@types/koa-static": "^4.0.2",
-    "@types/log4js": "^2.3.5",
     "@types/mime": "^3.0.1",
     "@types/mockjs": "^1.0.7",
     "@types/module-alias": "^2.0.1",
