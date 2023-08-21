@@ -1,6 +1,6 @@
 <template>
   <main class="w-full h-full overflow-auto no-scroll">
-    <header class="bg-gray-300 mb-5 p-4 text-xl font-bold sticky top-0">
+    <header class=" z-10 bg-gray-300 mb-5 p-4 text-xl font-bold sticky top-0">
       directives(指令) 代码地址==> <span class="text-gray-500">'@/directives/module'</span>
     </header>
     <!-- resize -->
