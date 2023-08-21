@@ -9,7 +9,7 @@
     "dev:build": "cd dist && node index.js",
     "build": "ts-node build.ts",
     "build:doc": "ts-node build.ts --doc",
-    "build:git": "cd ./doc &&  npx vite build --outDir=../github-page",
+    "build:git": "cd ./doc &&  npx vite build --outDir=../github-page --base=koa_ts_server_full_doc",
     "cs": "ts-node createCS.ts",
     "prisma": "npx prisma migrate dev --name init",
     "seed": "ts-node seed.ts",
