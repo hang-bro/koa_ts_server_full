@@ -29,6 +29,6 @@ export const useRandomBg = () => {
 
     return `${r}, ${g}, ${b}`
   }
-  
+
   return getRandomGradient()
 }
