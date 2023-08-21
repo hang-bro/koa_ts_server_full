@@ -9,6 +9,9 @@ import { App, Directive, Plugin } from 'vue'
 import copy from './module/copy'
 /**千分符显示数字 */
 import thousands from './module/thousands'
+/**resize */
+import resize from './module/resize'
+
 /**节流 */
 import debounce from './module/debounce'
 /**防抖 */
@@ -20,18 +23,22 @@ import auth from './module/auth'
 /**input el-input 自动获取焦点 */
 import focus from './module/focus'
 /**长按 */
-import longPress from './module/longpress'
+import longpress from './module/longpress'
+/**draggable */
+import draggable from './module/draggable'
 
 /**指令列表 */
 const directivesList: { [prop: string]: Directive } = {
   copy,
+  draggable,
+  resize,
   thousands,
   debounce,
   throttle,
   watermark,
   auth,
   focus,
-  longPress,
+  longpress,
 }
 /**注册指令 */
 const directives: Plugin = {

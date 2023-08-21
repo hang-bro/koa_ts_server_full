@@ -10,11 +10,11 @@ interface ElType extends HTMLElement {
 }
 interface bindingValue {
   value: {
-    fn: () => void
+    callback: () => void
     delay: number
   }
 }
-// <el-button v-debounce="{ fn: set, delay: 1000 }">设置</el-button>    使用示例
+// <el-button v-debounce="{ callback: set, delay: 1000 }">设置</el-button>    使用示例
 
 const debounce: Directive = {
   mounted(el: ElType, binding: bindingValue) {
@@ -24,7 +24,7 @@ const debounce: Directive = {
         clearInterval(timer)
       }
       timer = setTimeout(() => {
-        binding.value.fn()
+        binding.value.callback()
       }, binding.value.delay || 500)
     }
     el.addEventListener('click', el.click)

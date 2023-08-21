@@ -16,6 +16,7 @@ interface ElType extends HTMLElement {
 }
 const draggable: Directive = {
 	mounted: function (el: ElType) {
+		el.parentElement.style.position='relative';
 		el.style.cursor = "move";
 		el.style.position = "absolute";
 		el.onmousedown = function (e) {

@@ -21,7 +21,7 @@ interface ElType extends HTMLElement {
 }
 interface bindingValue{
 	value:{
-		fn:()=>void,
+		callback:()=>void,
 		delay:number
 	}
 }
@@ -35,7 +35,7 @@ const throttle: Directive = {
 			}
 			if (!el.disabled) {
 				el.disabled = true;
-				binding.value.fn();
+				binding.value.callback();
 				timer = setTimeout(() => {
 					el.disabled = false;
 				}, 	binding.value.delay|| 1000);

@@ -12,7 +12,7 @@
     2、将其设置为背景图片，从而实现页面或组件水印效果
   
   使用：设置水印文案，颜色，字体大小即可
-  <div v-waterMark="{text:'版权所有',textColor:'rgba(180, 180, 180, 0.4)'}"></div>
+  <div v-watermark="{text:'版权所有',textColor:'rgba(180, 180, 180, 0.4)'}"></div>
 */
 
 import type { Directive, DirectiveBinding } from 'vue'
@@ -27,7 +27,7 @@ const addWaterMarker = (
   el: HTMLElement,
   text: string,
   font: string = '16px Microsoft JhengHei',
-  textColor: string = 'rgba(180, 180, 180, 0.4)'
+  textColor: string = 'rgba(180, 180, 180, 0.4)',
 ) => {
   // angle顺时针旋转的弧度。可以通过角度值计算：degree * Math.PI / 180
   const angle = (-25 * Math.PI) / 180
@@ -50,8 +50,8 @@ const addWaterMarker = (
 const watermark: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
     const { text, font, textColor } = binding.value
-    addWaterMarker(el, text, font, textColor)
-  }
+    nextTick(() => addWaterMarker(el, text, font, textColor))
+  },
 }
 
 export default watermark

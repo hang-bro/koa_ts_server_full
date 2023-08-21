@@ -12,12 +12,13 @@
       class="indent-3 text-center text-white flex-1 h-full overflow-hidden text-ellipsis whitespace-nowrap bg-teal-500">
       {{ value }}
     </div>
-    <div @click="handleCopy" class="bg-teal-600 p-1 w-8 h-full flex items-center justify-center">
+    <div @click="useCopy(props.value)" class="bg-teal-600 p-1 w-8 h-full flex items-center justify-center">
       <CopyIcon theme="outline" :size="iconSize" fill="#fff" />
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import useCopy from '@/hooks/useCopy'
 const props = withDefaults(defineProps<{ value?: string; size?: 'mini' | 'small' | 'md' | 'large' }>(), {
   value: 'copy',
   size: 'md',
@@ -52,19 +53,5 @@ const lineHeight = computed(() => {
       return '40px'
   }
 })
-
-const handleCopy = () => {
-  try {
-    navigator.clipboard.writeText(props.value).then(() => ElMessage.success('复制成功'))
-  } catch (error) {
-    const input = document.createElement('input')
-    input.value = props.value
-    document.body.appendChild(input)
-    input.select()
-    document.execCommand('Copy')
-    document.body.removeChild(input)
-    ElMessage.success('复制成功')
-  }
-}
 </script>
 <style lang="scss" scoped></style>

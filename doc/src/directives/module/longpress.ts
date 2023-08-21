@@ -12,14 +12,14 @@ import type { Directive, DirectiveBinding } from 'vue'
 
 const directive: Directive = {
   mounted(el: HTMLElement, binding: DirectiveBinding) {
-    const { fn, time } = binding.value
+    const { callback, time } = binding.value
 
-    if (typeof fn !== 'function') {
+    if (typeof callback !== 'function') {
       throw '请传入一个方法'
     }
 
     // 定义变量
-    let pressTimer: any = null
+    let timer: any = null
     // 创建计时器（ n秒后执行函数 ）
     const start = (e: any) => {
       if (e.button) {
@@ -27,21 +27,21 @@ const directive: Directive = {
           return
         }
       }
-      if (pressTimer === null) {
-        pressTimer = setTimeout(() => {
+      if (timer === null) {
+        timer = setTimeout(() => {
           handler(e)
         }, time || 1000)
       }
     }
     // 取消计时器
     const cancel = () => {
-      if (pressTimer !== null) {
-        clearTimeout(pressTimer)
-        pressTimer = null
+      if (timer !== null) {
+        clearTimeout(timer)
+        timer = null
       }
     }
     // 运行函数
-    const handler = (e: MouseEvent | TouchEvent) => fn()
+    const handler = (e: MouseEvent | TouchEvent) => callback()
     // 添加事件监听器
     el.addEventListener('mousedown', start)
     el.addEventListener('touchstart', start)
