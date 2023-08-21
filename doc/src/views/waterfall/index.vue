@@ -1,28 +1,31 @@
 <template>
   <main class="w-full h-full p-5">
     <div ref="containerRef" class="container"></div>
-    <el-button
-      @click="
-        () => {
-          loadMore()
-          loadMore()
-          loadMore()
-          loadMore()
-          loadMore()
-        }
-      "
-      >load more</el-button
-    >
+    <el-button @click="() => {
+      loadMore()
+      loadMore()
+      loadMore()
+      loadMore()
+      loadMore()
+    }
+      ">load more</el-button>
   </main>
 </template>
 <script setup lang="ts">
 import { onMounted } from 'vue'
 import useEvent from '@/hooks/useEvent'
-
+import { http } from '@/http'
 const containerRef = ref<HTMLDivElement>()
 
 let loadMore = null
 onMounted(() => {
+
+  http.get<any>('/api/patch/patchList')
+    .then((res) => {
+      console.log(`res ==>`, res);
+      createImgs(res.data)
+
+    })
   /**
    * 每张图片的固定宽度
    */
@@ -31,9 +34,9 @@ onMounted(() => {
   /**
    * 加入图片元素
    */
-  const createImgs = () => {
-    for (let i = 0; i < 5; i++) {
-      let src = ` http://192.168.5.240:2333/download/hotPic/${i + 1}.jpg`
+  const createImgs = (data:any[] ) => {
+    for (let i = 0; i < data.length; i++) {
+      let src = `${import.meta.env.VITE_BASE_URL}/download/hotPic/${data[i]}`
       const img = document.createElement('img')
       img.src = src
       img.style.position = 'absolute'
@@ -97,14 +100,7 @@ onMounted(() => {
     containerRef.value.style.height = max + 'px'
   }
 
-  createImgs()
-  createImgs()
-  createImgs()
-  createImgs()
-  createImgs()
-  createImgs()
-  createImgs()
-  createImgs()
+
   // window.onload=setPositions;
   // 定时器
   let timer = null
@@ -123,6 +119,7 @@ onMounted(() => {
   width: 100%;
   position: relative;
 }
+
 .container img {
   position: absolute !important;
   transition: 0.3s;

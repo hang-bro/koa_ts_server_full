@@ -1,8 +1,9 @@
+import { readdirSync } from 'fs'
 /*
  * @Description:
  * @Author: HYH
  * @LastEditors: HYH
- * @LastEditTime: 2023-06-16 21:14:36
+ * @LastEditTime: 2023-08-21 19:34:55
  */
 import { Controller, Get, NoAuth, Post } from '@/decorator/index'
 import patchService from '@/service/patch.service'
@@ -12,6 +13,7 @@ import cheerio from 'cheerio'
 import Joi from 'joi'
 import { Context } from 'koa'
 import turndown from 'turndown'
+import { join } from 'path'
 const turndownService = new turndown()
 // 添加Controller前缀
 @Controller('/api/patch')
@@ -28,7 +30,7 @@ export default class AdminController {
     //   value: { url }
     // } = schema.validate(ctx.request.body)
     // if (error) return response.error(ctx, error.message)
-    const HTML = await patchService.getHTML('https://wallhaven.cc/toplist?page=2')
+    const HTML = await patchService.getHTML('https://wallhaven.cc/toplist?page=5')
     const $ = cheerio.load(HTML)
     let fileList: any = []
     $('.preview').each((i, e) => {
@@ -49,6 +51,12 @@ export default class AdminController {
       })
     }
     return response.success(ctx, downloadUrls)
+  }
+  @Get('/patchList')
+  @NoAuth('/api/patchList')
+  async patchList(ctx: Context) {
+    const files = readdirSync(join(__dirname, '../public/download/hotPic'))
+    return response.success(ctx,files)
   }
 
   @Get('/patchBook')
