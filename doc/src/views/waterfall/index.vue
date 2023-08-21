@@ -1,6 +1,18 @@
 <template>
   <main class="w-full h-full p-5">
     <div ref="containerRef" class="container"></div>
+    <el-button
+      @click="
+        () => {
+          loadMore()
+          loadMore()
+          loadMore()
+          loadMore()
+          loadMore()
+        }
+      "
+      >load more</el-button
+    >
   </main>
 </template>
 <script setup lang="ts">
@@ -8,6 +20,8 @@ import { onMounted } from 'vue'
 import useEvent from '@/hooks/useEvent'
 
 const containerRef = ref<HTMLDivElement>()
+
+let loadMore = null
 onMounted(() => {
   /**
    * 每张图片的固定宽度
@@ -19,7 +33,7 @@ onMounted(() => {
    */
   const createImgs = () => {
     for (let i = 0; i < 5; i++) {
-      let src = `http://localhost:2333/download/hotPic/${i + 1}.jpg`
+      let src = ` http://192.168.5.240:2333/download/hotPic/${i + 1}.jpg`
       const img = document.createElement('img')
       img.src = src
       img.style.position = 'absolute'
@@ -29,6 +43,7 @@ onMounted(() => {
       containerRef.value.appendChild(img)
     }
   }
+  loadMore = createImgs
 
   /**
    * 计算一共多少列 以及计算每一列之间的间隔
