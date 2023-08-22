@@ -9,8 +9,8 @@
     <Header />
 
     <section class="z-[1] px-3 pt-5 flex-1 max-w-6xl m-auto w-full flex flex-nowrap overflow-auto overflow-x-hidden">
-      <!-- <Main style="transition: width 1s ease" />
-      <Side /> -->
+      <Main />
+      <Side />
     </section>
     <Footer />
   </main>

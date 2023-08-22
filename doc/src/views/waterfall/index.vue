@@ -1,14 +1,18 @@
 <template>
   <main class="w-full h-full p-5">
     <div ref="containerRef" class="container"></div>
-    <el-button @click="() => {
-      loadMore()
-      loadMore()
-      loadMore()
-      loadMore()
-      loadMore()
-    }
-      ">load more</el-button>
+    <el-button
+      @click="
+        () => {
+          loadMore()
+          loadMore()
+          loadMore()
+          loadMore()
+          loadMore()
+        }
+      "
+      >load more</el-button
+    >
   </main>
 </template>
 <script setup lang="ts">
@@ -19,13 +23,10 @@ const containerRef = ref<HTMLDivElement>()
 
 let loadMore = null
 onMounted(() => {
-
-  http.get<any>('/api/patch/patchList')
-    .then((res) => {
-      console.log(`res ==>`, res);
-      createImgs(res.data)
-
-    })
+  http.get<any>('/api/patch/patchList').then((res) => {
+    console.log(`res ==>`, res)
+    createImgs(res.data)
+  })
   /**
    * 每张图片的固定宽度
    */
@@ -34,16 +35,30 @@ onMounted(() => {
   /**
    * 加入图片元素
    */
-  const createImgs = (data:any[] ) => {
-    for (let i = 0; i < data.length; i++) {
+  const createImgs = (data: any[]) => {
+    for (let i = 0; i < 10; i++) {
       let src = `${import.meta.env.VITE_BASE_URL}/download/hotPic/${data[i]}`
       const img = document.createElement('img')
-      img.src = src
+      img.src = 'http://192.168.5.240:2333/download/hotPic/wallhaven-2yodx9.png'
+      img.setAttribute('data-src', src)
       img.style.position = 'absolute'
       img.width = img_width
+      img.height = 200
       /**每一张图片加载完就设置位置 */
       img.onload = setPosition
       containerRef.value.appendChild(img)
+      const observer = new IntersectionObserver((entries) => {
+        // 可见性变化处理
+        entries.forEach((entry) => {
+          /** 元素可见*/
+          if (entry.isIntersecting) {
+            img.src = img.getAttribute('data-src')
+            observer.unobserve(img)
+          } else {
+          }
+        })
+      })
+      observer.observe(img)
     }
   }
   loadMore = createImgs
@@ -100,8 +115,6 @@ onMounted(() => {
     containerRef.value.style.height = max + 'px'
   }
 
-
-  // window.onload=setPositions;
   // 定时器
   let timer = null
   // 窗口尺寸变动后，重新排列
