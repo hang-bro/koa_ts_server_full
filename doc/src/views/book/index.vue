@@ -8,14 +8,14 @@
           <el-input v-model="form.url" autocomplete="off" />
         </el-form-item>
         <el-form-item label="start" prop="url">
-          <el-input v-model="form.start" autocomplete="off" />
+          <el-input v-model.number="form.start" autocomplete="off" />
         </el-form-item>
       </el-form>
       <el-button @click="patchBook">爬取</el-button>
     </section>
-    <section class="h-[500px] overflow-auto bg-white">
+    <section class="h-[500px] overflow-auto bg-white" v-draggable ref="bookRef">
       <div v-for="p in html">
-        <p class="m-1 text-base text-gray-600">{{ p }}</p>
+        <p class="m-1  text-gray-500">{{ p }}</p>
       </div>
     </section>
   </main>
@@ -23,18 +23,25 @@
 <script lang="ts" setup>
 import { http } from '@/http'
 
+const bookRef = ref()
 const html = ref()
 const form = reactive({
   url: 'https://m.biqubao8.com/book/108395/',
-  start: 61878,
+  start: 461830,
 })
+console.log(`form ==>`, form)
 const patchBook = () => {
   http.get('/api/patch/patchBook', { ...form }).then((res) => {
-    console.log(`res ==>`, res.data)
+    // console.log(`res ==>`, res.data)
     html.value = res.data
     form.start += 1
+    scrollTop()
   })
 }
+/**
+ * 消息框滚动到顶部
+ */
+const scrollTop = () => (bookRef.value.scrollTop = 0)
 </script>
 <style lang="scss" scoped>
 section {

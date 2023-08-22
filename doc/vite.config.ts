@@ -40,6 +40,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       // 设置文件目录别名
       alias: {
         '@': resolve(__dirname, './src'),
+        '~': resolve(__dirname, './'),
         '@@': resolve(__dirname, '../server'),
       },
       extensions: ['.js', '.ts', '.tsx', '.jsx'],

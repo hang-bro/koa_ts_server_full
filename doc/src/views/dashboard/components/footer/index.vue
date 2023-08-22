@@ -3,7 +3,7 @@
     class="h-[50px] cursor-pointer flex items-center justify-center text-gray-500 animate__animated animate__fadeInUp">
     <div class="max-w-5xl text-sm text-gray-400 text-hover flex justify-center items-center">
       <div @click="getText">「{{ state.text }}」</div>
-      <div class="opacity-0 text-center text-xs flex items-center transition-all duration-500">
+      <div class="hidden text-center text-xs items-center transition-all duration-500">
         <span>{{ state.from }}</span>
         <copy class="ml-1" @click="useCopy(state.text)" theme="outline" fill="#cccc" />
       </div>
@@ -35,9 +35,9 @@ onMounted(() => {
 <style lang="scss" scoped>
 .text-hover {
   &:hover {
-    .opacity-0 {
+    .hidden {
       @apply transition-all duration-500;
-      opacity: 1;
+      display: flex;
     }
   }
 }

@@ -68,15 +68,38 @@ export default class AdminController {
 
   @Get('/patchBook')
   async patchBook(ctx: Context) {
-    const { url, start } = ctx.query
-    let arr = []
-    const HTML1 = await patchService.getHTML(`${url}/${start}.html`)
-    const HTML2 = await patchService.getHTML(`${url}/${start}_2.html`)
-    const HTML3 = await patchService.getHTML(`${url}/${start}_3.html`)
-    const str1 = cheerio.load(HTML1)('#nr1').text().toString().split('。')
-    const str2 = cheerio.load(HTML2)('#nr1').text().toString().split('。')
-    const str3 = cheerio.load(HTML3)('#nr1').text().toString().split('。')
+    const content = await patchService.getHTML('https://m.biqubao8.com/book/108395/index_5.html')
+    const $ = cheerio.load(content)
+    const contents = []
+    $('.chapter > li').each((i, e) => {
+      const res = $(e).children('a')
+      contents.push({
+        text: res.text(),
+        attr: res.attr('href')
+      })
+    })
 
-    return response.success(ctx, arr.concat(str1).concat(str2).concat(str3))
+    // console.log(`contents ==>`, contents)
+    let arr = []
+    const url = 'https://m.biqubao8.com'
+    for (const item of contents) {
+      console.log(`item ==>`, item)
+      console.log(` ==>`, `${url}${item.attr}.html`)
+      const start = item.attr.split('/').pop().split('.')[0]
+      const HTML1 = await patchService.getHTML(`${url}${start}.html`)
+      console.log(`HTML1 ==>`, HTML1)
+      const HTML2 = await patchService.getHTML(`${url}${start}_2.html`)
+      const HTML3 = await patchService.getHTML(`${url}${start}_3.html`)
+      const str1 = cheerio.load(HTML1)('#nr1').text().toString().split('。')
+      const str2 = cheerio.load(HTML2)('#nr1').text().toString().split('。')
+      const str3 = cheerio.load(HTML3)('#nr1').text().toString().split('。')
+      const obj = {
+        title: item.title,
+        data: str1.concat(str2).concat(str3)
+      }
+      console.log(`obj ==>`, obj)
+      arr.push(obj)
+    }
+    return response.success(ctx, contents)
   }
 }
