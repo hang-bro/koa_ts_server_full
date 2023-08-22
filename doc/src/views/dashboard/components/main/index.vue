@@ -1,27 +1,42 @@
 <template>
-  <div class="flex-1 overflow-hidden animate__animated animate__fadeInLeft">
+  <div class="flex-1 overflow-hidden animate__animated animate__fadeInLeft" ref="mainRef">
     <!--  Swiper  -->
-    <div class="p-5 shadow-xl rounded-xl bg-gray-50 overflow-hidden" ref="mainRef">
-      <Swiper :navigation="false" :scrollbar="false">
-        <SwiperItme class="font-bold text-3xl text-black" :style="useRandomBg()" v-for="item in imgs">
-          <img :src="item" alt="" />
-        </SwiperItme>
-      </Swiper>
+    <div class="p-5 shadow-xl rounded-xl bg-gray-50 overflow-hidden">
+      <div>
+        <div
+          v-if="imgs.length == 0"
+          :style="useRandomBg()"
+          class="w-full h-[400px] bg-gray-200 flex items-center justify-center text-gray-400">
+          <loading-one class="animate-spin" theme="outline" size="24" fill="#333" />
+        </div>
+        <Swiper :speed="2000" :navigation="false" :scrollbar="false" v-else>
+          <SwiperItme
+            class="font-bold text-3xl text-black rounded-md overflow-hidden"
+            :style="useRandomBg()"
+            v-for="item in imgs">
+            <img class="w-full h-full object-cover" :src="item" alt="" />
+          </SwiperItme>
+        </Swiper>
+      </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import { LoadingOne } from '@icon-park/vue-next'
 import { useRandomBg } from '@/hooks/useRandomBg'
 import SwiperItme from './swiper/swiper-item.vue'
 import Swiper from './swiper/swiper.vue'
 import { http } from '@/http'
-
 const mainRef = ref<HTMLElement>()
 
 const imgs = ref([])
-await http.get<any>('/api/patch/patchList').then((res) => {
-  console.log(`res ==>`, res)
-  imgs.value = imgs.value = res.data.map((i) => `${import.meta.env.VITE_BASE_URL}/download/hotPic/${i}`).splice(0,5)
+onMounted(() => {
+  mainRef.value.addEventListener('animationend', function () {
+    console.log(`css3运动结束！ ==>`)
+    http.get<any>('/api/patch/patchList').then((res) => {
+      imgs.value = res.data.map((i) => `${import.meta.env.VITE_BASE_URL}/download/hotPic/${i}`)
+    })
+  })
 })
 </script>
 <style lang="scss" scoped></style>

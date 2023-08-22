@@ -28,7 +28,11 @@ type IProps = {
   /**
    * 自动播放
    */
-  autoplay: boolean
+  autoplay: boolean | { delay: number }
+  /**
+   * 速度
+   */
+  speed: number
   /**
    * 循环
    */
@@ -73,8 +77,9 @@ type IProps = {
 }
 
 const props = withDefaults(defineProps<Partial<IProps>>(), {
-  autoplay: true,
+  autoplay: () => true,
   direction: 'horizontal',
+  speed: 300,
   pagination: () => ({
     el: '.swiper-pagination',
     clickable: true,
@@ -105,9 +110,11 @@ const generateSwiper = () => {
   if (swiper) return swiper.update()
   swiper = new Swiper('.swiper', {
     modules: [Navigation, Pagination, Autoplay, Scrollbar],
+
     ...props,
   })
 }
+
 onMounted(() => {
   generateSwiper()
 })

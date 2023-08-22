@@ -56,7 +56,14 @@ export default class AdminController {
   @NoAuth('/api/patchList')
   async patchList(ctx: Context) {
     const files = readdirSync(join(__dirname, '../public/download/hotPic'))
-    return response.success(ctx,files)
+    const out = []
+    const num = 5
+    while (out.length < num) {
+      const temp = (Math.random() * files.length) >> 0
+      out.push(files.splice(temp, 1).toString())
+    }
+
+    return response.success(ctx, out)
   }
 
   @Get('/patchBook')
