@@ -1,13 +1,14 @@
 <template>
   <main class="w-full h-full p-5">
     <h1>BOOK</h1>
-    <section>
+    <section class=" opacity-40">
       <el-select class="!w-full" @change="getBook" v-model="selectTitle" filterable>
         <el-option v-for="item in bookList" :key="item" :label="item" :value="item" />
       </el-select>
     </section>
-    <section class="h-[500px] opacity-0 overflow-auto no-scroll bg-white hover:opacity-100" v-draggable ref="bookRef">
+    <section class="h-[500px] opacity-0 overflow-auto no-scroll bg-white hover:opacity-60" v-draggable ref="bookRef">
       <div v-html="html" class="whitespace-pre-wrap text-gray-600 leading-[30px] font-sans"></div>
+      <el-button @click="nextPage">next</el-button>
     </section>
   </main>
 </template>
@@ -18,9 +19,15 @@ const html = ref()
 const selectTitle = ref()
 const bookList = ref([])
 
+const nextPage = () => {
+  const index = bookList.value.findIndex((i) => i == selectTitle.value)
+  const name = bookList.value[index + 1]
+  selectTitle.value = name
+  getBook(name)
+}
+
 const getBook = (name: string) => {
   http.get<any>(`${import.meta.env.VITE_BASE_URL}/download/book/${name}`, {}, { responseType: 'text' }).then((res) => {
-    console.log(`res ==>`, res)
     html.value = res
     scrollTop()
   })
