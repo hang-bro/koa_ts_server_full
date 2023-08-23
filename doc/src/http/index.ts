@@ -53,11 +53,11 @@ export class Http {
 }
 
 export type IHttp = {
-  get: <T>(url: string, params?: object) => Promise<IResponse<T>>
-  post: <T>(url: string, params?: object) => Promise<IResponse<T>>
-  put: <T>(url: string, params?: object) => Promise<IResponse<T>>
-  delete: <T>(url: string, params?: object) => Promise<IResponse<T>>
-  upload: <T>(url: string, data?: object) => Promise<IResponse<T>>
+  get: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  post: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  put: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  delete: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  upload: <T>(url: string, data?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
 }
 
 /**http请求 */
@@ -66,9 +66,9 @@ export const http: IHttp = {}
 ;['get', 'post', 'put', 'delete', 'upload'].map((method) => {
   switch (method) {
     case 'get':
-      return (http[method] = <T>(url: string, params?: object) => {
+      return (http[method] = <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => {
         return new Promise<IResponse<T>>((resolve, reject) => {
-          instance[method](url, { params })
+          instance[method](url, { params, ...config })
             .then((res) => resolve(res.data))
             .catch((e) => reject(e))
         })
@@ -76,15 +76,15 @@ export const http: IHttp = {}
 
     case 'post':
     case 'put':
-      return (http[method] = <T>(url: string, data?: object) => {
+      return (http[method] = <T>(url: string, data?: object, config?: AxiosRequestConfig<any>) => {
         return new Promise<IResponse<T>>((resolve, reject) => {
-          instance[method](url, data)
+          instance[method](url, data, config)
             .then((res) => resolve(res.data))
             .catch((e) => reject(e))
         })
       })
     case 'delete':
-      return (http[method] = <T>(url: string, data?: object) => {
+      return (http[method] = <T>(url: string, data?: object, config?: AxiosRequestConfig<any>) => {
         return new Promise<IResponse<T>>((resolve, reject) => {
           instance[method](url, { data })
             .then((res) => resolve(res.data))
@@ -105,5 +105,3 @@ export const http: IHttp = {}
       break
   }
 })
-
-

@@ -66,7 +66,7 @@ instance.interceptors.response.use(
   },
   (error: AxiosError) => {
     end()
-    ElNotification.error(error.response.statusText || error.message)
+    ElNotification.error(error.message || error.response.statusText)
     return { data: {} }
   },
 )

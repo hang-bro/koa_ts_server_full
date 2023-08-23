@@ -13,7 +13,8 @@ import cheerio from 'cheerio'
 import Joi from 'joi'
 import { Context } from 'koa'
 import turndown from 'turndown'
-import { join } from 'path'
+import path, { join } from 'path'
+import { fs } from 'zx'
 const turndownService = new turndown()
 // 添加Controller前缀
 @Controller('/api/patch')
@@ -68,38 +69,55 @@ export default class AdminController {
 
   @Get('/patchBook')
   async patchBook(ctx: Context) {
+    const bookSavePath = path.join(__dirname, '../public/download/book')
+    if (!fs.existsSync(bookSavePath)) {
+      fs.mkdirSync(bookSavePath)
+    }
     const content = await patchService.getHTML('https://m.biqubao8.com/book/108395/index_5.html')
     const $ = cheerio.load(content)
+    /** 章节 数组 */
     const contents = []
     $('.chapter > li').each((i, e) => {
       const res = $(e).children('a')
       contents.push({
-        text: res.text(),
+        title: res.text(),
         attr: res.attr('href')
       })
     })
-
-    // console.log(`contents ==>`, contents)
     let arr = []
     const url = 'https://m.biqubao8.com'
     for (const item of contents) {
-      console.log(`item ==>`, item)
-      console.log(` ==>`, `${url}${item.attr}.html`)
-      const start = item.attr.split('/').pop().split('.')[0]
-      const HTML1 = await patchService.getHTML(`${url}${start}.html`)
-      console.log(`HTML1 ==>`, HTML1)
-      const HTML2 = await patchService.getHTML(`${url}${start}_2.html`)
-      const HTML3 = await patchService.getHTML(`${url}${start}_3.html`)
-      const str1 = cheerio.load(HTML1)('#nr1').text().toString().split('。')
-      const str2 = cheerio.load(HTML2)('#nr1').text().toString().split('。')
-      const str3 = cheerio.load(HTML3)('#nr1').text().toString().split('。')
+      const targetUrl = item.attr.split('.')[0].toString()
+      const wholeUrl = url + targetUrl
+      const HTML1 = await patchService.getHTML(`${wholeUrl}.html`)
+      const HTML2 = await patchService.getHTML(`${wholeUrl}_2.html`)
+      const HTML3 = await patchService.getHTML(`${wholeUrl}_3.html`)
+      /************************************* 解析html ********************************************/
+      const $1 = cheerio.load(HTML1)
+      const $2 = cheerio.load(HTML2)
+      const $3 = cheerio.load(HTML3)
+      const str1 = $1('#nr1').html().split('<br><br>').join('\n')
+      const str2 = $2('#nr1').html().split('<br><br>').join('\n')
+      const str3 = $3('#nr1').html().split('<br><br>').join('\n')
+
+      /************************************ 解析html end *****************************************/
+
       const obj = {
         title: item.title,
         data: str1.concat(str2).concat(str3)
       }
-      console.log(`obj ==>`, obj)
+      const fileName = `${bookSavePath}/${item.title}.txt`
+      console.log(`fileName ==>`, fileName)
+      fs.writeFileSync(fileName, obj.data.toString())
+      console.log(item.title + '下载完成' + fileName)
       arr.push(obj)
     }
-    return response.success(ctx, contents)
+    return response.success(ctx)
+  }
+  @Get('/patchBookList')
+  async patchBookList(ctx: Context) {
+    const bookSavePath = path.join(__dirname, '../public/download/book')
+    const files = fs.readdirSync(bookSavePath)
+    return response.success(ctx,files)
   }
 }
