@@ -6,11 +6,8 @@
         <el-option v-for="item in bookList" :key="item" :label="item" :value="item" />
       </el-select>
     </section>
-    <section
-      class="h-[500px] overflow-auto no-scroll bg-[url(https://img0.baidu.com/it/u=367684367,2198835658&fm=253&fmt=auto&app=120&f=JPEG?w=281&h=500)] bg-cover"
-      v-draggable
-      ref="bookRef">
-      <div v-html="html" class="whitespace-pre-wrap text-gray-600 font-semibold leading-[35px]"></div>
+    <section class="h-[500px] opacity-0 overflow-auto no-scroll bg-white hover:opacity-100" v-draggable ref="bookRef">
+      <div v-html="html" class="whitespace-pre-wrap text-gray-600 leading-[30px] font-sans"></div>
     </section>
   </main>
 </template>
@@ -25,6 +22,7 @@ const getBook = (name: string) => {
   http.get<any>(`${import.meta.env.VITE_BASE_URL}/download/book/${name}`, {}, { responseType: 'text' }).then((res) => {
     console.log(`res ==>`, res)
     html.value = res
+    scrollTop()
   })
 }
 onMounted(() => {
