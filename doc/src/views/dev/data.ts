@@ -97,7 +97,7 @@ export const devPages = [
   {
     name: 'greensock',
     des: 'GSAP (GreenSock Animation Platform)',
-    url: 'https://greensock.com/',
+    url: 'https://greensock.com/get-started',
     icon: useViteFile('dev/greensock.svg'),
   },
 ]
