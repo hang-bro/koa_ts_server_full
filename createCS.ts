@@ -14,16 +14,16 @@ const regCn = new RegExp('[\\u4E00-\\u9FFF]+', 'g')
 const regFileName = new RegExp('[\\\\/:*?"<>|]')
 
 /**获取正确的输入值 */
-const getInput = () => {
+const main = () => {
   question(chalk.bold.cyan('请输入名称:\n')).then(async input => {
     if (regCn.test(input) || regFileName.test(input)) {
       error('请输入不包含中文,特殊字符的名称\n')
-      return getInput()
+      return main()
     } else {
       const fileExist = checkFileExits(input)
       if (fileExist) {
         error(input + ' (controller/service) 已存在!\n')
-        return getInput()
+        return main()
       } else {
         const template = createTemplate(input)
         writeFile(template, input)
@@ -216,4 +216,4 @@ const writeFile = (template: any, fileName: string) => {
   fs.writeFileSync(serviccePath, serviceTemplate)
 }
 
-getInput()
+main()

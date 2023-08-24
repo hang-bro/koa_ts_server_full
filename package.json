@@ -11,6 +11,7 @@
     "build:doc": "ts-node build.ts --doc",
     "build:git": "cd ./doc &&  npx vite build --outDir=../github-page --base=koa_ts_server_full_doc",
     "cs": "ts-node createCS.ts",
+    "cv": "ts-node createView.ts",
     "prisma": "npx prisma migrate dev --name init",
     "seed": "ts-node seed.ts",
     "seed2": "ts-node seed2.ts",

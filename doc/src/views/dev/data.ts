@@ -94,4 +94,10 @@ export const devPages = [
     url: 'http://introjs.com/',
     icon: useViteFile(''),
   },
+  {
+    name: 'greensock',
+    des: 'GSAP (GreenSock Animation Platform)',
+    url: 'https://greensock.com/',
+    icon: useViteFile('dev/greensock.svg'),
+  },
 ]

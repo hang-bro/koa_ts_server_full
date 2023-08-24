@@ -14,7 +14,7 @@
             class="font-bold text-3xl text-black rounded-md overflow-hidden"
             :style="useRandomBg()"
             v-for="item in imgs">
-            <img class="w-full h-full object-cover" :src="item" alt="" />
+            <img loading="lazy" class="w-full h-full object-cover" :src="item" alt="" />
           </SwiperItme>
         </Swiper>
       </div>
