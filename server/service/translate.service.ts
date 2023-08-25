@@ -9,8 +9,14 @@ import crypto from 'crypto'
 import axios from 'axios'
 
 class translateService {
-  /** */
-  async requestTranslate(query: string) {
+  /**
+   *
+   * @param query 翻译字段
+   * @param isDev 是否开发
+   * @param to 翻译==>语言
+   * @returns
+   */
+  async requestTranslate(query: string, isDev: boolean, to = 'jp') {
     return new Promise(resolve => {
       const salt = Math.random()
       const md5 = crypto.createHash('md5')
@@ -21,22 +27,26 @@ class translateService {
       const params = {
         q: query,
         from: 'zh',
-        to: 'jp',
+        to,
         salt,
         appid,
         sign
       }
-      // axios
-      //   .get(apiUrl, {
-      //     params,
-      //     timeout: 60000
-      //   })
-      //   .then(res => {
-      //     setTimeout(() => {
-      //       resolve(res.data.trans_result)
-      //     }, 1000)
-      //   })
-      resolve([{ src: query,dst:query }])
+
+      if (!isDev) {
+        axios
+          .get(apiUrl, {
+            params,
+            timeout: 60000
+          })
+          .then(res => {
+            setTimeout(() => {
+              resolve(res.data.trans_result)
+            }, 1000)
+          })
+      } else {
+        resolve([{ src: query, dst: query }])
+      }
     })
   }
 }

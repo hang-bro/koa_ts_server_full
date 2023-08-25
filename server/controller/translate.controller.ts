@@ -19,21 +19,30 @@ export default class translateController {
   @NoAuth('/api/translate')
   /** */
   async index(ctx: Context) {
-    const { input } = ctx.request.body
+    const { input, isDev } = ctx.request.body
     const keys = Object.keys(input).map(item => {
       // @ts-ignore
       return { key: item, value: input[item], trans: null }
     })
 
-    let str = `{\n`
+    let enTrans = `{\n`
     for (const [index, item] of Object.entries(keys)) {
-      // console.log(`item,index ==>`, item, index);
-      const trans = (await translateService.requestTranslate(item.value)) as any
+      const trans = (await translateService.requestTranslate(item.value, isDev, 'en')) as any
       console.log(`trans ==>`, trans)
-      str += `  /**${trans[0].src}*/\n`
-      str += `  ${item.key}:"${trans[0].dst}",\n`
+      enTrans += `  /**${trans[0].src}*/\n`
+      enTrans += `  ${item.key}:"${trans[0].dst}",\n`
     }
-    str += `}`
-    return response.success(ctx, str)
+    enTrans += `}`
+
+    let jpTrans = `{\n`
+    for (const [index, item] of Object.entries(keys)) {
+      const trans = (await translateService.requestTranslate(item.value, isDev)) as any
+      console.log(`trans ==>`, trans)
+      jpTrans += `  /**${trans[0].src}*/\n`
+      jpTrans += `  ${item.key}:"${trans[0].dst}",\n`
+    }
+    jpTrans += `}`
+
+    return response.success(ctx, { enTrans, jpTrans })
   }
 }
