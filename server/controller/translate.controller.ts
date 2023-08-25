@@ -16,7 +16,7 @@ import translateService from '@/service/translate.service'
 @Controller('/api/translate')
 export default class translateController {
   @Post('')
-  @NoAuth('/api/translate')
+  // @NoAuth('/api/translate')
   /** */
   async index(ctx: Context) {
     const { input, isDev } = ctx.request.body
