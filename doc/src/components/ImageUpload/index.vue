@@ -40,6 +40,14 @@ const props = withDefaults(defineProps<IProps>(), {
   limit: 1,
 })
 
+const setFiles = (list: any[]) => {
+  fileList.value = list
+}
+
+defineExpose({
+  setFiles,
+})
+
 const emit = defineEmits(['success', 'remove'])
 </script>
 <style lang="scss" scoped>

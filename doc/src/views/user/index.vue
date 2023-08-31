@@ -92,7 +92,7 @@
           <el-input v-model="form.password" autocomplete="off" />
         </el-form-item>
         <el-form-item label="头像" prop="avatar">
-          <ImageUpload @success="(e) => (form.avatar = e.data)" @remove="(e) => (form.avatar = '')" />
+          <ImageUpload ref="uploadRef" @success="(e) => (form.avatar = e.data)" @remove="(e) => (form.avatar = '')" />
         </el-form-item>
         <el-form-item label="地址" prop="address">
           <el-input v-model="form.address" autocomplete="off" />
@@ -114,16 +114,11 @@
   </main>
 </template>
 <script lang="ts" setup>
-import { http } from '@/http'
-import { Plus } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
-import type { FormInstance, UploadUserFile } from 'element-plus'
-import { useStore } from '@/hooks/useStore'
 import useValidate from '@/hooks/useValidate'
-
-const fileRemove = (...e) => {
-  console.log(`e ==>`, e)
-}
+import { http } from '@/http'
+import type { FormInstance, UploadUserFile } from 'element-plus'
+import { ElMessage } from 'element-plus'
+const uploadRef = ref()
 
 const roleList = ref([])
 
@@ -243,10 +238,12 @@ const resetForm = () => {
 
 const handleEdit = (row: IUser) => {
   Object.keys(row).forEach((key) => (form[key] = row[key]))
-  if (row.avatar) state.fileList = [{ url: row.avatar, name: row.avatar }]
   state.showName = 'edit'
   getRoleList()
   dialogVisible.value = true
+  nextTick(() => {
+    uploadRef.value.setFiles([{ url: row.avatar }])
+  })
 }
 </script>
 <style lang="scss" scoped></style>
