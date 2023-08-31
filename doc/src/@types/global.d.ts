@@ -10,6 +10,7 @@ import Svg from '@/components/Svg/index.vue'
 import CURD from '@/components/CURD/index.vue'
 import Copy from '@/components/Copy/index.vue'
 import ScrollBox from '@/components/ScrollBox/index.vue'
+import ImageUpload from '@/components/ImageUpload/index.vue'
 import { ElMessage } from 'element-plus'
 
 declare global {
@@ -31,6 +32,7 @@ declare module 'vue' {
     CURD: typeof CURD
     Copy: typeof Copy
     ScrollBox: typeof ScrollBox
+    ImageUpload: typeof ImageUpload
     Message: typeof ElMessage
   }
 }

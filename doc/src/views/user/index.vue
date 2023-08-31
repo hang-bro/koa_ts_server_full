@@ -92,19 +92,7 @@
           <el-input v-model="form.password" autocomplete="off" />
         </el-form-item>
         <el-form-item label="头像" prop="avatar">
-          <el-upload
-            :headers="{
-              ['authorization']: token,
-            }"
-            list-type="picture-card"
-            :on-success="(e) => ((form.avatar = e.data), formRef.validateField('avatar'))"
-            :on-remove="() => (formRef.resetFields('avatar'), (form.avatar = ''))"
-            :action="state.uploadUrl"
-            v-model:file-list="state.fileList"
-            :limit="1"
-            accept="image/*">
-            <el-icon><Plus /></el-icon>
-          </el-upload>
+          <ImageUpload @success="(e) => (form.avatar = e.data)" @remove="(e) => (form.avatar = '')" />
         </el-form-item>
         <el-form-item label="地址" prop="address">
           <el-input v-model="form.address" autocomplete="off" />
@@ -130,10 +118,12 @@ import { http } from '@/http'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, UploadUserFile } from 'element-plus'
-import userStore from '@/store/user'
+import { useStore } from '@/hooks/useStore'
 import useValidate from '@/hooks/useValidate'
 
-const token = userStore().token
+const fileRemove = (...e) => {
+  console.log(`e ==>`, e)
+}
 
 const roleList = ref([])
 
