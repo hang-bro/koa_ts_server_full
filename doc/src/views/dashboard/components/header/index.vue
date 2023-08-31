@@ -55,8 +55,12 @@ import router from '@/router'
 const user = useStore((store) => store.user)
 const config = useStore((store) => store.config)
 const logout = () => {
-  useStore((s) => s.user.$reset())
-  router.push('/login')
+  useStore((s) => {
+    s.user.$reset()
+    console.log(` s.user ==>`, s.user.$state);
+    s.config.$reset()
+    router.push('/login')
+  })
 }
 </script>
 <style lang="scss" scoped></style>

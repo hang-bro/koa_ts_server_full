@@ -16,7 +16,7 @@ const { token } = storeToRefs(userStore())
 const instance = axios.create({
   // baseURL: import.meta.env.VITE_BASE_API,//跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
   baseURL: import.meta.env.VITE_BASE_URL,
-  timeout: 20000, //设置超时
+  timeout: 300000, //设置超时
   responseType: 'json',
   headers: {
     ['Content-type']: 'application/json',

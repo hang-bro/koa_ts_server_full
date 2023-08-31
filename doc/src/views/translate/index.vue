@@ -25,7 +25,7 @@
   </main>
 </template>
 <script lang="ts" setup>
-import { ElMessage } from 'element-plus'
+import { useStore } from '@/hooks/useStore'
 import { http } from '@/http'
 import { reactive } from 'vue'
 const state = reactive({
@@ -37,7 +37,7 @@ const state = reactive({
 })
 
 const handleTranslate = (isDev = false) => {
-  if (!state.input) return ElMessage.warning('请输入json数据!')
+  if (!state.input) return Message.error('请输入json数据!')
   const cleaned = state.input.replace(/\/\*\*[\s\S]*?\*\//g, '')
   // console.log(`cleaned ==>`,cleaned);
   const json = eval(`(()=>{const obj=${cleaned};return obj;})()`)

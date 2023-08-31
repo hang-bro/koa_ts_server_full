@@ -14,16 +14,12 @@ export type IConfig = {
 
 const configStore = defineStore('configStore', {
   /** state==>必须是一个方法 && 返回值为对象 */
-  state: () => {
-    return {
-      theme: 'light',
-    } as IConfig
-  },
+  state: () => ({ theme: 'light' } as IConfig),
   actions: {
     setTheme(theme: 'dark' | 'light') {
-      document.documentElement.classList.remove('dark') 
-      document.documentElement.classList.remove('light') 
-      document.documentElement.classList.add(theme) 
+      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.remove('light')
+      document.documentElement.classList.add(theme)
       this.theme = theme
     },
   },

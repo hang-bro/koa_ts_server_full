@@ -4,33 +4,28 @@
  * @LastEditors: HYH
  * @LastEditTime: 2023-06-07 17:10:29
  */
+import setExsitField from '@/utils/setExsitField'
 import { defineStore } from 'pinia'
 
 export type IUserStore = ReturnType<typeof userStore>
 
 const userStore = defineStore('userStore', {
   /** state==>必须是一个方法 && 返回值为对象 */
-  state: () => {
-    return {
-      id: '',
-      email: '',
-      avatar: '',
-      username: '',
-      address: '',
-      token: '',
-      role: '',
-      /**是否经过引导 */
-      isIntroduced: false,
-    }
-  },
+  state: () => ({
+    id: '',
+    email: '',
+    avatar: '',
+    username: '',
+    address: '',
+    token: '',
+    role: '',
+    /**是否经过引导 */
+    isIntroduced: false,
+  }),
   actions: {
     /**设置信息 */
     setInfo(info: UserModel) {
-      Object.keys(info).forEach((key) => {
-        if (info[key] !== null) {
-          this[key] = info[key]
-        }
-      })
+      setExsitField(this.$state, info)
     },
   },
   /**pinia持久化方式 */

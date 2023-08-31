@@ -47,7 +47,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
       //
     },
     build: {
-      outDir: path.join(__dirname, '../docBuild/koa_ts_server_full_doc'),
+      // outDir: path.join(__dirname, '../docBuild/koa_ts_server_full_doc'),
       emptyOutDir: true,
       rollupOptions: {
         output: {

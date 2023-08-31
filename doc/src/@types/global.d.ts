@@ -10,6 +10,7 @@ import Svg from '@/components/Svg/index.vue'
 import CURD from '@/components/CURD/index.vue'
 import Copy from '@/components/Copy/index.vue'
 import ScrollBox from '@/components/ScrollBox/index.vue'
+import { ElMessage } from 'element-plus'
 
 declare global {
   /**注意 定义Window接口 首字母一定要大写 否则会出问题 */
@@ -18,6 +19,7 @@ declare global {
   }
 
   const dayjs: IDayJs
+  const Message: typeof ElMessage
 }
 
 declare module 'vue' {
@@ -29,6 +31,7 @@ declare module 'vue' {
     CURD: typeof CURD
     Copy: typeof Copy
     ScrollBox: typeof ScrollBox
+    Message: typeof ElMessage
   }
 }
 
