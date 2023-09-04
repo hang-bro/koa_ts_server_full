@@ -69,55 +69,102 @@ export default class AdminController {
 
   @Get('/patchBook')
   async patchBook(ctx: Context) {
-    const bookSavePath = path.join(__dirname, '../public/download/book')
+    const bookSavePath = path.join(__dirname, '../public/download/book/求求你们让朕当个昏君吧/')
     if (!fs.existsSync(bookSavePath)) {
       fs.mkdirSync(bookSavePath)
     }
-    const content = await patchService.getHTML('https://m.biqubao8.com/book/108395/index_5.html')
+
+    const website = 'https://www.wanbenshuku.cc'
+
+    const bookUrl = website + '/xiaoshuo/1846008/'
+
+    const content = await patchService.getHTML(bookUrl)
+
     const $ = cheerio.load(content)
+
     /** 章节 数组 */
     const contents = []
-    $('.chapter > li').each((i, e) => {
-      const res = $(e).children('a')
-      contents.push({
-        title: res.text(),
-        attr: res.attr('href')
+    $('#content_1')
+      .children()
+      .each((i, e) => {
+        const res = $(e)
+        contents.push({
+          title: res.text(),
+          attr: res.attr('href')
+        })
       })
-    })
-    let arr = []
-    const url = 'https://m.biqubao8.com'
+    contents.splice(0, 1)
+    let str
     for (const item of contents) {
-      const targetUrl = item.attr.split('.')[0].toString()
-      const wholeUrl = url + targetUrl
-      const HTML1 = await patchService.getHTML(`${wholeUrl}.html`)
-      const HTML2 = await patchService.getHTML(`${wholeUrl}_2.html`)
-      const HTML3 = await patchService.getHTML(`${wholeUrl}_3.html`)
-      /************************************* 解析html ********************************************/
+      const HTML1 = await patchService.getHTML(`${website}/${item.attr}`)
       const $1 = cheerio.load(HTML1)
-      const $2 = cheerio.load(HTML2)
-      const $3 = cheerio.load(HTML3)
-      const str1 = $1('#nr1').html().split('<br><br>').join('\n')
-      const str2 = $2('#nr1').html().split('<br><br>').join('\n')
-      const str3 = $3('#nr1').html().split('<br><br>').join('\n')
+      str = $1('#booktxt').text().split('<br><br>').join('\n')
 
-      /************************************ 解析html end *****************************************/
+      // 1. 替换空格和换行
+      str = str
+        // 3. trim + replace
+        .trim()
+        .replace(/\s+/g, '')
+        .split('。')
+        .join('\n')
+      // console.log(`str ==>`, str)
 
-      const obj = {
-        title: item.title,
-        data: str1.concat(str2).concat(str3)
-      }
-      const fileName = `${bookSavePath}/${item.title}.txt`
-      console.log(`fileName ==>`, fileName)
-      fs.writeFileSync(fileName, obj.data.toString())
-      console.log(item.title + '下载完成' + fileName)
-      arr.push(obj)
+      const fileName = `${bookSavePath}/${item.title.replace(/[\?\*\:\|"<>/\\]/g, '').trim()}.txt`
+      fs.writeFileSync(fileName, str)
     }
-    return response.success(ctx)
+    return response.success(ctx, str)
   }
+
   @Get('/patchBookList')
   async patchBookList(ctx: Context) {
-    const bookSavePath = path.join(__dirname, '../public/download/book')
+    const bookSavePath = path.join(__dirname, '../public/download/book/求求你们让朕当个昏君吧/')
     const files = fs.readdirSync(bookSavePath)
-    return response.success(ctx,files)
+    return response.success(ctx, files)
   }
+}
+
+/**绝命通天 */
+function xxx() {
+  // const bookSavePath = path.join(__dirname, '../public/download/book')
+  //   if (!fs.existsSync(bookSavePath)) {
+  //     fs.mkdirSync(bookSavePath)
+  //   }
+  //   const content = await patchService.getHTML('https://m.biqubao8.com/book/108395/index_5.html')
+  //   const $ = cheerio.load(content)
+  //   /** 章节 数组 */
+  //   const contents = []
+  //   $('.chapter > li').each((i, e) => {
+  //     const res = $(e).children('a')
+  //     contents.push({
+  //       title: res.text(),
+  //       attr: res.attr('href')
+  //     })
+  //   })
+  //   let arr = []
+  //   const url = 'https://m.biqubao8.com'
+  //   for (const item of contents) {
+  //     const targetUrl = item.attr.split('.')[0].toString()
+  //     const wholeUrl = url + targetUrl
+  //     const HTML1 = await patchService.getHTML(`${wholeUrl}.html`)
+  //     const HTML2 = await patchService.getHTML(`${wholeUrl}_2.html`)
+  //     const HTML3 = await patchService.getHTML(`${wholeUrl}_3.html`)
+  //     /************************************* 解析html ********************************************/
+  //     const $1 = cheerio.load(HTML1)
+  //     const $2 = cheerio.load(HTML2)
+  //     const $3 = cheerio.load(HTML3)
+  //     const str1 = $1('#nr1').html().split('<br><br>').join('\n')
+  //     const str2 = $2('#nr1').html().split('<br><br>').join('\n')
+  //     const str3 = $3('#nr1').html().split('<br><br>').join('\n')
+  //     /************************************ 解析html end *****************************************/
+  //     const obj = {
+  //       title: item.title,
+  //       data: str1.concat(str2).concat(str3)
+  //     }
+  //     const fileName = `${bookSavePath}/${item.title}.txt`
+  //     console.log(`fileName ==>`, fileName)
+  //     fs.writeFileSync(fileName, obj.data.toString())
+  //     console.log(item.title + '下载完成' + fileName)
+  //     arr.push(obj)
+  //   }
+  //   return response.success(ctx)
 }

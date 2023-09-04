@@ -1,7 +1,7 @@
 <template>
   <main class="w-full h-full p-5">
-    <h1>BOOK</h1>
-    <section class=" opacity-40">
+    <!-- <h1 @click="http.get('/api/patch/patchBook')">BOOK</h1> -->
+    <section class="opacity-40">
       <el-select class="!w-full" @change="getBook" v-model="selectTitle" filterable>
         <el-option v-for="item in bookList" :key="item" :label="item" :value="item" />
       </el-select>
@@ -13,6 +13,7 @@
   </main>
 </template>
 <script lang="ts" setup>
+import useKeyDown from '@/hooks/useKeyDown'
 import { http } from '@/http'
 const bookRef = ref()
 const html = ref()
@@ -25,12 +26,23 @@ const nextPage = () => {
   selectTitle.value = name
   getBook(name)
 }
+useKeyDown((e) => {
+  if (e.key == 'Enter') {
+    nextPage()
+  }
+})
 
 const getBook = (name: string) => {
-  http.get<any>(`${import.meta.env.VITE_BASE_URL}/download/book/${name}`, {}, { responseType: 'text' }).then((res) => {
-    html.value = res
-    scrollTop()
-  })
+  http
+    .get<any>(
+      `${import.meta.env.VITE_BASE_URL}/download/book/求求你们让朕当个昏君吧/${name}`,
+      {},
+      { responseType: 'text' },
+    )
+    .then((res) => {
+      html.value = res
+      scrollTop()
+    })
 }
 onMounted(() => {
   http.get<any>('/api/patch/patchBookList').then((res) => {

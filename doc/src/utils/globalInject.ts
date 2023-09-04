@@ -21,6 +21,8 @@ const globalInject: Plugin = {
   install: function (app: App<Element>) {
     /** */
     app.use(autoAnimatePlugin)
+    app.config.globalProperties.Message = ElMessage
+
 
     Object.keys(plugins).forEach((key) => {
       /**
@@ -30,7 +32,7 @@ const globalInject: Plugin = {
       /**
        * 挂载在vue模板 templatezhong中
        */
-      app.config.globalProperties[key] = plugins[key]
+      // app.config.globalProperties[key] = plugins[key]
     })
   },
 }
