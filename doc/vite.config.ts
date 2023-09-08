@@ -25,10 +25,10 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     // 需要用到的插件数组
     plugins: usePlugin(isProduction),
     server: {
-      https: {
-        cert: fs.readFileSync(path.join(__dirname, './keys/cert.crt')),
-        key: fs.readFileSync(path.join(__dirname, './keys/cert.key')),
-      },
+      // https: {
+      //   cert: fs.readFileSync(path.join(__dirname, './keys/cert.crt')),
+      //   key: fs.readFileSync(path.join(__dirname, './keys/cert.key')),
+      // },
       host: true,
       port: env.VITE_FRONT_PORT,
       /**可读取的文件夹 */
