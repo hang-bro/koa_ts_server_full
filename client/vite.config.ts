@@ -21,7 +21,7 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
 
   return {
     // 生产或开发环境下的基础路径
-    base: '/doc',
+    // base: '/doc',
     // 需要用到的插件数组
     plugins: usePlugin(isProduction),
     server: {

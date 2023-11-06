@@ -9,7 +9,7 @@ import { writeFileSync } from 'fs'
 import config from '../server/config'
 import path from 'path'
 
-const docEnvPath = path.join(__dirname, '../doc/.env.dev')
+const docEnvPath = path.join(__dirname, '../client/.env.dev')
 
 const ip = getLocalIp()[0]
 

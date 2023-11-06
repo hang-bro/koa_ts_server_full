@@ -25,6 +25,7 @@ const bootStrap = async () => {
     .use(pinia)
 
   router.isReady().then(() => {
+    document.getElementById('loading-mask').style.display = 'none'
     app.mount('#app')
   })
 }

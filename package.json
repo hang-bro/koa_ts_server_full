@@ -5,11 +5,11 @@
   "main": "index.ts",
   "scripts": {
     "dev": "nodemon",
-    "dev:doc": "concurrently \"ts-node ./node-scripts/setDocEnv.ts\"  \"cd ./doc && npm run dev\" \"nodemon\"  ",
+    "dev:doc": "concurrently \"ts-node ./node-scripts/setDocEnv.ts\"  \"cd ./client && npm run dev\" \"nodemon\"  ",
     "dev:build": "cd dist && node index.js",
     "build": "ts-node ./node-scripts/build.ts",
     "build:doc": "ts-node ./node-scripts/build.ts --doc",
-    "build:git": "cd ./doc &&  npx vite build --outDir=../github-page --base=koa_ts_server_full_doc",
+    "build:git": "cd ./client &&  npx vite build --outDir=../github-page --base=koa_ts_server_full_doc",
     "test": "vitest --ui",
     "cs": "ts-node ./node-scripts/createCS.ts",
     "cv": "ts-node ./node-scripts/createView.ts",
