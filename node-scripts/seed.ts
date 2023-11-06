@@ -1,4 +1,4 @@
-import { getLocalIp } from './app/utils/getIp'
+import { getLocalIp } from '../server/utils/getIp'
 /*
  * @Description:
  * @Author: HYH
@@ -7,11 +7,11 @@ import { getLocalIp } from './app/utils/getIp'
  */
 
 import { Random } from 'mockjs'
-import dayjs from './app/utils/dayjs'
+import dayjs from '../server/utils/dayjs'
 import { PrismaClient } from '@prisma/client'
 import path from 'path'
 import { readdirSync } from 'fs'
-import { encrypt } from './app/utils/crypto'
+import { encrypt } from '../server/utils/crypto'
 
 const prisma = new PrismaClient()
 

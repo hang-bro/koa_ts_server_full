@@ -58,7 +58,7 @@ export default {
           index,
           check: false,
         }
-      })
+      }) 
     },
     rowSelect(data) {
       console.log(`data ==>`, data)

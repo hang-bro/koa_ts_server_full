@@ -29,7 +29,8 @@ export default class userController {
      * 密码不回显
      */
     data.forEach(item => delete item.password)
-
+    const sleep = () => new Promise<void>((resolve, reject) => setTimeout(resolve, 10000))
+    await sleep()
     return response.page(ctx, { data, total })
   }
   @Post('/seed', '填充用户（开发环境才可使用）')

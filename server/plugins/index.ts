@@ -47,7 +47,7 @@ const usePlugin = () => {
     // https
     // .use(enforceHttps())
     // 鉴权 检查token是否存在&是否过期
-    .use(auth)
+    // .use(auth)
     .use(
       koaBody({
         // 如果不加multipart：true ctx.request.body会获取不到值

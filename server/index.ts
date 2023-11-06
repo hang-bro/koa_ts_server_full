@@ -22,8 +22,8 @@ export const run = async (port: any): Promise<Server> => {
   const app = await usePlugin()
 
   // const options = {
-  //   key: fs.readFileSync(path.join(__dirname, './ssl/localhost.key')),
-  //   cert: fs.readFileSync(path.join(__dirname, './ssl/localhost.crt'))
+  //   key: fs.readFileSync(path.join(__dirname, './ssl/cert.key')),
+  //   cert: fs.readFileSync(path.join(__dirname, './ssl/cert.crt'))
   // }
 
   // const server = https.createServer({ ...options }, app.callback())

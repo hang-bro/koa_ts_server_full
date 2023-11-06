@@ -5,7 +5,7 @@
  * @LastEditTime: 2023-06-25 14:51:43
  */
 import 'zx/globals'
-import { usePath } from './server/utils/usePath'
+import { usePath } from '../server/utils/usePath'
 const { controller, service } = usePath()
 const error = (msg: string) => console.log(chalk.bold.bgRed(msg))
 /**是否包含中文字符 */

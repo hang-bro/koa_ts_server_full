@@ -6,7 +6,7 @@
           :style="useRandomBg()"
           class="p-5 py-10 bg-purple-100 m-2 cursor-pointer"
           v-for="(item, key) in packages.dependencies">
-          {{ key }}:<span class=" font-bold text-base ml-2 underline"> {{ item }}</span>
+          {{ key }}:<span class="font-bold text-base ml-2 underline"> {{ item }}</span>
         </div>
       </template>
     </ScrollBox>
@@ -14,5 +14,7 @@
 </template>
 <script lang="ts" setup>
 import packages from '~/package.json'
+
+
 </script>
 <style lang="scss" scoped></style>

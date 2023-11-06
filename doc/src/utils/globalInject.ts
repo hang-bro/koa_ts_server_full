@@ -32,7 +32,7 @@ const globalInject: Plugin = {
       /**
        * 挂载在vue模板 templatezhong中
        */
-      // app.config.globalProperties[key] = plugins[key]
+      app.config.globalProperties[key] = plugins[key]
     })
   },
 }
