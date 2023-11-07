@@ -19,7 +19,7 @@ import packages from '~/package.json'
 function openGitHub(name: string) {
   name = name.replaceAll('@', '')
   name = name.split('/')[0]
-  window.open(`https://github.com/search?q=${name}&type=repositories`)
+  window.open(`https://github.com/search?q=${name}&type=repositories&s=stars&o=desc`)
 }
 </script>
 <style lang="scss" scoped></style>
