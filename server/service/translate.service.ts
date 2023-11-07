@@ -42,7 +42,7 @@ class translateService {
           .then(res => {
             setTimeout(() => {
               resolve(res.data.trans_result)
-            }, 1000)
+            }, 700)
           })
       } else {
         resolve([{ src: query, dst: query }])

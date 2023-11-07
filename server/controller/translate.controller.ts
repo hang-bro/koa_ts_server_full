@@ -30,7 +30,7 @@ export default class translateController {
       const trans = (await translateService.requestTranslate(item.value, isDev, 'en')) as any
       console.log(`trans ==>`, trans)
       enTrans += `  /**${trans[0].src}*/\n`
-      enTrans += `  ${item.key}:"${trans[0].dst}",\n`
+      enTrans += ` '${item.key}':"${trans[0].dst}",\n`
     }
     enTrans += `}`
 
@@ -39,7 +39,7 @@ export default class translateController {
       const trans = (await translateService.requestTranslate(item.value, isDev)) as any
       console.log(`trans ==>`, trans)
       jpTrans += `  /**${trans[0].src}*/\n`
-      jpTrans += `  ${item.key}:"${trans[0].dst}",\n`
+      jpTrans += `  '${item.key}':"${trans[0].dst}",\n`
     }
     jpTrans += `}`
 
