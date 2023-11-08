@@ -7,7 +7,6 @@
 <template>
   <main class="w-screen h-screen flex flex-col overflow-hidden bg-white dark:bg-black">
     <Header />
-
     <section class="z-[1] px-3 pt-5 flex-1 max-w-6xl m-auto w-full flex flex-nowrap overflow-auto overflow-x-hidden">
       <Main />
       <Side />

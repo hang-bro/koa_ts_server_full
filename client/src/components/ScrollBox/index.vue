@@ -1,5 +1,5 @@
 <template>
-  <div ref="mainRef" class="w-full h-full">
+  <div ref="mainRef" class="w-full h-full overflow-auto no-scroll">
     <slot :useRandomBg="useRandomBg"></slot>
   </div>
 </template>
@@ -36,6 +36,7 @@ onMounted(() => {
           e.classList.add('animate__animated')
           e.classList.add('animate__' + props.animate)
           e.classList.add('animate__delay-' + props.delay)
+          observer.unobserve(e)
         } else {
           // e.classList.remove('animate__animated')
           // e.classList.remove('animate__' + props.animate)

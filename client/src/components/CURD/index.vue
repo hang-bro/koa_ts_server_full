@@ -7,7 +7,7 @@
 <template>
   <main class="w-full h-full p-5">
     <!-- 搜索区域 -->
-    <section class="p-2 pl-0 hidden sm:block">
+    <section class="p-2 pl-0 hidden sm:block" v-show="showSearch">
       <el-form ref="searchRef" :model="query" :inline="true" @submit.prevent>
         <slot name="search" :reset="reset" :query="query" :getList="getList"></slot>
         <el-form-item>
@@ -25,6 +25,10 @@
         </section>
         <section>
           <el-tooltip placement="top">
+            <template #content> {{ showSearch ? '隐藏搜索' : '显示搜索' }} </template>
+            <el-button class="ml-2" @click="showSearch = !showSearch" circle :icon="Search" />
+          </el-tooltip>
+          <el-tooltip placement="top">
             <template #content> 刷新列表 </template>
             <el-button class="ml-2" @click="getList" circle :icon="Refresh" />
           </el-tooltip>
@@ -34,6 +38,7 @@
     <!-- 按钮区域 end -->
     <!-- 表格区域 -->
     <el-table
+      show-overflow-tooltip
       v-loading="loading"
       :max-height="scrollHeight - 230"
       @selection-change="(rows) => (tableCheck = rows)"
@@ -72,7 +77,9 @@ const { scrollHeight } = useClient()
 
 const props = defineProps<{ api?: string; queryParam?: object }>()
 
-const { list, total, loading, pageIndex, pageSize, tableCheck, query, reset, getList } = useList<any[]>(props.api)
+const { list, total, loading, pageIndex, pageSize, tableCheck, query, reset, getList, showSearch } = useList<any[]>(
+  props.api,
+)
 
 await getList()
 

@@ -5,7 +5,7 @@
  * @LastEditTime: 2023-07-07 15:08:56
  */
 
-import { http } from "@/http"
+import { http } from '@/http'
 
 export type IQuery = {
   /**id */
@@ -21,6 +21,9 @@ export default function useList<T>(url: string) {
 
   /**选中的表格项目 */
   const tableCheck = ref([])
+
+  /**是否显示搜索 */
+  const showSearch = ref(true)
 
   /**加载态 */
   const loading = ref(false)
@@ -68,6 +71,7 @@ export default function useList<T>(url: string) {
   return {
     list,
     loading,
+    showSearch,
     pageIndex,
     total,
     pageSize,
