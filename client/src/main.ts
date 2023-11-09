@@ -12,12 +12,14 @@ import router from '@/router'
 import App from '@/App.vue'
 import directives from '@/directives'
 import globalInject from '@/utils/globalInject'
-
+import loading from './components/loading'
 const bootStrap = async () => {
   const pinia = createPinia().use(piniaPersist)
 
   const app = createApp(App)
-
+  for (const component of await loading()) {
+    app.component(component.name, component)
+  }
   app
     .use(globalInject) /** */
     .use(directives)

@@ -3,10 +3,7 @@
     <Teleport to="body">
       <Transition name="modal">
         <div v-if="modalOpen" class="modal overflow-hidden">
-          <div class="modal-body" ref="modalRef">
-            这是一个模态框
-            <el-button @click="modalOpen = false">关闭弹窗</el-button>
-          </div>
+          <component :is="name" />
         </div>
       </Transition>
     </Teleport>
@@ -14,14 +11,19 @@
 </template>
 
 <script lang="ts" setup>
+import { onClickOutside } from '@vueuse/core'
+const name = ref('loading12')
 const modalOpen = ref(false)
 const modalRef = ref()
-import { onClickOutside } from '@vueuse/core'
 onClickOutside(modalRef, () => {
   modalOpen.value = false
 })
 
-const open = () => (modalOpen.value = true)
+const open = (_name: string) => {
+  modalOpen.value = true
+  // name.value = _name
+  setTimeout(() => (modalOpen.value = false), 2000)
+}
 defineExpose({ open })
 </script>
 <style lang="scss" scoped>
@@ -31,7 +33,6 @@ defineExpose({ open })
   top: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -11,6 +11,7 @@ import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import setupExtend from 'vite-plugin-vue-setup-extend'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // 查看打包详情
 import { visualizer } from 'rollup-plugin-visualizer'
@@ -26,6 +27,7 @@ import { createStyleImportPlugin, ElementPlusResolve } from 'vite-plugin-style-i
 export default (isProduction?: boolean): PluginOption[] => {
   return [
     vue(),
+    setupExtend(),
     vueJsx(),
     createSvgIconsPlugin({
       // Specify the icon folder to be cached
@@ -66,7 +68,6 @@ export default (isProduction?: boolean): PluginOption[] => {
     //   targets: ['chrome 52'], // 需要兼容的目标列表，可以设置多个
     //   additionalLegacyPolyfills: ['regenerator-runtime/runtime'] // 面向IE11时需要此插件
     // })
-    visualizer({open:true}),
-
+    visualizer({ open: true }),
   ]
 }

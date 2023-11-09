@@ -34,7 +34,8 @@
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-mkcert": "^1.16.0",
     "vite-plugin-style-import": "^2.0.0",
-    "vite-plugin-svg-icons": "^2.0.1"
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vite-plugin-vue-setup-extend": "^0.4.0"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",

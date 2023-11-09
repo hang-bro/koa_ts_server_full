@@ -7,6 +7,7 @@
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import { loading } from '@/components/loading'
 
 import userStore from '@/store/user'
 import { storeToRefs } from 'pinia'
@@ -23,31 +24,35 @@ const instance = axios.create({
   },
 })
 
-const start = () => {
-  NProgress.start()
+const start = async () => {
+  const { open } = await loading()
+  // NProgress.start()
+  await open()
 }
 
-const end = () => {
-  NProgress.done()
+const end = async () => {
+  const { close } = await loading()
+  // NProgress.done()
+  close()
 }
 
 //设置请求拦截器
 instance.interceptors.request.use(
-  (config) => {
+  async (config) => {
     config.headers['authorization'] = token.value || ''
-    start()
+    await start()
     return config
   },
-  (error) => {
-    end()
+  async (error) => {
+    await end()
     return Promise.reject(error)
   },
 )
 
 //设置响应拦截器
 instance.interceptors.response.use(
-  (res) => {
-    end()
+  async (res) => {
+    await end()
     const { code, message } = res.data
     if (code && code !== 200) {
       ElNotification.warning(message)
@@ -64,8 +69,8 @@ instance.interceptors.response.use(
     }
     return { data: res.data } as AxiosResponse
   },
-  (error: AxiosError) => {
-    end()
+  async (error: AxiosError) => {
+    await end()
     ElNotification.error(error.message || error.response.statusText)
     return { data: {} }
   },

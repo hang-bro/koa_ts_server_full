@@ -1,8 +1,20 @@
 <template>
-  <main class="w-full h-full">
-    <Loading />
+  <main>
+    <a href="https://cssloaders.github.io/" target="_blank">https://cssloaders.github.io/</a>
+    <section class="w-full flex flex-wrap">
+      <div class="loading-item" v-for="item in data">
+        <component :is="item.name" />
+      </div>
+    </section>
   </main>
 </template>
 <script lang="ts" setup>
+import loading from '@/components/loading/index'
+const data = await loading()
+console.log(`data ==>`, data)
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.loading-item {
+  @apply h-52 w-1/2 p-2 cursor-pointer;
+}
+</style>
