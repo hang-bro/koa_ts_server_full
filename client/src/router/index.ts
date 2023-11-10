@@ -12,27 +12,29 @@ import routes from './routes'
 import { useStore } from '@/hooks/useStore'
 
 const _routes = []
-const modules = import.meta.glob('../views/**/index.vue')
+const modules = import.meta.glob('../views/**/index.{vue,tsx,jsx}')
 // 循环进入路由
 for (let key in modules) {
   const name = key.split('../views/').pop().split('/')[0]
-
+  const ext = key.split('.').pop()
+  console.log(`ext ==>`, name, ext)
   if (!routes.find((i) => i.path == `/${name}`)) {
     routes.push({
       path: `/${name}`,
       name: name,
-      component: () => import(`@/views/${name}/index.vue`),
+      component: () => import(`@/views/${name}/index.${ext}`),
     })
     _routes.push({
       path: `/${name}`,
       name: name,
-      component: () => import(`@/views/${name}/index.vue`),
+      component: () => import(`@/views/${name}/index.${ext}`),
     })
   }
 }
 
-export const $routes = _routes
+console.log(`_routes ==>`, _routes)
 
+export const $routes = _routes
 
 // console.log(`routes ==>`,routes);
 

@@ -26,6 +26,11 @@ const routes: RouteRecordRaw[] = [
       title: '欢迎',
     },
   },
+  // {
+  //   path: '/jsx',
+  //   name: 'jsx',
+  //   component: () => import('@/views/jsx/index'),
+  // },
   {
     path: '/dashboard',
     name: 'dashboard',

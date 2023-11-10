@@ -1,9 +1,7 @@
 import 'animate.css'
 import 'intro.js/introjs.css' // intro.js的基础样式文件
-import '@/assets/icon/iconfont.css'
 import '@/assets/css/base.css'
 import '@/assets/css/custom.scss'
-
 import 'highlight.js/styles/github.css'
 
 import 'virtual:svg-icons-register' //不引入不能生效
