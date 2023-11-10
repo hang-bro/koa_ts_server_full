@@ -19,5 +19,16 @@ var red = {
   age: 18,
 }
 bar.apply(red) //18
+
+const a = reactive({
+  name: 'a',
+  age: {
+    a: 1,
+    b: {
+      c: 2,
+    },
+  },
+})
+console.log(` ==>`, isRef(a))
 </script>
 <style lang="scss" scoped></style>
