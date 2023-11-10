@@ -17,7 +17,7 @@ const close = () => {
 }
 
 const open = async (_name?: string) => {
-  console.log(`open ==>`,);
+  console.log(`open ==>`)
   const loadings = await useLoading()
   if (!_name) {
     componentIs.value = loadings[Math.floor(Math.random() * loadings.length)]

@@ -10,7 +10,7 @@
       @focus="() => (state.showSearchList = true)" />
     <ul
       ref="searchScrollRef"
-      class="hidden no-scroll absolute w-full max-h-[300px] overflow-auto bg-white shadow-2xl mt-2 rounded-md"
+      class="hidden scroll1 absolute w-full max-h-[300px] overflow-auto bg-white shadow-2xl mt-2 rounded-md"
       :class="{ '!block': state.showSearchList }">
       <li
         @click.prevent="router.push(item.path)"

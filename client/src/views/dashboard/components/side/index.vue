@@ -1,8 +1,9 @@
 <template>
-  <section class="w-[280px] bg-white no-scroll h-auto ml-3 hidden sm:block overflow-auto animate__animated animate__fadeInRight ">
+  <section
+    class="w-[280px] bg-white scroll1 h-auto ml-3 hidden sm:block overflow-auto animate__animated animate__fadeInRight">
     <div
       @click.prevent="$router.push(item.path)"
-      class="hover:bg-[#ebeef5] p-3  border-b-[1px] cursor-pointer"
+      class="hover:bg-[#ebeef5] p-3 border-b-[1px] cursor-pointer"
       v-for="(item, index) in $routes">
       <div class="flex">
         <span

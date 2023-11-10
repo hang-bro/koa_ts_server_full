@@ -6,7 +6,7 @@
   </main>
 </template>
 <script lang="ts" setup></script>
-<style lang="scss" scoped>
+<style lang="scss">
 .scroll1 {
   &::-webkit-scrollbar {
     background-color: rgba(141, 124, 124, 0.07);

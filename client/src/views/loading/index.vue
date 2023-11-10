@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="w-full h-full">
     <a href="https://cssloaders.github.io/" target="_blank">https://cssloaders.github.io/</a>
     <section class="w-full flex flex-wrap">
       <div class="loading-item" v-for="item in data">
@@ -15,6 +15,6 @@ console.log(`data ==>`, data)
 </script>
 <style lang="scss" scoped>
 .loading-item {
-  @apply h-52 w-1/2 p-2 cursor-pointer;
+  @apply h-[300px] w-1/3 p-1 cursor-pointer;
 }
 </style>
