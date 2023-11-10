@@ -12,12 +12,10 @@ const show = ref(false)
 const componentIs = shallowRef()
 
 const close = () => {
-  console.log(`close ==>`)
   show.value = false
 }
 
 const open = async (_name?: string) => {
-  console.log(`open ==>`)
   const loadings = await useLoading()
   if (!_name) {
     componentIs.value = loadings[Math.floor(Math.random() * loadings.length)]
@@ -44,13 +42,15 @@ defineExpose({
 </script>
 
 <template>
-  <Transition mode="out-in">
-    <div
-      class="z-[999999] cursor-pointer flex flex-col items-center justify-center absolute top-0 w-full h-screen overflow-hidden"
-      v-if="show">
-      <component :is="componentIs" />
-    </div>
-  </Transition>
+  <Teleport to="body">
+    <Transition mode="out-in">
+      <div
+        class="z-[999999] cursor-pointer flex flex-col items-center justify-center absolute top-0 w-full h-screen overflow-hidden"
+        v-if="show">
+        <component :is="componentIs" />
+      </div>
+    </Transition>
+  </Teleport>
 </template>
 <style lang="scss" scoped>
 .v-enter-active,
