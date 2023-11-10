@@ -28,7 +28,7 @@ export default class translateController {
     let enTrans = `{\n`
     for (const [index, item] of Object.entries(keys)) {
       const trans = (await translateService.requestTranslate(item.value, isDev, 'en')) as any
-      console.log(`trans ==>`, trans)
+      console.log(`英文翻译 ==>`, trans, `${index}/${keys.length}`)
       enTrans += `  /**${trans[0].src}*/\n`
       enTrans += ` '${item.key}':"${trans[0].dst}",\n`
     }
@@ -37,7 +37,7 @@ export default class translateController {
     let jpTrans = `{\n`
     for (const [index, item] of Object.entries(keys)) {
       const trans = (await translateService.requestTranslate(item.value, isDev)) as any
-      console.log(`trans ==>`, trans)
+      console.log(`日语翻译 ==>`, trans, `${index}/${keys.length}`)
       jpTrans += `  /**${trans[0].src}*/\n`
       jpTrans += `  '${item.key}':"${trans[0].dst}",\n`
     }
