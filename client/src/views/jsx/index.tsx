@@ -1,23 +1,30 @@
 import { ElButton } from "element-plus"
-
-
-const Test = (props: { count: number }) => {
-  console.log(`props ==>`, props);
-
-  return (
-    <div>this is Test {props.count}</div>
-  )
-}
+import C1, { IAdd } from './components/1'
+import Loading from '@/components/loading/index.vue'
 
 export default defineComponent({
   setup() {
     const count = ref(0)
-    const increment = () => ++count.value
+    const laodingRef = ref<InstanceType<typeof Loading>>()
+    const C1Ref = ref<{ add: IAdd }>()
+    const increment = () => {
+      ++count.value
+      C1Ref.value.add(2)
+    }
+    const test = async () => {
+      const { close, open } = laodingRef.value
+      await open()
+      setTimeout(close, 5000)
+    }
     return () => (
       <main class="w-full h-full flex items-center justify-center text-2xl flex-col">
-        <Test count={count.value} />
-        <div>count:{count.value}</div>
-        <ElButton onClick={increment}>+1</ElButton>
+        <C1 ref={C1Ref} onTest={(e) => {
+          return console.log(`e ==>`, e)
+        }} />
+        <Loading ref={laodingRef} />
+        <div>jsx count:{count.value}</div>
+        <ElButton onClick={increment}>add</ElButton>
+        <ElButton onClick={test}>loading</ElButton>
       </main>
     )
   }

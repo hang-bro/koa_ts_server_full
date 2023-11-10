@@ -17,7 +17,6 @@ const modules = import.meta.glob('../views/**/index.{vue,tsx,jsx}')
 for (let key in modules) {
   const name = key.split('../views/').pop().split('/')[0]
   const ext = key.split('.').pop()
-  console.log(`ext ==>`, name, ext)
   if (!routes.find((i) => i.path == `/${name}`)) {
     routes.push({
       path: `/${name}`,
@@ -32,7 +31,6 @@ for (let key in modules) {
   }
 }
 
-console.log(`_routes ==>`, _routes)
 
 export const $routes = _routes
 
