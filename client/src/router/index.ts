@@ -55,7 +55,7 @@ router.afterEach((to, from) => {
   if (title) {
     document.title = title
   } else {
-    document.title = 'doc'
+    // document.title = 'doc'
   }
 })
 

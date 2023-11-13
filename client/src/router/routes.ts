@@ -26,11 +26,6 @@ const routes: RouteRecordRaw[] = [
       title: '欢迎',
     },
   },
-  // {
-  //   path: '/jsx',
-  //   name: 'jsx',
-  //   component: () => import('@/views/jsx/index'),
-  // },
   {
     path: '/dashboard',
     name: 'dashboard',
@@ -86,48 +81,7 @@ const routes: RouteRecordRaw[] = [
       title: '编辑器',
     },
   },
-  // {
-  //   path: '/api',
-  //   name: 'api',
-  //   component: () => import('@/views/api/index.vue'),
-  //   meta: {
-  //     title: '接口'
-  //   }
-  // },
-  // {
-  //   path: '/fileUpload',
-  //   name: 'fileUpload',
-  //   component: () => import('@/views/fileUpload/index.vue'),
-  //   meta: {
-  //     title: '接口'
-  //   }
-  // },
 
-  // {
-  //   path: '/dict',
-  //   name: 'dict',
-  //   component: () => import('@/views/dict/index.vue'),
-  //   meta: {
-  //     title: '接口'
-  //   }
-  // },
-  // {
-  //   path: '/user',
-  //   name: 'user',
-  //   component: () => import('@/views/user/index.vue'),
-  //   meta: {
-  //     title: '用户'
-  //   }
-  // },
-
-  // {
-  //   path: '/layout',
-  //   name: 'layout',
-  //   component: () => import('@/views/layout/index.vue'),
-  //   children: [
-
-  //   ]
-  // },
   {
     path: '/:pathMatch(.*)',
     name: '404',
