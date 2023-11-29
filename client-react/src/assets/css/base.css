@@ -1,0 +1,7 @@
+/* 手动引入 preflight.css */
+@import url("./preflight.css");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
