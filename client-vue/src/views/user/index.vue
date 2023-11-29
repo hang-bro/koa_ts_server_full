@@ -67,7 +67,7 @@
             <el-check-tag class="ml-2" v-else :checked="false">{{ row?.roles[0]?.name }}</el-check-tag>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作" align="center" width="200">
+        <el-table-column  label="操作" align="center" width="200">
           <template #default="{ row }">
             <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button>
             <el-button @click="handleEdit(row)" link type="warning">编辑</el-button>
