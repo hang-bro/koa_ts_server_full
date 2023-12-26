@@ -1,6 +1,6 @@
 <template>
   <main class="w-full h-full overflow-auto no-scroll">
-    <header class=" z-10 bg-gray-300 mb-5 p-4 text-xl font-bold sticky top-0">
+    <header class="z-10 bg-gray-300 mb-5 p-4 text-xl font-bold sticky top-0">
       directives(指令) 代码地址==> <span class="text-gray-500">'@/directives/module'</span>
     </header>
     <!-- resize -->
@@ -86,11 +86,22 @@
         </div>
       </div>
     </section>
+
+    <!-- touchDirection-->
+    <section>
+      <header>touchDirection 代码地址==> '@/directives/module/touchDirection'</header>
+      <div class="p-4 bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded" v-resize="handleResize">
+        <div class="w-full h-[200px]" v-touchDirection="fn">在此区域滑动</div>
+      </div>
+    </section>
   </main>
 </template>
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 import { Copy } from '@icon-park/vue-next'
+const fn = (direction: string) => {
+  console.log(`direction ==>`, direction)
+}
 const resizeInfo = ref()
 const focusValue = ref()
 const copyValue = ref('copy')

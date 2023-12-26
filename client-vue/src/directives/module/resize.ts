@@ -29,7 +29,7 @@ const directive: Directive = {
   },
   unmounted(el: HTMLElement, binding: DirectiveBinding) {
     observer.unobserve(el)
-    console.log(`map ==>`, map)
+    // console.log(`map ==>`, map)
   },
 }
 export default directive

@@ -26,11 +26,14 @@ import focus from './module/focus'
 import longpress from './module/longpress'
 /**draggable */
 import draggable from './module/draggable'
+/**touchDirection */
+import touchDirection from './module/touchDirection'
 
 /**指令列表 */
 const directivesList: { [prop: string]: Directive } = {
   copy,
   draggable,
+  touchDirection,
   resize,
   thousands,
   debounce,
