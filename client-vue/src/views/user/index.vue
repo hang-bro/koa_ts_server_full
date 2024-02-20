@@ -13,7 +13,7 @@
             style="width: 200px"
             @keyup.enter="getList"
             placeholder="用户名"
-            v-model="query.username"
+            v-model="query.name"
             clearable />
         </el-form-item>
         <el-form-item>
@@ -33,7 +33,7 @@
             <Copy :value="row.id" size="mini" />
           </template>
         </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" prop="username" label="用户名" />
+        <el-table-column show-overflow-tooltip align="center" prop="name" label="用户名" />
         <el-table-column show-overflow-tooltip align="center" prop="avatar" label="头像">
           <template #default="{ row }">
             <el-avatar
@@ -67,7 +67,7 @@
             <el-check-tag class="ml-2" v-else :checked="false">{{ row?.roles[0]?.name }}</el-check-tag>
           </template>
         </el-table-column>
-        <el-table-column  label="操作" align="center" width="200">
+        <el-table-column label="操作" align="center" width="200">
           <template #default="{ row }">
             <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button>
             <el-button @click="handleEdit(row)" link type="warning">编辑</el-button>
@@ -82,8 +82,8 @@
     </CURD>
     <el-dialog v-model="dialogVisible" :title="state.showName" width="500" draggable>
       <el-form ref="formRef" :model="form" status-icon :rules="rules" label-width="auto" class="demo-form">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="form.username" autocomplete="off" />
+        <el-form-item label="用户名" prop="name">
+          <el-input v-model="form.name" autocomplete="off" />
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="form.email" autocomplete="off" />
@@ -91,17 +91,20 @@
         <el-form-item v-if="state.showName == 'add'" label="密码" prop="password">
           <el-input v-model="form.password" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="头像" prop="avatar">
+        <!-- <el-form-item label="头像" prop="avatar">
           <ImageUpload ref="uploadRef" @success="(e) => (form.avatar = e.data)" @remove="(e) => (form.avatar = '')" />
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item label="地址" prop="address">
           <el-input v-model="form.address" autocomplete="off" />
         </el-form-item>
-        <el-form-item label="角色" prop="roleId">
+        <el-form-item label="年龄" prop="age">
+          <el-input v-model="form.age" autocomplete="off" />
+        </el-form-item>
+        <!-- <el-form-item label="角色" prop="roleId">
           <el-select style="width: 100%" v-model="form.roleId" placeholder="请选择">
             <el-option v-for="item in roleList" :key="item.id" :label="item.name" :value="item.id" />
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -124,15 +127,16 @@ const roleList = ref([])
 
 interface IUser {
   id?: string
+  age: number
   email: string
-  username: string
+  name: string
   address: string
   avatar: string
   roleId?: any
   password: string
 }
 
-const API = ref('/api/users')
+const API = ref('/api/user')
 
 const formRef = ref<FormInstance>()
 
@@ -141,8 +145,9 @@ const dialogVisible = ref(false)
 const CURDRef = ref()
 
 const form = reactive<IUser>({
+  age: null,
   email: '',
-  username: '',
+  name: '',
   address: '',
   avatar: '',
   password: '',
@@ -150,7 +155,7 @@ const form = reactive<IUser>({
 })
 
 const rules = reactive({
-  username: useValidate.pleaseInput,
+  name: useValidate.pleaseInput,
   address: useValidate.pleaseInput,
   avatar: useValidate.pleaseSelect,
   email: useValidate.email,
