@@ -9,12 +9,7 @@
     <CURD ref="CURDRef" :api="API" :queryParam="{ orderBy: 'createdAt', orderSort: 'asc' }">
       <template #search="{ query, getList }">
         <el-form-item>
-          <el-input
-            style="width: 200px"
-            @keyup.enter="getList"
-            placeholder="用户名"
-            v-model="query.name"
-            clearable />
+          <el-input style="width: 200px" @keyup.enter="getList" placeholder="用户名" v-model="query.name" clearable />
         </el-form-item>
         <el-form-item>
           <el-input style="width: 200px" @keyup.enter="getList" placeholder="邮箱" v-model="query.email" clearable />
@@ -59,14 +54,14 @@
           </template>
         </el-table-column>
         <el-table-column show-overflow-tooltip align="center" prop="address" label="地址" />
-        <el-table-column show-overflow-tooltip align="center" prop="roleId" label="角色">
+        <!-- <el-table-column show-overflow-tooltip align="center" prop="roleId" label="角色">
           <template #default="{ row }">
             <el-check-tag checked v-if="row.roles.length > 0 && row.roles[0].key == 'admin'">{{
               row.roles[0].name
             }}</el-check-tag>
             <el-check-tag class="ml-2" v-else :checked="false">{{ row?.roles[0]?.name }}</el-check-tag>
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="操作" align="center" width="200">
           <template #default="{ row }">
             <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button>
@@ -91,14 +86,14 @@
         <el-form-item v-if="state.showName == 'add'" label="密码" prop="password">
           <el-input v-model="form.password" autocomplete="off" />
         </el-form-item>
-        <!-- <el-form-item label="头像" prop="avatar">
+        <el-form-item label="头像" prop="avatar">
           <ImageUpload ref="uploadRef" @success="(e) => (form.avatar = e.data)" @remove="(e) => (form.avatar = '')" />
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item label="地址" prop="address">
           <el-input v-model="form.address" autocomplete="off" />
         </el-form-item>
         <el-form-item label="年龄" prop="age">
-          <el-input v-model="form.age" autocomplete="off" />
+          <el-input type="number" v-model.number="form.age" autocomplete="off" />
         </el-form-item>
         <!-- <el-form-item label="角色" prop="roleId">
           <el-select style="width: 100%" v-model="form.roleId" placeholder="请选择">
@@ -125,15 +120,16 @@ const uploadRef = ref()
 
 const roleList = ref([])
 
-interface IUser {
-  id?: string
-  age: number
-  email: string
+export interface IUser {
+  id: number
   name: string
-  address: string
   avatar: string
-  roleId?: any
+  email: string
+  address: string
   password: string
+  age: number
+  createTime: string
+  sex: number
 }
 
 const API = ref('/api/user')
@@ -151,7 +147,9 @@ const form = reactive<IUser>({
   address: '',
   avatar: '',
   password: '',
-  roleId: '',
+  id: 0,
+  createTime: '',
+  sex: 0,
 })
 
 const rules = reactive({
@@ -197,7 +195,7 @@ const handleSubmit = () => {
       // 修改
       if (state.showName == 'edit') {
         delete data.password
-        http.put(API.value, data).then((res) => {
+        http.patch(`${API.value}/${form.id}`, data).then((res) => {
           const { code, message } = res
           if (code === 200) {
             ElMessage.success(message)
@@ -211,12 +209,12 @@ const handleSubmit = () => {
 }
 
 const getRoleList = () => {
-  http.get<any>('/api/role').then((res) => {
-    const { code, data } = res
-    if (code === 200) {
-      roleList.value = data
-    }
-  })
+  // http.get<any>('/api/role').then((res) => {
+  //   const { code, data } = res
+  //   if (code === 200) {
+  //     roleList.value = data
+  //   }
+  // })
 }
 
 const resetPwd = (userId: string) => {

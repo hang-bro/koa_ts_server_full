@@ -54,6 +54,7 @@ export class Http {
 
 export type IHttp = {
   get: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  patch: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
   post: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
   put: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
   delete: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
@@ -63,7 +64,7 @@ export type IHttp = {
 /**http请求 */
 // @ts-ignore
 export const http: IHttp = {}
-;['get', 'post', 'put', 'delete', 'upload'].map((method) => {
+;['get', 'post', 'put', 'patch', 'delete', 'upload'].map((method) => {
   switch (method) {
     case 'get':
       return (http[method] = <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => {
@@ -75,6 +76,7 @@ export const http: IHttp = {}
       })
 
     case 'post':
+    case 'patch':
     case 'put':
       return (http[method] = <T>(url: string, data?: object, config?: AxiosRequestConfig<any>) => {
         return new Promise<IResponse<T>>((resolve, reject) => {

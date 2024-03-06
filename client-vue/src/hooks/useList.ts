@@ -52,8 +52,8 @@ export default function useList<T>(url: string) {
       http
         .get<T>(url, params)
         .then((res) => {
-          list.value = res.data || ([] as T)
-          total.value = res.total || 0
+          list.value = res.data.data || ([] as T)
+          total.value = res.data.total || 0
           resolve()
         })
         .finally(() => (loading.value = false))
