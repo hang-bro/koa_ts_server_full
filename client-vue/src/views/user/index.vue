@@ -9,7 +9,7 @@
     <CURD ref="CURDRef" :api="API" :queryParam="{ orderBy: 'createdAt', orderSort: 'asc' }">
       <template #search="{ query, getList }">
         <el-form-item>
-          <el-input style="width: 200px" @keyup.enter="getList" placeholder="用户名" v-model="query.name" clearable />
+          <el-input style="width: 200px" @keyup.enter="getList" placeholder="用户名" v-model="query.username" clearable />
         </el-form-item>
         <el-form-item>
           <el-input style="width: 200px" @keyup.enter="getList" placeholder="邮箱" v-model="query.email" clearable />
@@ -28,7 +28,7 @@
             <Copy :value="row.id" size="mini" />
           </template>
         </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" prop="name" label="用户名" />
+        <el-table-column show-overflow-tooltip align="center" prop="username" label="用户名" />
         <el-table-column show-overflow-tooltip align="center" prop="avatar" label="头像">
           <template #default="{ row }">
             <el-avatar
@@ -57,9 +57,9 @@
         <!-- <el-table-column show-overflow-tooltip align="center" prop="roleId" label="角色">
           <template #default="{ row }">
             <el-check-tag checked v-if="row.roles.length > 0 && row.roles[0].key == 'admin'">{{
-              row.roles[0].name
+              row.roles[0].username
             }}</el-check-tag>
-            <el-check-tag class="ml-2" v-else :checked="false">{{ row?.roles[0]?.name }}</el-check-tag>
+            <el-check-tag class="ml-2" v-else :checked="false">{{ row?.roles[0]?.username }}</el-check-tag>
           </template>
         </el-table-column> -->
         <el-table-column label="操作" align="center" width="200">
@@ -77,8 +77,8 @@
     </CURD>
     <el-dialog v-model="dialogVisible" :title="state.showName" width="500" draggable>
       <el-form ref="formRef" :model="form" status-icon :rules="rules" label-width="auto" class="demo-form">
-        <el-form-item label="用户名" prop="name">
-          <el-input v-model="form.name" autocomplete="off" />
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="form.username" autocomplete="off" />
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
           <el-input v-model="form.email" autocomplete="off" />
@@ -97,7 +97,7 @@
         </el-form-item>
         <!-- <el-form-item label="角色" prop="roleId">
           <el-select style="width: 100%" v-model="form.roleId" placeholder="请选择">
-            <el-option v-for="item in roleList" :key="item.id" :label="item.name" :value="item.id" />
+            <el-option v-for="item in roleList" :key="item.id" :label="item.username" :value="item.id" />
           </el-select>
         </el-form-item> -->
       </el-form>
@@ -122,7 +122,7 @@ const roleList = ref([])
 
 export interface IUser {
   id: number
-  name: string
+  username: string
   avatar: string
   email: string
   address: string
@@ -143,7 +143,7 @@ const CURDRef = ref()
 const form = reactive<IUser>({
   age: null,
   email: '',
-  name: '',
+  username: '',
   address: '',
   avatar: '',
   password: '',
@@ -153,7 +153,7 @@ const form = reactive<IUser>({
 })
 
 const rules = reactive({
-  name: useValidate.pleaseInput,
+  username: useValidate.pleaseInput,
   address: useValidate.pleaseInput,
   avatar: useValidate.pleaseSelect,
   email: useValidate.email,
