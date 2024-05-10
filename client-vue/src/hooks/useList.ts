@@ -15,7 +15,7 @@ export type IQuery = {
   [props: string]: any
 }
 
-export default function useList<T>(url: string) {
+export default function useList<T>(url: string, queryParam?: { [props: string]: any }) {
   /**数据列表 */
   const list = ref<T>()
 
@@ -41,7 +41,7 @@ export default function useList<T>(url: string) {
 
   const getList = () => {
     loading.value = true
-    const data = { pageSize: pageSize.value, pageIndex: pageIndex.value, ...query }
+    const data = { pageSize: pageSize.value, pageIndex: pageIndex.value, ...query ,...queryParam}
     const params = JSON.parse(JSON.stringify(data))
 
     Object.keys(params).forEach((key) => {

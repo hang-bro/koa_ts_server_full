@@ -51,12 +51,12 @@
     <!-- 表格区域 end -->
 
     <!-- 分页区域 -->
-    <section class="text-right my-5">
+    <section class="flex my-5 justify-end">
       <el-pagination
         background
         v-model:current-page="pageIndex"
         v-model:page-size="pageSize"
-        layout="prev, pager, next,sizes,"
+        layout="total,prev, pager, next,sizes,"
         :page-sizes="[10, 20, 40, 80, 100]"
         :total="total" />
     </section>
@@ -79,6 +79,7 @@ const props = defineProps<{ api?: string; queryParam?: object }>()
 
 const { list, total, loading, pageIndex, pageSize, tableCheck, query, reset, getList, showSearch } = useList<any[]>(
   props.api,
+  props.queryParam,
 )
 
 await getList()
@@ -91,7 +92,7 @@ defineExpose({
 
 onMounted(() => {
   if (props.queryParam) {
-    Object.keys(props.queryParam).forEach((key) => (query[key] = props.queryParam[key]))
+    // Object.keys(props.queryParam).forEach((key) => (query[key] = props.queryParam[key]))
   }
 })
 

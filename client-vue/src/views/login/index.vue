@@ -27,7 +27,11 @@
         <el-form-item class="captcha" prop="captcha" label="验证码">
           <el-input v-model="loginForm.captcha" placeholder="请输入">
             <template #append>
-              <div @click="getCaptcha" style="width: 150px" ref="captchaRef"></div>
+              <img
+                style="width: 150px;"
+                :src="getCaptchaUrl"
+                alt=""
+                @click="(e:any)=>e.target.src = getCaptchaUrl + `?timeStamp=${Date.now()}`" />
             </template>
           </el-input>
         </el-form-item>
@@ -59,10 +63,8 @@ import { ElMessage, FormInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
 const store = userStore()
 const router = useRouter()
-const captchaRef = ref()
+const getCaptchaUrl = ref(import.meta.env.VITE_BASE_URL + import.meta.env.VITE_BASE_API + '/login/captcha')
 const formRef = ref<FormInstance>()
-
-const captchaValue = ref()
 
 const loginForm = reactive({
   email: '',
@@ -81,11 +83,6 @@ const checked = ref(true)
 const login = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      if (loginForm.captcha.toLocaleLowerCase() !== captchaValue.value) {
-        ElMessage.error('验证码不正确')
-        getCaptcha()
-        return
-      }
       http.post<UserModel>('/api/login', loginForm).then((res) => {
         const { code, data } = res
         if (code === 200) {
@@ -97,22 +94,11 @@ const login = () => {
   })
 }
 
-const getCaptcha = () => {
-  http.get<any>('/api/login/captcha').then((res) => {
-    const { data } = res
-    captchaRef.value.innerHTML = data.data
-    captchaValue.value = data.text.toLocaleLowerCase()
-    loginForm.captcha = ''
-  })
-}
-
 useKeyDown((e) => {
   e.key == 'Enter' && login()
 })
 
-onMounted(() => {
-  getCaptcha()
-})
+onMounted(() => {})
 </script>
 
 <style lang="scss" scoped>

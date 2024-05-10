@@ -9,7 +9,12 @@
     <CURD ref="CURDRef" :api="API" :queryParam="{ orderBy: 'createdAt', orderSort: 'asc' }">
       <template #search="{ query, getList }">
         <el-form-item>
-          <el-input style="width: 200px" @keyup.enter="getList" placeholder="用户名" v-model="query.username" clearable />
+          <el-input
+            style="width: 200px"
+            @keyup.enter="getList"
+            placeholder="用户名"
+            v-model="query.username"
+            clearable />
         </el-form-item>
         <el-form-item>
           <el-input style="width: 200px" @keyup.enter="getList" placeholder="邮箱" v-model="query.email" clearable />
@@ -20,8 +25,8 @@
         <el-button plain type="danger" :disabled="tableCheck.length == 0" @click="handleDelete()">删 除</el-button>
       </template>
       <template #table="{ handleDelete, viewImg, errorImg }">
-        <el-table-column type="index" align="center" label="序号" width="70" />
         <el-table-column type="selection" align="center" width="55" />
+        <el-table-column type="index" align="center" label="序号" width="70" />
         <el-table-column show-overflow-tooltip align="center" prop="id" label="id">
           <template #default="{ row }">
             <!-- <span v-copy="row.id" class="cursor-pointer hover:text-primary"> {{ row.id }}</span> -->
@@ -128,7 +133,6 @@ export interface IUser {
   address: string
   password: string
   age: number
-  createTime: string
   sex: number
 }
 
@@ -140,16 +144,13 @@ const dialogVisible = ref(false)
 
 const CURDRef = ref()
 
-const form = reactive<IUser>({
+const form = reactive<any>({
   age: null,
   email: '',
   username: '',
   address: '',
   avatar: '',
   password: '',
-  id: 0,
-  createTime: '',
-  sex: 0,
 })
 
 const rules = reactive({

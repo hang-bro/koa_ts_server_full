@@ -13,7 +13,7 @@ import userStore from '@/store/user'
 import { storeToRefs } from 'pinia'
 import router from '@/router'
 const { token } = storeToRefs(userStore())
-
+// axios.defaults.withCredentials = true;
 const instance = axios.create({
   // baseURL: import.meta.env.VITE_BASE_API,//跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
   baseURL: import.meta.env.VITE_BASE_URL,
