@@ -25,13 +25,13 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     // 需要用到的插件数组
     plugins: usePlugin(isProduction),
     server: {
-      // proxy: {
-      //   '/api': {
-      //     target: 'http://192.168.5.240:2335/api',
-      //     changeOrigin: true,
-      //     rewrite: (path) => path.replace(/^\/api/, ''),
-      //   },
-      // },
+      proxy: {
+        '/api': {
+          target: env.VITE_BASE_URL + '/api',
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+      },
       // https: {
       //   cert: fs.readFileSync(path.join(__dirname, './keys/cert.crt')),
       //   key: fs.readFileSync(path.join(__dirname, './keys/cert.key')),

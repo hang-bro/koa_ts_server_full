@@ -13,12 +13,12 @@ import userStore from '@/store/user'
 import { storeToRefs } from 'pinia'
 import router from '@/router'
 const { token } = storeToRefs(userStore())
-// axios.defaults.withCredentials = true;
 const instance = axios.create({
   // baseURL: import.meta.env.VITE_BASE_API,//跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
-  baseURL: import.meta.env.VITE_BASE_URL,
+  // baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 300000, //设置超时
   responseType: 'json',
+  withCredentials: true,
   headers: {
     ['Content-type']: 'application/json',
   },
@@ -57,23 +57,43 @@ instance.interceptors.response.use(
     if (code && code !== 200) {
       ElNotification.warning(message)
     }
-    switch (code) {
-      case 4001: //未认证 token失效
-        // case 5001: //未认证 token失效
-        router.push({
-          path: '/login',
-        })
-        break
-      default:
-        break
-    }
+
     return { data: res.data } as AxiosResponse
   },
-  async (error: AxiosError) => {
+  async (e: AxiosError) => {
+    const { message, statusCode, error } = e.response.data as IServerError
     await end()
-    ElNotification.error(error.message || error.response.statusText)
+    // switch (statusCode) {
+    //   case 4001: //未认证 token失效
+    //     // case 5001: //未认证 token失效
+    //     router.push({
+    //       path: '/login',
+    //     })
+    //     break
+    //   default:
+    //     break
+    // }
+    const toHtml = (arr: string[]) => {
+      let html = `<div>`
+      arr.map((m) => {
+        html += `<div>${m}</div>`
+      })
+      html += '</div>'
+      return html
+    }
+    ElNotification.error({
+      title: error,
+      dangerouslyUseHTMLString: true,
+      message: Array.isArray(message) ? toHtml(message) : message,
+    })
     return { data: {} }
   },
 )
 
 export default instance
+
+interface IServerError {
+  message: string | string[]
+  error: string
+  statusCode: number
+}

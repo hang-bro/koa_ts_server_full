@@ -81,7 +81,9 @@ export const http: IHttp = {}
       return (http[method] = <T>(url: string, data?: object, config?: AxiosRequestConfig<any>) => {
         return new Promise<IResponse<T>>((resolve, reject) => {
           instance[method](url, data, config)
-            .then((res) => resolve(res.data))
+            .then((res) => {
+              resolve(res.data)
+            })
             .catch((e) => reject(e))
         })
       })

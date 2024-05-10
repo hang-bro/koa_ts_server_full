@@ -28,7 +28,7 @@
           <el-input v-model="loginForm.captcha" placeholder="请输入">
             <template #append>
               <img
-                style="width: 150px;"
+                style="width: 150px"
                 :src="getCaptchaUrl"
                 alt=""
                 @click="(e:any)=>e.target.src = getCaptchaUrl + `?timeStamp=${Date.now()}`" />
