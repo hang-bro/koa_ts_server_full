@@ -14,6 +14,20 @@ declare global {
     avatar: string
     /**角色 */
     role: string
+    token?: string
+  }
+
+  interface UserInfo {
+    id: string
+    email: string
+    age: number
+    username: string
+    address: string
+    avatar: string
+    createdAt: string
+    updatedAt: string
+    roleId?: any
+    token: string
   }
 
   interface RoleModel {

@@ -4,7 +4,7 @@
  * @LastEditors: HYH
  * @LastEditTime: 2023-06-07 17:10:29
  */
-import setExsitField from '@/utils/setExsitField'
+import { http } from '@/http'
 import { defineStore } from 'pinia'
 
 export type IUserStore = ReturnType<typeof userStore>
@@ -24,8 +24,11 @@ const userStore = defineStore('userStore', {
   }),
   actions: {
     /**设置信息 */
-    setInfo(info: UserModel) {
-      setExsitField(this.$state, info)
+    setToken(token: string) {
+      this.token = token
+    },
+    getInfo(token: string) {
+      return http.get('/getInfo?token=' + token)
     },
   },
   /**pinia持久化方式 */

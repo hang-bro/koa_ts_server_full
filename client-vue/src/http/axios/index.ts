@@ -39,7 +39,7 @@ const end = async () => {
 //设置请求拦截器
 instance.interceptors.request.use(
   async (config) => {
-    config.headers['authorization'] = token.value || ''
+    config.headers['authorization'] = token.value
     await start()
     return config
   },
@@ -61,7 +61,7 @@ instance.interceptors.response.use(
     return { data: res.data } as AxiosResponse
   },
   async (e: AxiosError) => {
-    const { message, statusCode, error } = e.response.data as IServerError
+    const { message, statusCode, error } = e.response?.data as IServerError
     await end()
     // switch (statusCode) {
     //   case 4001: //未认证 token失效

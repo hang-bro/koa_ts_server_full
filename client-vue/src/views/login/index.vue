@@ -59,7 +59,7 @@ import useKeyDown from '@/hooks/useKeyDown'
 import useValidate from '@/hooks/useValidate'
 import { http } from '@/http'
 import userStore from '@/store/user'
-import { ElMessage, FormInstance } from 'element-plus'
+import { FormInstance } from 'element-plus'
 import { useRouter } from 'vue-router'
 const store = userStore()
 const router = useRouter()
@@ -83,11 +83,13 @@ const checked = ref(true)
 const login = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      http.post<UserModel>('/api/login', loginForm).then((res) => {
+      http.post<UserInfo>('/api/login', loginForm).then((res) => {
         const { code, data } = res
         if (code === 200) {
-          store.setInfo(data)
-          router.push({ name: 'dashboard', replace: true })
+          store.setToken(data.token)
+          store.getInfo(data.token).then((res) => {
+            router.push({ name: 'dashboard', replace: true })
+          })
         }
       })
     }
