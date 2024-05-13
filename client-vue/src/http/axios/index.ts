@@ -11,7 +11,7 @@ import 'nprogress/nprogress.css'
 import userStore from '@/store/user'
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_API, //跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
+  baseURL: import.meta.env.VITE_BASE_URL + import.meta.env.VITE_BASE_API, //跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
   timeout: 300000, //设置超时
   responseType: 'json',
   withCredentials: true,

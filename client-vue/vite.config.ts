@@ -25,16 +25,17 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     // 需要用到的插件数组
     plugins: usePlugin(isProduction),
     server: {
-      proxy: {
-        /** '/api' */
-        [env.VITE_BASE_API]: {
-          target: env.VITE_BASE_URL + env.VITE_BASE_API /**http://192.168.5.240:2335 */,
-          changeOrigin: true,
-          rewrite: (path) => {
-            return path.replace(/^\/api/, '')
-          },
-        },
-      },
+      // proxy: {
+      //   /** '/api' */
+      //   [env.VITE_BASE_API]: {
+      //     target: env.VITE_BASE_URL + env.VITE_BASE_API /**http://192.168.5.240:2335 */,
+      //     changeOrigin: true,
+      //     rewrite: (path) => {
+      //       console.log(`path ==>`,JSON.parse(JSON.stringify(path)));
+      //       return path.replace(/^\/api/, '')
+      //     },
+      //   },
+      // },
       // https: {
       //   cert: fs.readFileSync(path.join(__dirname, './keys/cert.crt')),
       //   key: fs.readFileSync(path.join(__dirname, './keys/cert.key')),
