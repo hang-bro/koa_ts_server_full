@@ -27,7 +27,6 @@ declare global {
     createdAt: string
     updatedAt: string
     roleId?: any
-    token: string
   }
 
   interface RoleModel {

@@ -27,7 +27,12 @@ const userStore = defineStore('userStore', {
     setToken(token: string) {
       this.token = token
     },
-   
+    /**设置信息 */
+    setInfo(info: UserInfo) {
+      for (const key in info) {
+        this[key] = info[key]
+      }
+    },
   },
   /**pinia持久化方式 */
   persist: {
