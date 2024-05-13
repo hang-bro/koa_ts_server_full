@@ -12,7 +12,6 @@ import userStore from '@/store/user'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BASE_API, //跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
-  // baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 300000, //设置超时
   responseType: 'json',
   withCredentials: true,
@@ -21,11 +20,46 @@ const instance = axios.create({
   },
 })
 
-/**上传对应的actions */
+/**
+ * 上传对应的 actions
+ */
 export const uploadActions = {
-  /**上传单个图片 */
+  /**
+   * 上传单个图片
+   */
   singleImage: import.meta.env.VITE_BASE_API + '/upload',
+
+  /**
+   * 上传多个图片
+   */
+  multipleImages: import.meta.env.VITE_BASE_API + '/upload/images',
+
+  /**
+   * 上传单个文件
+   */
+  singleFile: import.meta.env.VITE_BASE_API + '/upload/file/single',
+
+  /**
+   * 上传多个文件
+   */
+  multipleFiles: import.meta.env.VITE_BASE_API + '/upload/files',
+
+  /**
+   * 上传头像
+   */
+  avatar: import.meta.env.VITE_BASE_API + '/upload/avatar',
+
+  /**
+   * 上传视频
+   */
+  video: import.meta.env.VITE_BASE_API + '/upload/video',
+
+  /**
+   * 上传音频
+   */
+  audio: import.meta.env.VITE_BASE_API + '/upload/audio',
 }
+
 const start = async () => {
   const { open } = await loading()
   // NProgress.start()
