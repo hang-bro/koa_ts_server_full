@@ -26,6 +26,7 @@
 <script lang="ts" setup>
 import { Plus } from '@element-plus/icons-vue'
 import { useStore } from '@/hooks/useStore'
+import { uploadActions } from '@/http/axios'
 
 const fileList = ref([])
 
@@ -36,7 +37,7 @@ interface IProps {
   limit?: number
 }
 const props = withDefaults(defineProps<IProps>(), {
-  action: import.meta.env.VITE_BASE_URL + '/api/upload',
+  action: uploadActions.singleImage,
   limit: 1,
 })
 

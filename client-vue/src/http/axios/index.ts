@@ -11,7 +11,7 @@ import 'nprogress/nprogress.css'
 import userStore from '@/store/user'
 
 const instance = axios.create({
-  // baseURL: import.meta.env.VITE_BASE_API,//跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
+  baseURL: import.meta.env.VITE_BASE_API, //跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
   // baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 300000, //设置超时
   responseType: 'json',
@@ -21,6 +21,11 @@ const instance = axios.create({
   },
 })
 
+/**上传对应的actions */
+export const uploadActions = {
+  /**上传单个图片 */
+  singleImage: import.meta.env.VITE_BASE_API + '/upload',
+}
 const start = async () => {
   const { open } = await loading()
   // NProgress.start()
@@ -58,6 +63,8 @@ instance.interceptors.response.use(
     return { data: res.data } as AxiosResponse
   },
   async (e: AxiosError) => {
+    console.log(e)
+
     await end()
     // 判断是否服务器端返回的错误
     if (e.response?.data) {

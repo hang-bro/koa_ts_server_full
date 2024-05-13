@@ -52,6 +52,7 @@ export default function useList<T>(url: string, queryParam?: { [props: string]: 
       http
         .get<T>(url, params)
         .then((res) => {
+          console.log(`res ==>`,JSON.parse(JSON.stringify(res)));
           list.value = res.data.data || ([] as T)
           total.value = res.data.total || 0
           resolve()

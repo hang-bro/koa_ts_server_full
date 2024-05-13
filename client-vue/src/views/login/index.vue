@@ -83,11 +83,11 @@ const checked = ref(true)
 const login = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      http.post<UserInfo>('/api/login', loginForm).then((res) => {
+      http.post<UserInfo>('/login', loginForm).then((res) => {
         const { data } = res
         store.setToken(data.token)
-        store.getInfo(data.token).then((res) => {
-          console.log(`res ==>`,JSON.parse(JSON.stringify(res)));
+        http.get('/login/getInfo').then((res) => {
+          console.log(`res ==>`, JSON.parse(JSON.stringify(res)))
           router.push({ name: 'dashboard', replace: true })
         })
       })

@@ -27,9 +27,7 @@ const userStore = defineStore('userStore', {
     setToken(token: string) {
       this.token = token
     },
-    getInfo(token: string) {
-      return http.get('/getInfo?token=' + token)
-    },
+   
   },
   /**pinia持久化方式 */
   persist: {

@@ -26,8 +26,9 @@ export default defineConfig(({ command, mode, ssrBuild }) => {
     plugins: usePlugin(isProduction),
     server: {
       proxy: {
-        '/api': {
-          target: env.VITE_BASE_URL + '/api',
+        /** '/api' */
+        [env.VITE_BASE_API]: {
+          target: env.VITE_BASE_URL,/**http://192.168.5.240:2335 */
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ''),
         },

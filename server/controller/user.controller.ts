@@ -14,24 +14,25 @@ import joi from 'joi'
 import { Context } from 'koa'
 
 // 添加Controller前缀
-@Controller('/api/users')
+@Controller('/api/user')
 export default class userController {
-  @NoAuth('/api/users')
+  @NoAuth('/api/user')
   @Get('', '获取用户')
   /**获取用户 */
   async get(ctx: Context) {
-    const { data, total, error } = await userService.getList(useQuery(ctx))
+    return response.success(ctx,[])
+    // const { data, total, error } = await userService.getList(useQuery(ctx))
 
-    // if (error) return response.error(ctx,'查询出错,请检查参数!')
-    if (error) return response.page(ctx)
+    // // if (error) return response.error(ctx,'查询出错,请检查参数!')
+    // if (error) return response.page(ctx)
 
-    /**
-     * 密码不回显
-     */
-    data.forEach(item => delete item.password)
-    // const sleep = () => new Promise<void>((resolve, reject) => setTimeout(resolve, 10000))
-    // await sleep()
-    return response.page(ctx, { data, total })
+    // /**
+    //  * 密码不回显
+    //  */
+    // data.forEach(item => delete item.password)
+    // // const sleep = () => new Promise<void>((resolve, reject) => setTimeout(resolve, 10000))
+    // // await sleep()
+    // return response.page(ctx, { data, total })
   }
   @Post('/seed', '填充用户（开发环境才可使用）')
   /**获取用户 */
