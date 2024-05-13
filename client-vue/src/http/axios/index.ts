@@ -58,31 +58,37 @@ instance.interceptors.response.use(
     return { data: res.data } as AxiosResponse
   },
   async (e: AxiosError) => {
-    const { message, statusCode, error } = e.response?.data as IServerError
     await end()
-    // switch (statusCode) {
-    //   case 4001: //未认证 token失效
-    //     // case 5001: //未认证 token失效
-    //     router.push({
-    //       path: '/login',
-    //     })
-    //     break
-    //   default:
-    //     break
-    // }
-    const toHtml = (arr: string[]) => {
-      let html = `<div>`
-      arr.map((m) => {
-        html += `<div>${m}</div>`
+    // 判断是否服务器端返回的错误
+    if (e.response?.data) {
+      const { message, statusCode, error } = e.response?.data as IServerError
+      // switch (statusCode) {
+      //   case 4001: //未认证 token失效
+      //     // case 5001: //未认证 token失效
+      //     router.push({
+      //       path: '/login',
+      //     })
+      //     break
+      //   default:
+      //     break
+      // }
+      const toHtml = (arr: string[]) => {
+        let html = `<div>`
+        arr.map((m) => {
+          html += `<div>${m}</div>`
+        })
+        html += '</div>'
+        return html
+      }
+      ElNotification.error({
+        title: error,
+        dangerouslyUseHTMLString: true,
+        message: Array.isArray(message) ? toHtml(message) : message,
       })
-      html += '</div>'
-      return html
+    } else {
+      ElNotification.error({ message: e.message })
     }
-    ElNotification.error({
-      title: error,
-      dangerouslyUseHTMLString: true,
-      message: Array.isArray(message) ? toHtml(message) : message,
-    })
+
     return { data: {} }
   },
 )
