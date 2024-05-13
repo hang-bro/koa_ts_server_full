@@ -38,7 +38,7 @@
         <el-form-item>
           <div class="flex w-full justify-between">
             <div><input type="checkbox" :checked="checked" /><span class="ml-2">记住密码</span></div>
-            <a href="#resetPwd" class="text-[#1e80ff] font-bold">忘记密码?</a>
+            <a href="#forgetPassword" class="text-[#1e80ff] font-bold">忘记密码?</a>
           </div>
         </el-form-item>
         <el-form-item>
@@ -47,7 +47,7 @@
         <el-form-item>
           <div class="text-sm text-gray-500">
             没有账号?
-            <a href="#regist" class="font-semibold leading-6 text-indigo-600"> 点击注册 </a>
+            <a href="#register" class="font-semibold leading-6 text-indigo-600"> 点击注册 </a>
           </div>
         </el-form-item>
       </el-form>

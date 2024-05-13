@@ -43,17 +43,17 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-    path: '/resetPwd',
-    name: 'resetPwd',
-    component: () => import('@/views/login/resetPwd.vue'),
+    path: '/forgetPassword',
+    name: 'forgetPassword',
+    component: () => import('@/views/login/forgetPassword.vue'),
     meta: {
       title: '重置密码',
     },
   },
   {
-    path: '/regist',
-    name: 'regist',
-    component: () => import('@/views/login/regist.vue'),
+    path: '/register',
+    name: 'register',
+    component: () => import('@/views/login/register.vue'),
     meta: {
       title: '注册',
     },
