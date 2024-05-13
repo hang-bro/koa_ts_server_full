@@ -9,9 +9,9 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import 'nprogress/nprogress.css'
 
 import userStore from '@/store/user'
-
+const baseURL = import.meta.env.VITE_BASE_URL + import.meta.env.VITE_BASE_API
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL + import.meta.env.VITE_BASE_API, //跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
+  baseURL, //跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
   timeout: 300000, //设置超时
   responseType: 'json',
   withCredentials: true,
@@ -27,37 +27,37 @@ export const uploadActions = {
   /**
    * 上传单个图片
    */
-  singleImage: import.meta.env.VITE_BASE_API + '/upload',
+  singleImage: baseURL + '/upload',
 
   /**
    * 上传多个图片
    */
-  multipleImages: import.meta.env.VITE_BASE_API + '/upload/images',
+  multipleImages: baseURL + '/upload/images',
 
   /**
    * 上传单个文件
    */
-  singleFile: import.meta.env.VITE_BASE_API + '/upload/file/single',
+  singleFile: baseURL + '/upload/file/single',
 
   /**
    * 上传多个文件
    */
-  multipleFiles: import.meta.env.VITE_BASE_API + '/upload/files',
+  multipleFiles: baseURL + '/upload/files',
 
   /**
    * 上传头像
    */
-  avatar: import.meta.env.VITE_BASE_API + '/upload/avatar',
+  avatar: baseURL + '/upload/avatar',
 
   /**
    * 上传视频
    */
-  video: import.meta.env.VITE_BASE_API + '/upload/video',
+  video: baseURL + '/upload/video',
 
   /**
    * 上传音频
    */
-  audio: import.meta.env.VITE_BASE_API + '/upload/audio',
+  audio: baseURL + '/upload/audio',
 }
 
 const start = async () => {
