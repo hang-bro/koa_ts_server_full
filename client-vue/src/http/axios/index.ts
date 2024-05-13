@@ -4,15 +4,12 @@
  * @LastEditors: HYH
  * @LastEditTime: 2023-07-06 21:20:53
  */
-import axios, { AxiosError, AxiosResponse } from 'axios'
-import NProgress from 'nprogress'
-import 'nprogress/nprogress.css'
 import { loading } from '@/components/loading'
+import axios, { AxiosError, AxiosResponse } from 'axios'
+import 'nprogress/nprogress.css'
 
 import userStore from '@/store/user'
-import { storeToRefs } from 'pinia'
-import router from '@/router'
-const { token } = storeToRefs(userStore())
+
 const instance = axios.create({
   // baseURL: import.meta.env.VITE_BASE_API,//跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
   // baseURL: import.meta.env.VITE_BASE_URL,
@@ -39,7 +36,7 @@ const end = async () => {
 //设置请求拦截器
 instance.interceptors.request.use(
   async (config) => {
-    config.headers['authorization'] = token.value
+    config.headers['authorization'] = userStore().token
     await start()
     return config
   },
