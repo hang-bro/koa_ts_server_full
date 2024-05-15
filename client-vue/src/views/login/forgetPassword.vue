@@ -79,7 +79,7 @@ const sendEmailCode = async () => {
   }
   state.btnName = '发送中...'
   state.btnDisabled = true
-  http.post<UserModel>('/api/forgetPassword/sendEmailCode', { email: form.email }).then((res) => {
+  http.post<UserModel>('/user/getEmailCode', { email: form.email }).then((res) => {
     const { code, message } = res
     if (code === 200) {
       ElMessage.success(message)
@@ -110,7 +110,7 @@ function codeTimer() {
 const reset = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      http.post<UserModel>('/api/forgetPassword', form).then((res) => {
+      http.post<UserModel>('/user/forgetPassword', form).then((res) => {
         const { code, message } = res
         if (code === 200) {
           ElMessage.success(message)

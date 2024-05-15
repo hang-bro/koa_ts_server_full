@@ -9,6 +9,7 @@ import axios, { AxiosError, AxiosResponse } from 'axios'
 import 'nprogress/nprogress.css'
 
 import userStore from '@/store/user'
+import router from '@/router'
 const baseURL = import.meta.env.VITE_BASE_URL + import.meta.env.VITE_BASE_API
 const instance = axios.create({
   baseURL, //跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
@@ -103,16 +104,7 @@ instance.interceptors.response.use(
     // 判断是否服务器端返回的错误
     if (e.response?.data) {
       const { message, statusCode, error } = e.response?.data as IServerError
-      // switch (statusCode) {
-      //   case 4001: //未认证 token失效
-      //     // case 5001: //未认证 token失效
-      //     router.push({
-      //       path: '/login',
-      //     })
-      //     break
-      //   default:
-      //     break
-      // }
+
       const toHtml = (arr: string[]) => {
         let html = `<div>`
         arr.map((m) => {
@@ -126,6 +118,13 @@ instance.interceptors.response.use(
         dangerouslyUseHTMLString: true,
         message: Array.isArray(message) ? toHtml(message) : message,
       })
+      switch (statusCode) {
+        case 401: //未认证 token失效
+          router.push('/login')
+          break
+        default:
+          break
+      }
     } else {
       ElNotification.error({ message: e.message })
     }

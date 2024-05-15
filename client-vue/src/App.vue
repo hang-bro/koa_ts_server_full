@@ -14,7 +14,12 @@ import zhCn from 'element-plus/lib/locale/lang/zh-cn'
 import Layout from '@/components/layout/index.vue'
 import { useStore } from './hooks/useStore'
 import { ElNotification } from 'element-plus'
+import userStore from '@/store/user'
+import { http } from './http'
+import router from './router'
 const locale = ref(zhCn)
+
+const store = userStore()
 
 // onBeforeMount(() => {
 //   if (!import.meta.env.DEV) {
@@ -32,6 +37,7 @@ onMounted(() => {
   useStore((store) => {
     document.documentElement.classList.add(store.config.theme || 'light')
   })
+  http.get<UserInfo>('/login/getInfo').then((res) => store.setInfo(res.data))
 })
 
 onErrorCaptured((err) => {

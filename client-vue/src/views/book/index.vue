@@ -46,7 +46,7 @@ const getBook = (name: string) => {
     })
 }
 onMounted(() => {
-  http.get<any>('/api/patch/patchBookList').then((res) => {
+  http.get<any>('/patch/patchBookList').then((res) => {
     bookList.value = res.data
   })
 })

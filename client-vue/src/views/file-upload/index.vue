@@ -66,7 +66,7 @@ function submitUpload(index?: number /* 当前片下标 */) {
   const formData = new FormData()
   formData.append('file', blobFile)
   http
-    .upload('/api/upload/slice', formData,)
+    .upload('/upload/slice', formData,)
     .then(res => {
       console.log(res)
       state.percentage = (start / file.size) * 100
@@ -76,7 +76,7 @@ function submitUpload(index?: number /* 当前片下标 */) {
     })
 
   function merge(name: string) {
-    http.post('/api/upload/merge', { name }).then(res => {
+    http.post('/upload/merge', { name }).then(res => {
       console.log(res)
     })
   }

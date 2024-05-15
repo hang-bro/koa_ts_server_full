@@ -76,7 +76,7 @@ const rules = reactive<any>({
 const regist = () => {
   formRef.value.validate((valid) => {
     if (valid) {
-      http.post<UserModel>('/api/register', form).then((res) => {
+      http.post<UserModel>('/user/register', form).then((res) => {
         const { code, message } = res
         if (code === 200) {
           ElMessage.success(message)
@@ -95,7 +95,7 @@ const sendEmailCode = async () => {
   }
   state.btnName = '发送中...'
   state.btnDisabled = true
-  http.post<UserModel>('/api/register/sendEmailCode', { email: form.email }).then((res) => {
+  http.post<UserModel>('/user/getEmailCode', { email: form.email }).then((res) => {
     const { code, message } = res
     if (code === 200) {
       ElMessage.success(message)

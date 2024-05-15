@@ -9,15 +9,10 @@
     <CURD ref="CURDRef" :api="API" :queryParam="{ orderBy: 'createdAt', orderSort: 'asc' }">
       <template #search="{ query, getList }">
         <el-form-item>
-          <el-input
-            style="width: 200px"
-            @keyup.enter="getList"
-            placeholder="用户名"
-            v-model="query.username"
-            clearable />
+          <el-input style="width: 200px" @keyup.enter="getList" placeholder="名称" v-model="query.name" clearable />
         </el-form-item>
         <el-form-item>
-          <el-input style="width: 200px" @keyup.enter="getList" placeholder="邮箱" v-model="query.email" clearable />
+          <el-input style="width: 200px" @keyup.enter="getList" placeholder="备注" v-model="query.remark" clearable />
         </el-form-item>
       </template>
       <template #buttons="{ tableCheck, handleDelete }">
@@ -27,52 +22,25 @@
       <template #table="{ handleDelete, viewImg, errorImg }">
         <el-table-column type="selection" align="center" width="55" />
         <el-table-column type="index" align="center" label="序号" width="70" />
-        <el-table-column show-overflow-tooltip align="center" prop="id" label="id">
+        <el-table-column show-overflow-tooltip align="center" prop="id" label="id" width="170">
           <template #default="{ row }">
-            <!-- <span v-copy="row.id" class="cursor-pointer hover:text-primary"> {{ row.id }}</span> -->
             <Copy :value="row.id" size="mini" />
           </template>
         </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" prop="username" label="用户名" />
-        <el-table-column show-overflow-tooltip align="center" prop="avatar" label="头像">
-          <template #default="{ row }">
-            <el-avatar
-              class="cursor-pointer"
-              shape="square"
-              fit="cover"
-              :size="40"
-              :src="row.avatar"
-              @click="viewImg({ url: row.avatar })"
-              @error="() => true">
-              <img :src="errorImg" />
-            </el-avatar>
-          </template>
-        </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" prop="email" label="邮箱">
-          <template #default="{ row }">
-            <span v-copy="row.email" class="cursor-pointer hover:text-primary"> {{ row.email }}</span>
-          </template>
-        </el-table-column>
+
+        <el-table-column show-overflow-tooltip align="center" prop="name" label="名称" />
+        <el-table-column show-overflow-tooltip align="center" prop="remark" label="备注" />
+
         <el-table-column show-overflow-tooltip align="center" label="注册时间">
           <template #default="{ row }">
             {{ dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss') }}
-          </template>
-        </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" prop="address" label="地址" />
-        <el-table-column show-overflow-tooltip align="center" prop="roleId" label="角色">
-          <template #default="{ row }">
-            {{ row.role }}
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" width="200">
           <template #default="{ row }">
             <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button>
             <el-button @click="handleEdit(row)" link type="warning">编辑</el-button>
-            <el-popconfirm icon-color="#626AEF" title="确认重置密码?" @confirm="resetPwd(row.id)">
-              <template #reference>
-                <el-button link type="success">重置密码</el-button>
-              </template>
-            </el-popconfirm>
+            <el-button @click="handleSetPermission(row)" link type="warning">分配权限</el-button>
           </template>
         </el-table-column>
       </template>
@@ -97,11 +65,6 @@
         <el-form-item label="年龄" prop="age">
           <el-input type="number" v-model.number="form.age" autocomplete="off" />
         </el-form-item>
-        <!-- <el-form-item label="角色" prop="roleId">
-          <el-select style="width: 100%" v-model="form.roleId" placeholder="请选择">
-            <el-option v-for="item in roleList" :key="item.id" :label="item.username" :value="item.id" />
-          </el-select>
-        </el-form-item> -->
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -133,7 +96,7 @@ export interface IUser {
   sex: number
 }
 
-const API = ref('/user')
+const API = ref('/role')
 
 const formRef = ref<FormInstance>()
 
@@ -237,6 +200,7 @@ const resetForm = () => {
   Object.keys(form).forEach((key) => (form[key] = ''))
 }
 
+const handleSetPermission = (row: IUser) => {}
 const handleEdit = (row: IUser) => {
   Object.keys(row).forEach((key) => (form[key] = row[key]))
   state.showName = 'edit'
