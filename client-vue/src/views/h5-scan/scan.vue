@@ -254,7 +254,6 @@ export default {
   display: inline-block;
   height: 24px;
   width: 24px;
-  background: url('../assets/close.png') no-repeat center;
   background-size: auto 100%;
   position: absolute;
   right: 8px;

@@ -1,11 +1,21 @@
 <template>
   <main class="w-full h-full overflow-auto no-scroll">
+    <SourceCode v-model:show="sourceCode.show" :codePath="sourceCode.codePath" />
     <header class="z-10 bg-gray-300 mb-5 p-4 text-xl font-bold sticky top-0">
-      directives(指令) 代码地址==> <span class="text-gray-500">'@/directives/module'</span>
+      directives(指令) 代码地址==>
+      <span class="text-gray-500">'@/directives/module'</span>
     </header>
     <!-- resize -->
     <section>
-      <header>resize 代码地址==> '@/directives/module/resize'</header>
+      <header
+        @click="
+          () => {
+            sourceCode.show = true
+            sourceCode.codePath = '/src/directives/module/resize.ts'
+          }
+        ">
+        resize 代码地址==> '@/directives/module/resize'
+      </header>
       <div class="p-4 bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded" v-resize="handleResize">
         resize (改变浏览器大小可触发)
       </div>
@@ -99,9 +109,16 @@
 <script lang="ts" setup>
 import { ElMessage } from 'element-plus'
 import { Copy } from '@icon-park/vue-next'
+import SourceCode from '@/components/sourceCode/index.vue'
+
 const fn = (direction: string) => {
   console.log(`direction ==>`, direction)
 }
+const sourceCode = reactive({
+  show: false,
+  codePath: '',
+})
+
 const resizeInfo = ref()
 const focusValue = ref()
 const copyValue = ref('copy')

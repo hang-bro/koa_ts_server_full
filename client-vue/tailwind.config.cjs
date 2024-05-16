@@ -11,7 +11,7 @@ import { createVariableColors, variableColorsPlugin } from 'tailwindcss-variable
 module.exports = {
   darkMode: 'class',
   content: ['./src/**/*.{vue,js,ts,tsx}', './index.html'],
-  plugins: [variableColorsPlugin(colors)],
+  // plugins: [variableColorsPlugin(colors)],
   corePlugins: {
     preflight: false,
   },
@@ -25,7 +25,7 @@ module.exports = {
         "success": "#36d399",
         "warning": "#fbbd23",
         "error": "#f87272",
-        ...createVariableColors(colors)
+        // ...createVariableColors(colors)
       }
     }
   },

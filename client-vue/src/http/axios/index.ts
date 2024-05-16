@@ -1,9 +1,3 @@
-/*
- * @Description:
- * @Author: HYH
- * @LastEditors: HYH
- * @LastEditTime: 2023-07-06 21:20:53
- */
 import { loading } from '@/components/loading'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import 'nprogress/nprogress.css'

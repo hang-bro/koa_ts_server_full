@@ -97,7 +97,6 @@ export default {
   display: inline-block;
   height: 22px;
   width: 22px;
-  background: url('../assets/back.png') no-repeat center;
   background-size: auto 100%;
   position: absolute;
   left: 16px;

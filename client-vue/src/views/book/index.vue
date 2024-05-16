@@ -34,16 +34,7 @@ useKeyDown((e) => {
 })
 
 const getBook = (name: string) => {
-  http
-    .get<any>(
-      `${import.meta.env.VITE_BASE_URL}/download/book/求求你们让朕当个昏君吧/${name}`,
-      {},
-      { responseType: 'text' },
-    )
-    .then((res) => {
-      html.value = res
-      scrollTop()
-    })
+  
 }
 onMounted(() => {
   http.get<any>('/patch/patchBookList').then((res) => {

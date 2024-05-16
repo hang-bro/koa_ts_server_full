@@ -5,13 +5,13 @@
       <div class="loading-item" v-for="item in data">
         <component :is="item.name" />
       </div>
+      
     </section>
   </main>
 </template>
 <script lang="ts" setup>
 import loading from '@/components/loading/index'
 const data = await loading()
-console.log(`data ==>`, data)
 </script>
 <style lang="scss" scoped>
 .loading-item {

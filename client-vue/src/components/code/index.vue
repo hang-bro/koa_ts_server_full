@@ -1,10 +1,11 @@
 <template>
   <div>
-    <pre class="cursor-pointer" data-copy-clipboard-button-label="复制"><code
-      data-copy-clipboard-button-label="复制" contenteditable="true" :class="classNames">{{ html }}</code></pre>
+    <pre class="cursor-pointer"><code
+       contenteditable="true" :class="classNames">{{ html }}</code></pre>
   </div>
 </template>
 <script lang="ts" setup>
+import prims from 'prismjs'
 const props = withDefaults(
   defineProps<{
     html: string
@@ -18,6 +19,10 @@ const props = withDefaults(
 const classNames = computed(() => {
   return `language-${props.language} line-numbers`
 })
-onMounted(() => {})
+onMounted(() => {
+  nextTick(() => {
+    prims.highlightAll()
+  })
+})
 </script>
 <style lang="scss" scoped></style>
