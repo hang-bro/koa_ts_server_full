@@ -24,11 +24,18 @@ import { SVG_PATH, TYPES_PATH } from './usePath'
 import { PluginOption } from 'vite'
 import { createStyleImportPlugin, ElementPlusResolve } from 'vite-plugin-style-import'
 
+import { prismjsPlugin } from 'vite-plugin-prismjs'
 export default (isProduction?: boolean): PluginOption[] => {
   return [
     vue(),
     setupExtend(),
     vueJsx(),
+    prismjsPlugin({
+      languages: 'all', // 语言
+      plugins: ['line-numbers', 'copy-to-clipboard'], //官网有其他功能,这里开启行数和复制按钮功能
+      theme: 'coy', // 主题
+      css: true,
+    }),
     createSvgIconsPlugin({
       // Specify the icon folder to be cached
       iconDirs: [SVG_PATH],

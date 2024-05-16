@@ -25,7 +25,7 @@
         <el-button plain type="danger" :disabled="tableCheck.length == 0" @click="handleDelete()">删 除</el-button>
       </template>
       <template #table="{ handleDelete, viewImg, errorImg }">
-        <el-table-column type="selection" align="center" width="55" />
+        <el-table-column type="selection" align="center" width="55" fixed="left" />
         <el-table-column type="index" align="center" label="序号" width="70" />
         <el-table-column show-overflow-tooltip align="center" prop="id" label="id">
           <template #default="{ row }">
@@ -48,23 +48,23 @@
             </el-avatar>
           </template>
         </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" prop="email" label="邮箱">
+        <el-table-column show-overflow-tooltip align="center" prop="email" label="邮箱" width="200">
           <template #default="{ row }">
             <span v-copy="row.email" class="cursor-pointer hover:text-primary"> {{ row.email }}</span>
           </template>
         </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" label="注册时间">
+        <el-table-column show-overflow-tooltip align="center" label="注册时间" width="200">
           <template #default="{ row }">
             {{ dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss') }}
           </template>
         </el-table-column>
         <el-table-column show-overflow-tooltip align="center" prop="address" label="地址" />
-        <el-table-column show-overflow-tooltip align="center" prop="roleId" label="角色">
+        <el-table-column show-overflow-tooltip align="center" prop="role" label="角色">
           <template #default="{ row }">
             {{ row.role }}
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" width="200">
+        <el-table-column label="操作" align="center" width="200" fixed="right">
           <template #default="{ row }">
             <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button>
             <el-button @click="handleEdit(row)" link type="warning">编辑</el-button>
@@ -97,11 +97,11 @@
         <el-form-item label="年龄" prop="age">
           <el-input type="number" v-model.number="form.age" autocomplete="off" />
         </el-form-item>
-        <!-- <el-form-item label="角色" prop="roleId">
-          <el-select style="width: 100%" v-model="form.roleId" placeholder="请选择">
-            <el-option v-for="item in roleList" :key="item.id" :label="item.username" :value="item.id" />
+        <el-form-item label="角色" prop="role">
+          <el-select style="width: 100%" v-model="form.role" placeholder="请选择">
+            <el-option v-for="item in roleList" :key="item.id" :label="item.name" :value="item.key" />
           </el-select>
-        </el-form-item> -->
+        </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
@@ -156,7 +156,7 @@ const rules = reactive({
   avatar: useValidate.pleaseSelect,
   email: useValidate.email,
   password: useValidate.password,
-  roleId: useValidate.pleaseSelect,
+  role: useValidate.pleaseSelect,
 })
 
 interface IState {
@@ -207,12 +207,7 @@ const handleSubmit = () => {
 }
 
 const getRoleList = () => {
-  // http.get<any>('/api/role').then((res) => {
-  //   const { code, data } = res
-  //   if (code === 200) {
-  //     roleList.value = data
-  //   }
-  // })
+  http.get<any>('/role').then((res) => (roleList.value = res.data.data))
 }
 
 const resetPwd = (userId: string) => {

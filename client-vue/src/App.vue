@@ -37,7 +37,7 @@ onMounted(() => {
   useStore((store) => {
     document.documentElement.classList.add(store.config.theme || 'light')
   })
-  http.get<UserInfo>('/login/getInfo').then((res) => store.setInfo(res.data))
+  // http.get<UserInfo>('/login/getInfo').then((res) => store.setInfo(res.data))
 })
 
 onErrorCaptured((err) => {

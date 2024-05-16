@@ -118,6 +118,7 @@ instance.interceptors.response.use(
         dangerouslyUseHTMLString: true,
         message: Array.isArray(message) ? toHtml(message) : message,
       })
+      userStore().lastVisitPath = router.currentRoute.value.name as string
       switch (statusCode) {
         case 401: //未认证 token失效
           router.push('/login')

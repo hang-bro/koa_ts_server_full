@@ -21,10 +21,10 @@
   </main>
 </template>
 <script lang="ts" setup>
-import { http } from '@/http';
+import { http } from '@/http'
 import type { UploadInstance } from 'element-plus'
 const state = reactive({
-  percentage: 0
+  percentage: 0,
 })
 const colors = [
   { color: '#f56c6c', percentage: 20 },
@@ -65,18 +65,16 @@ function submitUpload(index?: number /* 当前片下标 */) {
 
   const formData = new FormData()
   formData.append('file', blobFile)
-  http
-    .upload('/upload/slice', formData,)
-    .then(res => {
-      console.log(res)
-      state.percentage = (start / file.size) * 100
-      index += 1
-      // 递归分片上传
-      setTimeout(() => submitUpload(index), 200)
-    })
+  http.upload('/upload/slice', formData).then((res) => {
+    console.log(res)
+    state.percentage = (start / file.size) * 100
+    index += 1
+    // 递归分片上传
+    setTimeout(() => submitUpload(index), 200)
+  })
 
   function merge(name: string) {
-    http.post('/upload/merge', { name }).then(res => {
+    http.post('/upload/merge', { name }).then((res) => {
       console.log(res)
     })
   }

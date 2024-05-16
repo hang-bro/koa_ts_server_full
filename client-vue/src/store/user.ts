@@ -21,6 +21,8 @@ const userStore = defineStore('userStore', {
     role: '',
     /**是否经过引导 */
     isIntroduced: false,
+    /**上次访问的路径 */
+    lastVisitPath:''
   }),
   actions: {
     /**设置信息 */

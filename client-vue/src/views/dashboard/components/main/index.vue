@@ -14,7 +14,7 @@
             class="font-bold text-3xl text-black rounded-md overflow-hidden"
             :style="useRandomBg()"
             v-for="item in imgs">
-            <img loading="lazy" class="w-full h-full object-cover" :src="item" alt="" />
+            <img loading="lazy" class="w-full h-full object-cover" :src="item.url" alt="" />
           </SwiperItme>
         </Swiper>
       </div>
@@ -33,8 +33,8 @@ const imgs = ref([])
 onMounted(() => {
   mainRef.value.addEventListener('animationend', function () {
     console.log(`css3运动结束！ ==>`)
-    http.get<any>('/api/patch/patchList').then((res) => {
-      imgs.value = res.data.map((i) => `${import.meta.env.VITE_BASE_URL}/download/hotPic/${i}`)
+    http.get<any>('/user/bannerList').then((res) => {
+      imgs.value = res.data
     })
   })
 })

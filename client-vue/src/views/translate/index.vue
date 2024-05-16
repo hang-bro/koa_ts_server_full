@@ -8,45 +8,40 @@
       <div class="flex gap-2">
         <div class="flex-1">
           <div class="text-3xl m-2">JP</div>
-          <div
-            contenteditable="true"
-            class="whitespace-pre-wrap border border-success rounded-xl p-5 cursor-pointer outline-none"
-            v-html="state.result.jp"></div>
+          <Code language="json" :html="state.result.ja" />
         </div>
         <div class="flex-1">
           <div class="text-3xl m-2">En</div>
-          <div
-            contenteditable="true"
-            class="flex-1 whitespace-pre-wrap border border-success rounded-xl p-5 cursor-pointer outline-none"
-            v-html="state.result.en"></div>
+          <Code language="json" :html="state.result.en" />
         </div>
       </div>
     </section>
   </main>
 </template>
 <script lang="ts" setup>
-import { useStore } from '@/hooks/useStore'
 import { http } from '@/http'
+import Prism from 'prismjs'
 import { reactive } from 'vue'
+import Code from '../../components/code/index.vue'
 const state = reactive({
   input: '{\n\n}',
   result: {
-    jp: '',
+    ja: '',
     en: '',
   },
 })
 
-const handleTranslate = (isDev = false) => {
+const handleTranslate = (isTest = false) => {
   if (!state.input) return Message.error('请输入json数据!')
-  const cleaned = state.input.replace(/\/\*\*[\s\S]*?\*\//g, '')
-  // console.log(`cleaned ==>`,cleaned);
-  const json = eval(`(()=>{const obj=${cleaned};return obj;})()`)
-  console.log(`json ==>`, json)
-  http.post<any>('/api/translate', { input: json, isDev }).then((res) => {
-    console.log(`res ==>`, res)
+  const json = eval(`(()=>{const obj=${state.input.replace(/\/\*\*[\s\S]*?\*\//g, '')};return obj;})()`)
+  http.post<any>('/translate', { inputObj: json, isTest }).then((res) => {
     state.result.en = res.data.enTrans
-    state.result.jp = res.data.jpTrans
+    state.result.ja = res.data.jaTrans
   })
 }
+
+onMounted(() => {
+  Prism.highlightAll() // 切换更
+})
 </script>
 <style lang="scss" scoped></style>
