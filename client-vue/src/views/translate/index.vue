@@ -1,10 +1,11 @@
 <template>
   <main class="w-full h-full p-5">
+    <section class="mb-5 text-2xl bg-slate-200 font-bold p-3">输入json数据并返回json</section>
     <section>
-      <el-input v-model="state.input" :autosize="{ minRows: 4 }" type="textarea" />
+      <el-input v-model="state.input" class="!text-lg" :autosize="{ minRows: 7 }" type="textarea" />
       <el-button type="primary" plain class="my-3" @click="handleTranslate(true)">测试</el-button>
-      <el-button type="primary" plain class="my-3" @click="handleTranslate()">翻译</el-button>
-      <h1>结果</h1>
+      <el-button type="danger" plain class="my-3" @click="handleTranslate()">翻译</el-button>
+      <section class="mb-5 text-2xl bg-slate-200 font-bold p-3">结果</section>
       <div class="flex gap-2">
         <div class="flex-1">
           <div class="text-3xl m-2">JP</div>
@@ -24,7 +25,7 @@ import Prism from 'prismjs'
 import { reactive } from 'vue'
 import Code from '../../components/code/index.vue'
 const state = reactive({
-  input: '{\n\n}',
+  input: '{\n  "测试":"测试",\n}',
   result: {
     ja: '',
     en: '',

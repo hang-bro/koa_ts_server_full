@@ -88,7 +88,7 @@ const login = () => {
         store.setToken(data.token)
         http.get<UserInfo>('/login/getInfo').then((res) => {
           store.setInfo(res.data)
-          router.push({ name: store.lastVisitPath || '/dashboard', replace: true })
+          router.push({ path: store.lastVisitPath || '/dashboard', replace: true })
         })
       })
     }
