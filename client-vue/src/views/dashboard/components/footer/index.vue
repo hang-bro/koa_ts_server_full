@@ -20,11 +20,9 @@ const state = reactive({
   from: '',
 })
 const getText = () => {
-  http.get<any>('https://v1.hitokoto.cn/').then((res: any) => {
-    // console.log(`res ==>`, res)
-    state.text = res.hitokoto
-    state.from = (res.from_who || '') + '-' + res.from
-    // console.log(`state ==>`, state)
+  http.get<any>('/hitokoto').then((res: any) => {
+    state.text = res.data.hitokoto
+    state.from = (res.data.from_who || '') + '-' + res.data.from
   })
 }
 
