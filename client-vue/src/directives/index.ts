@@ -5,6 +5,7 @@
  * @LastEditTime: 2023-05-29 15:36:28
  */
 import { App, Directive, Plugin } from 'vue'
+
 /**复制内容到剪贴板 */
 import copy from './module/copy'
 /**千分符显示数字 */

@@ -10,6 +10,7 @@ import Svg from '@/components/Svg/index.vue'
 import CURD from '@/components/CURD/index.vue'
 import Copy from '@/components/Copy/index.vue'
 import ScrollBox from '@/components/ScrollBox/index.vue'
+import { showSourceCode } from '../components/sourceCode/index'
 import ImageUpload from '@/components/ImageUpload/index.vue'
 import { ElMessage } from 'element-plus'
 
@@ -21,6 +22,7 @@ declare global {
 
   const dayjs: IDayJs
   const Message: typeof ElMessage
+  const showSourceCode: typeof showSourceCode
 }
 
 declare module 'vue' {
@@ -34,6 +36,7 @@ declare module 'vue' {
     ScrollBox: typeof ScrollBox
     ImageUpload: typeof ImageUpload
     Message: typeof ElMessage
+    showSourceCode: typeof showSourceCode
   }
 }
 

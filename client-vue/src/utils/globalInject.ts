@@ -8,9 +8,11 @@ import dayjs from '@/utils/dayjs'
 import { autoAnimatePlugin } from '@formkit/auto-animate/vue'
 import { App, Plugin } from 'vue'
 import { ElMessage } from 'element-plus'
+import { showSourceCode } from '@/components/sourceCode/index'
 const plugins = {
   dayjs,
   Message: ElMessage,
+  showSourceCode: showSourceCode,
 }
 
 /**注册指令 */
@@ -19,7 +21,6 @@ const globalInject: Plugin = {
     /** */
     app.use(autoAnimatePlugin)
     app.config.globalProperties.Message = ElMessage
-
 
     Object.keys(plugins).forEach((key) => {
       /**
