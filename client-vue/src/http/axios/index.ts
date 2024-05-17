@@ -115,7 +115,7 @@ instance.interceptors.response.use(
       userStore().lastVisitPath = router.currentRoute.value.path as string
       switch (statusCode) {
         case 401: //未认证 token失效
-          router.push('/login')
+          router.push({path:'/login',replace: true})
           break
         default:
           break

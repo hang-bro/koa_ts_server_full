@@ -37,7 +37,7 @@ const getSourceCode = computed(() => {
     eager: true,
     as: 'raw',
   })
-  console.log(`allFiles ==>`, allFiles)
+  // console.log(`allFiles ==>`, allFiles)
   return allFiles[codePath.value] || '```代码地址不存在```'
 })
 

@@ -6,7 +6,52 @@
 -->
 <template>
   <main class="w-full h-full">
-    <CURD ref="CURDRef" :api="API" :queryParam="{ orderBy: 'createdAt', orderSort: 'asc' }">
+    <el-button type="text" @click="viewImg('')">查看源码</el-button>
+    <el-table show-overflow-tooltip stripe :data="list" border style="width: 100%">
+      <el-table-column type="selection" align="center" width="55" fixed="left" />
+      <el-table-column type="index" align="center" label="序号" width="70" />
+      <el-table-column show-overflow-tooltip align="center" prop="id" label="id">
+        <template #default="{ row }">
+          <!-- <span v-copy="row.id" class="cursor-pointer hover:text-primary"> {{ row.id }}</span> -->
+          <Copy :value="row.id" size="mini" />
+        </template>
+      </el-table-column>
+      <el-table-column show-overflow-tooltip align="center" prop="username" label="用户名" />
+      <el-table-column show-overflow-tooltip align="center" prop="avatar" label="头像">
+        <template #default="{ row }">
+          <el-avatar class="cursor-pointer" shape="square" fit="cover" :size="40" :src="row.avatar" @error="() => true">
+          </el-avatar>
+        </template>
+      </el-table-column>
+      <el-table-column show-overflow-tooltip align="center" prop="email" label="邮箱" width="200">
+        <template #default="{ row }">
+          <span v-copy="row.email" class="cursor-pointer hover:text-primary"> {{ row.email }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column show-overflow-tooltip align="center" label="注册时间" width="200">
+        <template #default="{ row }">
+          {{ dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss') }}
+        </template>
+      </el-table-column>
+      <el-table-column show-overflow-tooltip align="center" prop="address" label="地址" />
+      <el-table-column show-overflow-tooltip align="center" prop="role" label="角色">
+        <template #default="{ row }">
+          {{ row.role }}
+        </template>
+      </el-table-column>
+      <el-table-column label="操作" align="center" width="200" fixed="right">
+        <template #default="{ row }">
+          <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button>
+          <el-button @click="handleEdit(row)" link type="warning">编辑</el-button>
+          <el-popconfirm icon-color="#626AEF" title="确认重置密码?" @confirm="resetPwd(row.id)">
+            <template #reference>
+              <el-button link type="success">重置密码</el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
+    <!--    <CURD ref="CURDRef" :api="API" :queryParam="{ orderBy: 'createdAt', orderSort: 'asc' }">
       <template #search="{ query, getList }">
         <el-form-item>
           <el-input
@@ -24,59 +69,10 @@
         <el-button plain type="primary" @click="handleAdd">新增</el-button>
         <el-button plain type="danger" :disabled="tableCheck.length == 0" @click="handleDelete()">删 除</el-button>
       </template>
-      <template #table="{ handleDelete, errorImg }">
-        <el-table-column type="selection" align="center" width="55" fixed="left" />
-        <el-table-column type="index" align="center" label="序号" width="70" />
-        <el-table-column show-overflow-tooltip align="center" prop="id" label="id">
-          <template #default="{ row }">
-            <!-- <span v-copy="row.id" class="cursor-pointer hover:text-primary"> {{ row.id }}</span> -->
-            <Copy :value="row.id" size="mini" />
-          </template>
-        </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" prop="username" label="用户名" />
-        <el-table-column show-overflow-tooltip align="center" prop="avatar" label="头像">
-          <template #default="{ row }">
-            <!-- @click="viewImg({ url: row.avatar })" -->
-            <el-avatar
-              class="cursor-pointer"
-              shape="square"
-              fit="cover"
-              :size="40"
-              :src="row.avatar"
-              @error="() => true">
-              <img :src="errorImg" />
-            </el-avatar>
-          </template>
-        </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" prop="email" label="邮箱" width="200">
-          <template #default="{ row }">
-            <span v-copy="row.email" class="cursor-pointer hover:text-primary"> {{ row.email }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" label="注册时间" width="200">
-          <template #default="{ row }">
-            {{ dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss') }}
-          </template>
-        </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" prop="address" label="地址" />
-        <el-table-column show-overflow-tooltip align="center" prop="role" label="角色">
-          <template #default="{ row }">
-            {{ row.role }}
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" align="center" width="200" fixed="right">
-          <template #default="{ row }">
-            <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button>
-            <el-button @click="handleEdit(row)" link type="warning">编辑</el-button>
-            <el-popconfirm icon-color="#626AEF" title="确认重置密码?" @confirm="resetPwd(row.id)">
-              <template #reference>
-                <el-button link type="success">重置密码</el-button>
-              </template>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
+      <template #table="{ handleDelete, viewImg, errorImg }">
+      
       </template>
-    </CURD>
+    </CURD>-->
     <el-dialog v-model="dialogVisible" :title="state.showName" width="500" draggable>
       <el-form ref="formRef" :model="form" status-icon :rules="rules" label-width="auto" class="demo-form">
         <el-form-item label="用户名" prop="username">
@@ -115,13 +111,14 @@
 </template>
 <script lang="ts" setup>
 import useValidate from '@/hooks/useValidate'
+import viewImg from '@/components/ViewImg/index'
 import { http } from '@/http'
 import type { FormInstance, UploadUserFile } from 'element-plus'
 import { ElMessage } from 'element-plus'
 const uploadRef = ref()
 
 const roleList = ref([])
-
+const list = ref([])
 export interface IUser {
   id: number
   username: string

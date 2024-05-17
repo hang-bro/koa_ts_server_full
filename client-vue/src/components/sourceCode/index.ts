@@ -16,7 +16,6 @@ export const showSourceCode = async (codePath: string, dialogProps: IDialogProps
     const { open, close } = vNode.component?.exposed
     open(codePath, dialogProps)
   }
-
   try {
     excuteFn()
   } catch (error) {
