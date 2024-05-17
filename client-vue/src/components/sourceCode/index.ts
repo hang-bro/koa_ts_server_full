@@ -10,8 +10,17 @@ export type IDialogProps = InstanceType<typeof ElDialog>['$props']
  *
  */
 export const showSourceCode = async (codePath: string, dialogProps: IDialogProps = {}) => {
-  const vNode = createVNode(Index)
-  render(vNode, document.body)
-  const { open, close } = vNode.component?.exposed
-  open(codePath, dialogProps)
+  const excuteFn = () => {
+    const vNode = createVNode(Index)
+    render(vNode, document.body)
+    const { open, close } = vNode.component?.exposed
+    open(codePath, dialogProps)
+  }
+
+  try {
+    excuteFn()
+  } catch (error) {
+    console.log(`error ==>`, error)
+    excuteFn()
+  }
 }

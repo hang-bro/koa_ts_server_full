@@ -13,12 +13,18 @@ const props = withDefaults(
     language?: string
   }>(),
   {
-    language: 'javascript',
+    language: 'ts',
   },
 )
 const classNames = computed(() => {
-  return `language-${props.language} line-numbers`
+  return `language-${props.language} line-numbers `
 })
+watch(
+  () => props.html,
+  (newCode) => {
+    // console.log(`newCode ==>`, newCode)
+  },
+)
 onMounted(() => {
   nextTick(() => {
     prims.highlightAll()

@@ -7,7 +7,7 @@
 <template>
   <main class="w-full h-full p-5">
     <!-- 搜索区域 -->
-    <section class="p-2 pl-0 hidden sm:block" v-show="showSearch">
+    <!-- <section class="p-2 pl-0 hidden sm:block" v-show="showSearch">
       <el-form ref="searchRef" :model="query" :inline="true" @submit.prevent>
         <slot name="search" :reset="reset" :query="query" :getList="getList"></slot>
         <el-form-item>
@@ -15,10 +15,10 @@
           <el-button type="info" @click="reset" :icon="Refresh">重置</el-button>
         </el-form-item>
       </el-form>
-    </section>
+    </section> -->
     <!-- 搜索区域 end-->
     <!-- 按钮区域 -->
-    <section class="mb-3 hidden sm:block">
+    <!-- <section class="mb-3 hidden sm:block">
       <div class="flex items-center justify-between">
         <section>
           <slot name="buttons" :getList="getList" :handleDelete="handleDelete" :tableCheck="tableCheck"></slot>
@@ -34,10 +34,10 @@
           </el-tooltip>
         </section>
       </div>
-    </section>
+    </section> -->
     <!-- 按钮区域 end -->
     <!-- 表格区域 -->
-    <el-table
+    <!-- <el-table
       show-overflow-tooltip
       v-loading="loading"
       :max-height="scrollHeight - 230"
@@ -46,73 +46,35 @@
       :data="list"
       border
       style="width: 100%">
-      <slot name="table" :errorImg="errorImg" :viewImg="viewImg" :handleDelete="handleDelete"></slot>
-    </el-table>
+      <slot name="table" :errorImg="errorImg" :handleDelete="handleDelete"></slot>
+    </el-table> -->
     <!-- 表格区域 end -->
 
     <!-- 分页区域 -->
     <section class="flex my-5 justify-end">
-      <el-pagination
+      <!-- <el-pagination
         background
         v-model:current-page="pageIndex"
         v-model:page-size="pageSize"
         layout="total,prev, pager, next,sizes,"
         :page-sizes="[10, 20, 40, 80, 100]"
-        :total="total" />
+        :total="total" /> -->
     </section>
     <!-- 分页区域 end -->
   </main>
 </template>
 <script lang="ts" setup>
-import errorImg from '@/assets/svg/img-error.svg'
-import viewImg from '@/components/ViewImg/index'
-import useClient from '@/hooks/useClient'
-import useList from '@/hooks/useList'
-import { http } from '@/http'
-import { Refresh, Search } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import type { FormInstance, UploadUserFile } from 'element-plus'
-
-const { scrollHeight } = useClient()
+// import viewImg from '@/components/ViewImg/index'
 
 const props = defineProps<{ api?: string; queryParam?: object }>()
 
-const { list, total, loading, pageIndex, pageSize, tableCheck, query, reset, getList, showSearch } = useList<any[]>(
-  props.api,
-  props.queryParam,
-)
-
-await getList()
-
-const searchRef = ref<FormInstance>()
-
-defineExpose({
-  getList,
-})
+defineExpose({})
 
 onMounted(() => {
   if (props.queryParam) {
     // Object.keys(props.queryParam).forEach((key) => (query[key] = props.queryParam[key]))
   }
 })
-
-const selectRowIds = computed(() => tableCheck.value.map((i) => i.id).toString())
-
-const handleDelete = (id?: string) => {
-  const ids = id || selectRowIds.value
-
-  ElMessageBox.confirm('确定删除?', '提示', { type: 'warning' })
-    .then(() => {
-      http.delete(`${props.api}/${ids}`).then((res) => {
-        const { code, message } = res
-        if (code == 200) {
-          ElMessage.success(message)
-          getList()
-        }
-      })
-    })
-    .catch((e) => e)
-}
 </script>
 <style lang="scss" scoped>
 :deep(.el-table__body) {

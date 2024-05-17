@@ -24,7 +24,7 @@
         <el-button plain type="primary" @click="handleAdd">新增</el-button>
         <el-button plain type="danger" :disabled="tableCheck.length == 0" @click="handleDelete()">删 除</el-button>
       </template>
-      <template #table="{ handleDelete, viewImg, errorImg }">
+      <template #table="{ handleDelete, errorImg }">
         <el-table-column type="selection" align="center" width="55" fixed="left" />
         <el-table-column type="index" align="center" label="序号" width="70" />
         <el-table-column show-overflow-tooltip align="center" prop="id" label="id">
@@ -36,13 +36,13 @@
         <el-table-column show-overflow-tooltip align="center" prop="username" label="用户名" />
         <el-table-column show-overflow-tooltip align="center" prop="avatar" label="头像">
           <template #default="{ row }">
+            <!-- @click="viewImg({ url: row.avatar })" -->
             <el-avatar
               class="cursor-pointer"
               shape="square"
               fit="cover"
               :size="40"
               :src="row.avatar"
-              @click="viewImg({ url: row.avatar })"
               @error="() => true">
               <img :src="errorImg" />
             </el-avatar>
