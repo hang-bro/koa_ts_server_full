@@ -74,7 +74,7 @@ onMounted(() => {
   })
   setTimeout(() => {
     type = new Typed('#welcomeType', {
-      strings: ['欢迎! 这是一个由 <span style="color:red">koa2</span> vue3 typescript prisma 项目'],
+      strings: ['欢迎! 这是一个由 <span style="color:red">nestjs</span> vue3 typescript prisma 项目'],
       typeSpeed: 100,
       cursorChar: '<span style="font-size:30px">|</span>',
       // showCursor: false,

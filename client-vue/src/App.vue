@@ -35,9 +35,11 @@ const store = userStore()
 // })
 onMounted(() => {
   useStore((store) => {
-    document.documentElement.classList.add(store.config.theme || 'light')
+    store.config.setTheme('light')
+    if (store.user.token) {
+      http.get<UserInfo>('/login/getInfo').then((res) => store.user.setInfo(res.data))
+    }
   })
-  // http.get<UserInfo>('/login/getInfo').then((res) => store.setInfo(res.data))
 })
 
 onErrorCaptured((err) => {

@@ -24,6 +24,7 @@
     "@vitejs/plugin-vue": "^4.2.3",
     "@vitejs/plugin-vue-jsx": "^3.0.1",
     "consola": "^3.2.3",
+    "daisyui": "^4.11.1",
     "gh-pages": "^6.0.0",
     "mkcert": "^1.5.1",
     "rollup-plugin-visualizer": "^5.9.2",

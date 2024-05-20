@@ -6,8 +6,6 @@
  */
 /**@type {import('tailwindcss').Config} */
 // tailwind.config.ts
-import colors from 'tailwindcss/colors'
-import { createVariableColors, variableColorsPlugin } from 'tailwindcss-variable-colors'
 module.exports = {
   darkMode: 'class',
   content: ['./src/**/*.{vue,js,ts,tsx}', './index.html'],
@@ -15,18 +13,17 @@ module.exports = {
   corePlugins: {
     preflight: false,
   },
+  plugins: [
+    require('daisyui'),
+  ],
   theme: {
+    daisyui: {
+      themes: ["light", "cyberpunk", "dark", "cupcake"],
+    },
     extend: {
       colors: {
-        "primary": "#570df8",
-        "secondary": "#f000b8",
-        "accent": "#1dcdbc",
-        "info": "#3abff8",
-        "success": "#36d399",
-        "warning": "#fbbd23",
-        "error": "#f87272",
-        // ...createVariableColors(colors)
+
       }
     }
   },
-};
+}

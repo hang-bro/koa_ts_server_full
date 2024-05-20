@@ -5,9 +5,8 @@
  * @LastEditTime: 2023-07-18 10:16:15
 -->
 <template>
-  <main class="w-full h-full">
-    <el-button type="text" @click="viewImg('')">查看源码</el-button>
-    <el-table show-overflow-tooltip stripe :data="list" border style="width: 100%">
+  <main class="w-full h-full p-5">
+    <el-table show-overflow-tooltip :data="list">
       <el-table-column type="selection" align="center" width="55" fixed="left" />
       <el-table-column type="index" align="center" label="序号" width="70" />
       <el-table-column show-overflow-tooltip align="center" prop="id" label="id">
@@ -41,7 +40,7 @@
       </el-table-column>
       <el-table-column label="操作" align="center" width="200" fixed="right">
         <template #default="{ row }">
-          <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button>
+          <!-- <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button> -->
           <el-button @click="handleEdit(row)" link type="warning">编辑</el-button>
           <el-popconfirm icon-color="#626AEF" title="确认重置密码?" @confirm="resetPwd(row.id)">
             <template #reference>
@@ -91,7 +90,7 @@
           <el-input v-model="form.address" autocomplete="off" />
         </el-form-item>
         <el-form-item label="年龄" prop="age">
-          <el-input type="number" v-model.number="form.age" autocomplete="off" />
+          <el-input type="number" v-model="form.age" autocomplete="off" />
         </el-form-item>
         <el-form-item label="角色" prop="role">
           <el-select style="width: 100%" v-model="form.role" placeholder="请选择">
@@ -118,7 +117,10 @@ import { ElMessage } from 'element-plus'
 const uploadRef = ref()
 
 const roleList = ref([])
-const list = ref([])
+const list = ref<UserModel[]>([])
+
+const getList = () => http.get<{ data: UserModel[] }>('/user').then((res) => (list.value = res.data.data))
+onMounted(getList)
 export interface IUser {
   id: number
   username: string
@@ -167,8 +169,6 @@ const state = reactive<IState>({
   uploadUrl: import.meta.env.VITE_BASE_URL + '/api/upload',
   fileList: [],
 })
-
-const getList = () => CURDRef.value?.getList()
 
 const handleSubmit = () => {
   formRef.value.validate((valid) => {

@@ -8,18 +8,23 @@ import { defineStore } from 'pinia'
 
 export type IConfigStore = ReturnType<typeof configStore>
 
+/**支持的daisyUI 主题 */
+export const availableThemes = ['light', 'dark', 'cupcake', 'cyberpunk'] as const
+
+export type ITheme = (typeof availableThemes)[number]
+
 export type IConfig = {
-  theme: 'dark' | 'light'
+  theme: ITheme
 }
 
 const configStore = defineStore('configStore', {
   /** state==>必须是一个方法 && 返回值为对象 */
-  state: () => ({ theme: 'light' } as IConfig),
+  state: (): IConfig => {
+    return { theme: 'light' }
+  },
   actions: {
-    setTheme(theme: 'dark' | 'light') {
-      document.documentElement.classList.remove('dark')
-      document.documentElement.classList.remove('light')
-      document.documentElement.classList.add(theme)
+    setTheme(theme: ITheme) {
+      document.documentElement.setAttribute('data-theme', theme)
       this.theme = theme
     },
   },
