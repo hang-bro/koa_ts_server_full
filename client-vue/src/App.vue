@@ -37,7 +37,7 @@ onMounted(() => {
   useStore((store) => {
     store.config.setTheme('light')
     if (store.user.token) {
-      http.get<UserInfo>('/login/getInfo').then((res) => store.user.setInfo(res.data))
+      // http.get<IUser>('/login/getInfo').then((res) => store.user.setInfo(res.data))
     }
   })
 })

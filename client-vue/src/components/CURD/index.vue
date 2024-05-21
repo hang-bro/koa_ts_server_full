@@ -8,11 +8,38 @@
   <main class="w-full h-full p-5">
     <!-- 搜索区域 -->
     <section class="p-2 pl-0 hidden sm:block" v-show="showSearch">
-      <el-form ref="searchRef" :model="query" :inline="true" @submit.prevent>
-        <slot name="search" :reset="reset" :query="query" :getList="getList"></slot>
+      <el-form :size="searchFormSize ? searchFormSize : 'default'" ref="searchFormRef" :model="searchForm" inline @submit.prevent>
+        <el-form-item v-for="(item, key) in searchForm" :key="key" :label="showLabel ? item.label : null" :prop="key">
+          <!-- input -->
+          <el-input
+            clearable
+            @keyup.enter="getList"
+            v-if="item.type === 'input'"
+            v-model="searchForm[key]['value']"
+            :placeholder="item.placeholder || item.label" />
+          <!-- select -->
+          <el-select
+            @change="getList"
+            clearable
+            v-if="item.type === 'select'"
+            v-model="searchForm[key]['value']"
+            :placeholder="item.placeholder || item.label">
+            <el-option v-for="option in item.options" :key="option.value" :label="option.label" :value="option.value" />
+          </el-select>
+          <!-- date -->
+          <el-date-picker
+            @change="getList"
+            clearable
+            v-if="item.type === 'date'"
+            v-model="searchForm[key]['value']"
+            v-bind="item.options"
+            :type="item.options && item.options.type ? item.options.type : 'date'"
+            :value-format="item.options && item.options.valueFormat ? item.options.valueFormat : 'YYYY-MM-DD'"
+            :placeholder="item.placeholder || item.label" />
+        </el-form-item>
         <el-form-item>
           <el-button color="#626aef" type="primary" @click="getList" :icon="Search">查询</el-button>
-          <el-button type="info" @click="reset" :icon="Refresh">重置</el-button>
+          <el-button type="info" @click="reset(searchFormRef)" :icon="Refresh">重置</el-button>
         </el-form-item>
       </el-form>
     </section>
@@ -46,7 +73,7 @@
       :data="list"
       border
       style="width: 100%">
-      <slot name="table" :errorImg="errorImg" :viewImg="()=>{}" :handleDelete="handleDelete"></slot>
+      <slot name="table" :errorImg="errorImg" :viewImg="() => {}" :handleDelete="handleDelete"></slot>
     </el-table>
     <!-- 表格区域 end -->
 
@@ -72,19 +99,58 @@ import { http } from '@/http'
 import { Refresh, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, UploadUserFile } from 'element-plus'
+import { SearchFormProps, IFormSize } from './type'
 
 const { scrollHeight } = useClient()
+type IProps = {
+  api?: string
+  queryParam?: object
+  showLabel?: boolean
+  searchFormSize?: IFormSize
+}
 
-const props = defineProps<{ api?: string; queryParam?: object }>()
+const props = defineProps<IProps>()
+
+const searchForm = reactive<SearchFormProps>({
+  name: { type: 'input', label: '名称', value: null },
+  remark: { type: 'input', label: '备注', value: null },
+  select: {
+    type: 'select',
+    label: '选择',
+    value: null,
+    options: [
+      {
+        label: '1',
+        value: 1,
+      },
+      {
+        label: '2',
+        value: 2,
+      },
+    ],
+  },
+  date: {
+    type: 'date',
+    label: '日期',
+    options: {
+      type: 'daterange',
+    },
+    value: [],
+    formateValue: (value, form) => {
+      form.startTime = value[0]
+      form.endTime = value[1]
+    },
+  },
+})
 
 const { list, total, loading, pageIndex, pageSize, tableCheck, query, reset, getList, showSearch } = useList<any[]>(
   props.api,
-  props.queryParam,
+  searchForm,
 )
 
 await getList()
 
-const searchRef = ref<FormInstance>()
+const searchFormRef = ref<FormInstance>()
 
 defineExpose({
   getList,

@@ -96,7 +96,7 @@ export interface IUser {
   sex: number
 }
 
-const API = ref('/role')
+const API = ref('/role/list')
 
 const formRef = ref<FormInstance>()
 
