@@ -5,7 +5,7 @@
     <section>
       <div class="directive-item">
         <el-check-tag size="large" checked>v-resize</el-check-tag>
-        <el-button type="text" @click="showSourceCode('/src/directives/module/resize.ts')">查看源码</el-button>
+        <el-button link @click="showSourceCode('/src/directives/module/resize.ts')">查看源码</el-button>
       </div>
       <div class="p-4 bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded" v-resize="handleResize">
         resize (改变浏览器大小可触发)
@@ -17,7 +17,7 @@
     <section>
       <div class="directive-item">
         <el-check-tag size="large" checked>v-copy</el-check-tag>
-        <el-button type="text" @click="showSourceCode('/src/directives/module/copy.ts')">查看源码</el-button>
+        <el-button link @click="showSourceCode('/src/directives/module/copy.ts')">查看源码</el-button>
       </div>
       <div class="preview p-4 bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded" v-resize="handleResize">
         <el-input class="!w-[250px]" v-model="copyValue">
@@ -32,7 +32,7 @@
     <section>
       <div class="directive-item">
         <el-check-tag size="large" checked>v-focus</el-check-tag>
-        <el-button type="text" @click="showSourceCode('/src/directives/module/focus.ts')">查看源码</el-button>
+        <el-button link @click="showSourceCode('/src/directives/module/focus.ts')">查看源码</el-button>
       </div>
       <div class="p-4 preview bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded" v-resize="handleResize">
         <el-input class="!w-[250px]" v-focus v-model="focusValue" placeholder="自动获取焦点(刷新页面可查看)" />
@@ -44,7 +44,7 @@
     <section>
       <div class="directive-item">
         <el-check-tag size="large" checked>v-waterMark</el-check-tag>
-        <el-button type="text" @click="showSourceCode('/src/directives/module/waterMark.ts')">查看源码</el-button>
+        <el-button link @click="showSourceCode('/src/directives/module/waterMark.ts')">查看源码</el-button>
       </div>
       <div class="preview p-4 bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded" v-resize="handleResize">
         <div
@@ -59,7 +59,7 @@
     <section>
       <div class="directive-item">
         <el-check-tag size="large" checked>v-longpress</el-check-tag>
-        <el-button type="text" @click="showSourceCode('/src/directives/module/longpress.ts')">查看源码</el-button>
+        <el-button link @click="showSourceCode('/src/directives/module/longpress.ts')">查看源码</el-button>
       </div>
       <div class="p-4 preview bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded" v-resize="handleResize">
         <div class="w-full">
@@ -72,7 +72,7 @@
     <section>
       <div class="directive-item">
         <el-check-tag size="large" checked>v-debounce</el-check-tag>
-        <el-button type="text" @click="showSourceCode('/src/directives/module/debounce.ts')">查看源码</el-button>
+        <el-button link @click="showSourceCode('/src/directives/module/debounce.ts')">查看源码</el-button>
       </div>
       <div class="p-4 preview bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded" v-resize="handleResize">
         <div class="w-full">
@@ -87,7 +87,7 @@
     <section>
       <div class="directive-item">
         <el-check-tag size="large" checked>v-throttle</el-check-tag>
-        <el-button type="text" @click="showSourceCode('/src/directives/module/throttle.ts')">查看源码</el-button>
+        <el-button link @click="showSourceCode('/src/directives/module/throttle.ts')">查看源码</el-button>
       </div>
       <div class="preview p-4 bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded" v-resize="handleResize">
         <div class="w-full">
@@ -100,7 +100,7 @@
     <section>
       <div class="directive-item">
         <el-check-tag size="large" checked>v-draggable</el-check-tag>
-        <el-button type="text" @click="showSourceCode('/src/directives/module/draggable.ts')">查看源码</el-button>
+        <el-button link @click="showSourceCode('/src/directives/module/draggable.ts')">查看源码</el-button>
       </div>
       <div class="p-4 bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded" v-resize="handleResize">
         <div class="preview w-full h-[200px]">
@@ -113,7 +113,7 @@
     <section>
       <div class="directive-item">
         <el-check-tag size="large" checked>v-touchDirection</el-check-tag>
-        <el-button type="text" @click="showSourceCode('/src/directives/module/touchDirection.ts')">查看源码</el-button>
+        <el-button link @click="showSourceCode('/src/directives/module/touchDirection.ts')">查看源码</el-button>
       </div>
       <div class="p-4 bg-gray-50 mt-3 border border-dashed border-gray-400/40 rounded" v-resize="handleResize">
         <div class="preview w-full h-[200px]" v-touchDirection="fn">在此区域滑动(修改浏览器标识为移动端才可观察)</div>

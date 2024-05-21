@@ -4,7 +4,7 @@
  * @LastEditors: HYH
  * @LastEditTime: 2023-06-26 17:15:25
  */
-import ViewImg from './index.vue'
+import Index from './index.vue'
 import { createVNode, render } from 'vue'
 export interface IOption {
   /**是否可以通过点击 遮罩 关闭组件 */
@@ -17,25 +17,13 @@ export type IProp = {
   /**是否可以通过点击 遮罩 关闭   默认true */
   closeOnClickModel?: boolean
 }
-interface IMethods {
-  close: InstanceType<typeof ViewImg>['close']
-  open: InstanceType<typeof ViewImg>['open']
-}
 
 /**查看图片 */
 const viewImg = (prop: IProp) => {
-  const excuteFn = () => {
-    const vNode = createVNode(ViewImg)
-    render(vNode, document.body)
-    const { open, close } = vNode.component?.exposed as IMethods
-    open(prop)
-  }
-  try {
-    excuteFn()
-  } catch (error) {
-    console.log(`error ==>`, error)
-    excuteFn()
-  }
+  const vNode = createVNode(Index)
+  render(vNode, document.getElementById('dialog-container'))
+  const { open, close } = vNode.component?.exposed as InstanceType<typeof Index>
+  open(prop)
 }
 export type IViewImg = typeof viewImg
 export default viewImg

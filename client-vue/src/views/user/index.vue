@@ -6,7 +6,22 @@
 -->
 <template>
   <main class="w-full h-full p-5">
-    <el-table show-overflow-tooltip :data="list">
+    <!-- 搜索区域 -->
+    <section class="p-2 pl-0 hidden sm:block" v-show="state.showSearch">
+      <el-form ref="queryFormRef" :model="queryForm" inline @submit.prevent>
+        <el-form-item prop="username">
+          <el-input v-model="queryForm.username" placeholder="用户名" />
+        </el-form-item>
+        <el-form-item prop="email">
+          <el-input v-model="queryForm.email" placeholder="邮箱" />
+        </el-form-item>
+        <el-form-item>
+          <el-button color="#626aef" type="primary" @click="getList">查询</el-button>
+          <el-button type="info" @click="resetForm(queryFormRef, getList)">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </section>
+    <el-table show-overflow-tooltip :data="state.tableData">
       <el-table-column type="selection" align="center" width="55" fixed="left" />
       <el-table-column type="index" align="center" label="序号" width="70" />
       <el-table-column show-overflow-tooltip align="center" prop="id" label="id">
@@ -18,7 +33,14 @@
       <el-table-column show-overflow-tooltip align="center" prop="username" label="用户名" />
       <el-table-column show-overflow-tooltip align="center" prop="avatar" label="头像">
         <template #default="{ row }">
-          <el-avatar class="cursor-pointer" shape="square" fit="cover" :size="40" :src="row.avatar" @error="() => true">
+          <el-avatar
+            @click="viewImg({ url: row.avatar })"
+            class="cursor-pointer"
+            shape="square"
+            fit="cover"
+            :size="40"
+            :src="row.avatar"
+            @error="() => true">
           </el-avatar>
         </template>
       </el-table-column>
@@ -50,28 +72,19 @@
         </template>
       </el-table-column>
     </el-table>
-    <!--    <CURD ref="CURDRef" :api="API" :queryParam="{ orderBy: 'createdAt', orderSort: 'asc' }">
-      <template #search="{ query, getList }">
-        <el-form-item>
-          <el-input
-            style="width: 200px"
-            @keyup.enter="getList"
-            placeholder="用户名"
-            v-model="query.username"
-            clearable />
-        </el-form-item>
-        <el-form-item>
-          <el-input style="width: 200px" @keyup.enter="getList" placeholder="邮箱" v-model="query.email" clearable />
-        </el-form-item>
-      </template>
-      <template #buttons="{ tableCheck, handleDelete }">
-        <el-button plain type="primary" @click="handleAdd">新增</el-button>
-        <el-button plain type="danger" :disabled="tableCheck.length == 0" @click="handleDelete()">删 除</el-button>
-      </template>
-      <template #table="{ handleDelete, viewImg, errorImg }">
-      
-      </template>
-    </CURD>-->
+
+    <!-- 分页区域 -->
+    <section class="flex my-5 justify-end">
+      <el-pagination
+        background
+        v-model:current-page="queryForm.pageIndex"
+        v-model:page-size="queryForm.pageSize"
+        layout="total,prev, pager, next,sizes,"
+        :page-sizes="[10, 20, 40, 80, 100]"
+        :total="state.total" />
+    </section>
+    <!-- 分页区域 end -->
+
     <el-dialog v-model="dialogVisible" :title="state.showName" width="500" draggable>
       <el-form ref="formRef" :model="form" status-icon :rules="rules" label-width="auto" class="demo-form">
         <el-form-item label="用户名" prop="username">
@@ -114,31 +127,52 @@ import viewImg from '@/components/ViewImg/index'
 import { http } from '@/http'
 import type { FormInstance, UploadUserFile } from 'element-plus'
 import { ElMessage } from 'element-plus'
-const uploadRef = ref()
 
-const roleList = ref([])
-const list = ref<UserModel[]>([])
-
-const getList = () => http.get<{ data: UserModel[] }>('/user').then((res) => (list.value = res.data.data))
-onMounted(getList)
-export interface IUser {
-  id: number
-  username: string
-  avatar: string
-  email: string
-  address: string
-  password: string
-  age: number
-  sex: number
+interface IState {
+  showName: 'add' | 'edit' | ''
+  uploadUrl: string
+  fileList: UploadUserFile[]
 }
 
-const API = ref('/user')
+const uploadRef = ref()
+
+const queryFormRef = ref()
+
+const roleList = ref([])
 
 const formRef = ref<FormInstance>()
 
 const dialogVisible = ref(false)
 
-const CURDRef = ref()
+const queryForm = reactive<IQueryParams<{ email: string; username: string }>>({
+  pageIndex: 1,
+  pageSize: 10,
+  email: null,
+  username: null,
+})
+
+const state = reactive<ICommonState<IUser> & IState>({
+  api: '/user',
+  tableCheck: [],
+  tableData: [],
+  total: 0,
+  showSearch: true,
+
+  showName: '',
+  uploadUrl: import.meta.env.VITE_BASE_URL + '/api/upload',
+  fileList: [],
+})
+
+const getList = () =>
+  http
+    .get<PageReturnData<IUser>>(`${state.api}/list`, queryForm) /** */
+    .then((res) => {
+      const { rows, total } = res.data
+      state.tableData = rows
+      state.total = total
+    })
+
+onMounted(getList)
 
 const form = reactive<any>({
   age: null,
@@ -158,18 +192,6 @@ const rules = reactive({
   role: useValidate.pleaseSelect,
 })
 
-interface IState {
-  showName: 'add' | 'edit' | ''
-  uploadUrl: string
-  fileList: UploadUserFile[]
-}
-
-const state = reactive<IState>({
-  showName: '',
-  uploadUrl: import.meta.env.VITE_BASE_URL + '/api/upload',
-  fileList: [],
-})
-
 const handleSubmit = () => {
   formRef.value.validate((valid) => {
     if (valid) {
@@ -177,7 +199,7 @@ const handleSubmit = () => {
 
       // 新增
       if (state.showName == 'add') {
-        http.post(API.value, data).then((res) => {
+        http.post(state.api, data).then((res) => {
           const { code, message } = res
           if (code === 200) {
             ElMessage.success(message)
@@ -190,7 +212,7 @@ const handleSubmit = () => {
       // 修改
       if (state.showName == 'edit') {
         delete data.password
-        http.patch(`${API.value}/${form.id}`, data).then((res) => {
+        http.patch(`${state.api}/${form.id}`, data).then((res) => {
           const { code, message } = res
           if (code === 200) {
             ElMessage.success(message)
@@ -203,12 +225,10 @@ const handleSubmit = () => {
   })
 }
 
-const getRoleList = () => {
-  http.get<any>('/role').then((res) => (roleList.value = res.data.data))
-}
+const getRoleList = () => http.get('/role').then((res) => (roleList.value = res.data.data))
 
 const resetPwd = (userId: string) => {
-  http.post(API.value + '/resetPwd', { userId }).then((res) => {
+  http.post(state.api + '/resetPwd', { userId }).then((res) => {
     const { code, message } = res
     if (code === 200) {
       ElMessage.success(message)
@@ -220,13 +240,7 @@ const resetPwd = (userId: string) => {
 const handleAdd = () => {
   state.showName = 'add'
   dialogVisible.value = true
-  resetForm()
   getRoleList()
-}
-
-const resetForm = () => {
-  state.fileList = []
-  Object.keys(form).forEach((key) => (form[key] = ''))
 }
 
 const handleEdit = (row: IUser) => {

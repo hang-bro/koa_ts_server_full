@@ -86,9 +86,9 @@ const login = () => {
       http.post<{ token: string }>('/login', loginForm).then((res) => {
         const { data } = res
         store.setToken(data.token)
-        http.get<UserInfo>('/login/getInfo').then((res) => {
+        http.get<IUser>('/login/getInfo').then((res) => {
           store.setInfo(res.data)
-          router.push({ path: store.lastVisitPath || '/dashboard', replace: true })
+          router.push({ path: '/dashboard', replace: true })
         })
       })
     }

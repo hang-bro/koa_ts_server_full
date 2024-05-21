@@ -53,12 +53,12 @@ export class Http {
 }
 
 export type IHttp = {
-  get: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
-  patch: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
-  post: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
-  put: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
-  delete: <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
-  upload: <T>(url: string, data?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  get: <T extends any = any>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  patch: <T extends any = any>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  post: <T extends any = any>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  put: <T extends any = any>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  delete: <T extends any = any>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  upload: <T extends any = any>(url: string, data?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
 }
 
 /**http请求 */

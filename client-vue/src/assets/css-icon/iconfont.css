@@ -1,0 +1,29 @@
+@font-face {
+  font-family: 'hang'; /* Project id 3605582 */
+  src: url('iconfont.woff2?t=1661236132151') format('woff2'), url('iconfont.woff?t=1661236132151') format('woff'),
+    url('iconfont.ttf?t=1661236132151') format('truetype');
+}
+
+.hang {
+  font-family: 'hang' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.i-close:before {
+  content: '\e600';
+}
+
+.i-smaller:before {
+  content: '\ec13';
+}
+
+.i-bigger:before {
+  content: '\ec14';
+}
+
+.i-rotate:before {
+  content: '\e66a';
+}

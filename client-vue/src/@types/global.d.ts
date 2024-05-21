@@ -13,6 +13,7 @@ import ScrollBox from '@/components/ScrollBox/index.vue'
 import { showSourceCode } from '../components/sourceCode/index'
 import ImageUpload from '@/components/ImageUpload/index.vue'
 import { ElMessage } from 'element-plus'
+import { resetForm as ResetForm } from '../utils/globalInject'
 
 declare global {
   /**注意 定义Window接口 首字母一定要大写 否则会出问题 */
@@ -23,6 +24,7 @@ declare global {
   const dayjs: IDayJs
   const Message: typeof ElMessage
   const showSourceCode: typeof showSourceCode
+  const resetForm: typeof ResetForm
 }
 
 declare module 'vue' {
@@ -37,6 +39,7 @@ declare module 'vue' {
     ImageUpload: typeof ImageUpload
     Message: typeof ElMessage
     showSourceCode: typeof showSourceCode
+    resetForm: typeof resetForm
   }
 }
 

@@ -83,8 +83,8 @@ onMounted(() => {
   }, 100)
 })
 onUnmounted(() => {
-  cn.destroy()
-  type.destroy()
+  cn?.destroy()
+  type?.destroy()
 })
 </script>
 

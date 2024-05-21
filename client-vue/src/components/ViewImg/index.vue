@@ -27,7 +27,6 @@ const open = (prop: IProp) => {
   state.imgUrl = url
   //判断传入参数是否启用 closeOnClickModel
   if (closeOnClickModel === false) state.closeOnClickModel = closeOnClickModel
-
   state.show = true
   reset()
   addEvent()
@@ -53,7 +52,7 @@ const addEvent = () => {
   //不使用nextTick会造成获取不到imgRef.value
   nextTick(() => {
     // 图片加载完成回调函数
-    imgRef.value.onload = () => {
+    imgRef.value.onload = (e) => {
       // 添加鼠标滚动事件
       ;(imgRef?.value as any).onmousewheel = (e: WheelEvent) => {
         if (e.deltaY > 0) {
