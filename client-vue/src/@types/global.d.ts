@@ -7,7 +7,7 @@
 import type { IHttp } from '@/http/index'
 import type { IDayJs } from '@/utils/dayjs'
 import Svg from '@/components/Svg/index.vue'
-import CURD from '@/components/CURD/index.vue'
+import Crud from '@/components/Crud/index.vue'
 import Copy from '@/components/Copy/index.vue'
 import ScrollBox from '@/components/ScrollBox/index.vue'
 import { showSourceCode } from '../components/sourceCode/index'
@@ -33,7 +33,7 @@ declare module 'vue' {
     /**app相关属性 */
     dayjs: IDayJs
     Svg: typeof Svg
-    CURD: typeof CURD
+    Crud: typeof Crud
     Copy: typeof Copy
     ScrollBox: typeof ScrollBox
     ImageUpload: typeof ImageUpload

@@ -8,7 +8,7 @@ declare global {
   /**
    * 需要分页返回数据
    * */
-  type PageReturnData<T extends any = any> = {
+  type IPage<T extends any = any> = {
     rows: T[]
     total: number
   }
@@ -25,7 +25,6 @@ declare global {
      * 分页大小
      */
     pageSize: number
-  
   } & {
     [P in keyof T]?: string | number | null
   }

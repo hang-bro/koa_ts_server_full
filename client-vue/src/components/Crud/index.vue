@@ -8,13 +8,20 @@
   <main class="w-full h-full p-5">
     <!-- 搜索区域 -->
     <section class="p-2 pl-0 hidden sm:block" v-show="showSearch">
-      <el-form :size="searchFormSize ? searchFormSize : 'default'" ref="searchFormRef" :model="searchForm" inline @submit.prevent>
+      <el-form
+        :size="searchFormSize"
+        ref="searchFormRef"
+        :model="searchForm"
+        inline
+        @submit.prevent
+        v-if="Object.entries(searchForm).length > 0">
         <el-form-item v-for="(item, key) in searchForm" :key="key" :label="showLabel ? item.label : null" :prop="key">
           <!-- input -->
           <el-input
             clearable
             @keyup.enter="getList"
             v-if="item.type === 'input'"
+            v-bind="item.props"
             v-model="searchForm[key]['value']"
             :placeholder="item.placeholder || item.label" />
           <!-- select -->
@@ -23,6 +30,7 @@
             clearable
             v-if="item.type === 'select'"
             v-model="searchForm[key]['value']"
+            v-bind="item.props"
             :placeholder="item.placeholder || item.label">
             <el-option v-for="option in item.options" :key="option.value" :label="option.label" :value="option.value" />
           </el-select>
@@ -32,9 +40,9 @@
             clearable
             v-if="item.type === 'date'"
             v-model="searchForm[key]['value']"
-            v-bind="item.options"
-            :type="item.options && item.options.type ? item.options.type : 'date'"
-            :value-format="item.options && item.options.valueFormat ? item.options.valueFormat : 'YYYY-MM-DD'"
+            v-bind="item.props"
+            :type="item.props && item.props.type ? item.props.type : 'date'"
+            :value-format="item.props && item.props.valueFormat ? item.props.valueFormat : 'YYYY-MM-DD'"
             :placeholder="item.placeholder || item.label" />
         </el-form-item>
         <el-form-item>
@@ -99,53 +107,24 @@ import { http } from '@/http'
 import { Refresh, Search } from '@element-plus/icons-vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, UploadUserFile } from 'element-plus'
-import { SearchFormProps, IFormSize } from './type'
 
 const { scrollHeight } = useClient()
 type IProps = {
-  api?: string
-  queryParam?: object
+  api: string
+  searchForm?: ISearchForm
   showLabel?: boolean
-  searchFormSize?: IFormSize
+  searchFormSize?: ISearchFormSize
 }
 
-const props = defineProps<IProps>()
-
-const searchForm = reactive<SearchFormProps>({
-  name: { type: 'input', label: '名称', value: null },
-  remark: { type: 'input', label: '备注', value: null },
-  select: {
-    type: 'select',
-    label: '选择',
-    value: null,
-    options: [
-      {
-        label: '1',
-        value: 1,
-      },
-      {
-        label: '2',
-        value: 2,
-      },
-    ],
-  },
-  date: {
-    type: 'date',
-    label: '日期',
-    options: {
-      type: 'daterange',
-    },
-    value: [],
-    formateValue: (value, form) => {
-      form.startTime = value[0]
-      form.endTime = value[1]
-    },
-  },
+const props = withDefaults(defineProps<IProps>(), {
+  searchFormSize: () => 'default',
+  showLabel: () => false,
+  searchForm: () => ({}),
 })
 
-const { list, total, loading, pageIndex, pageSize, tableCheck, query, reset, getList, showSearch } = useList<any[]>(
+const { list, total, loading, pageIndex, pageSize, tableCheck, reset, getList, showSearch } = useList<any[]>(
   props.api,
-  searchForm,
+  props.searchForm,
 )
 
 await getList()
@@ -156,11 +135,7 @@ defineExpose({
   getList,
 })
 
-onMounted(() => {
-  if (props.queryParam) {
-    // Object.keys(props.queryParam).forEach((key) => (query[key] = props.queryParam[key]))
-  }
-})
+onMounted(() => {})
 
 const selectRowIds = computed(() => tableCheck.value.map((i) => i.id).toString())
 

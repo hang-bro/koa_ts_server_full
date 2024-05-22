@@ -6,7 +6,7 @@
 -->
 <template>
   <main class="w-full h-full">
-    <CURD ref="CURDRef" :api="API" :queryParam="{ orderBy: 'createdAt', orderSort: 'asc' }">
+    <Crud ref="CrudRef" :api="API" :searchForm="searchForm">
       <template #search="{ query, getList }">
         <el-form-item>
           <el-input style="width: 200px" @keyup.enter="getList" placeholder="名称" v-model="query.name" clearable />
@@ -44,7 +44,7 @@
           </template>
         </el-table-column>
       </template>
-    </CURD>
+    </Crud>
     <el-dialog v-model="dialogVisible" :title="state.showName" width="500" draggable>
       <el-form ref="formRef" :model="form" status-icon :rules="rules" label-width="auto" class="demo-form">
         <el-form-item label="用户名" prop="username">
@@ -96,13 +96,18 @@ export interface IUser {
   sex: number
 }
 
+const searchForm = reactive<ISearchForm>({
+  name: { type: 'input', label: '名称', value: null },
+  remark: { type: 'input', label: '备注', value: null },
+})
+
 const API = ref('/role/list')
 
 const formRef = ref<FormInstance>()
 
 const dialogVisible = ref(false)
 
-const CURDRef = ref()
+const CrudRef = ref()
 
 const form = reactive<any>({
   age: null,
@@ -134,7 +139,7 @@ const state = reactive<IState>({
   fileList: [],
 })
 
-const getList = () => CURDRef.value?.getList()
+const getList = () => CrudRef.value?.getList()
 
 const handleSubmit = () => {
   formRef.value.validate((valid) => {

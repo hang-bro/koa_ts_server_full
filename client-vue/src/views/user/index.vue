@@ -165,7 +165,7 @@ const state = reactive<ICommonState<IUser> & IState>({
 
 const getList = () =>
   http
-    .get<PageReturnData<IUser>>(`${state.api}/list`, queryForm) /** */
+    .get<IPage<IUser>>(`${state.api}/list`, queryForm) /** */
     .then((res) => {
       const { rows, total } = res.data
       state.tableData = rows

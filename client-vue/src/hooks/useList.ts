@@ -30,8 +30,6 @@ export default function useList<T extends any = any>(url: string, searchForm?: S
   /**加载态 */
   const loading = ref(false)
 
-  const query = reactive<IQuery>({})
-
   /**总数量 */
   const total = ref(0)
 
@@ -63,7 +61,7 @@ export default function useList<T extends any = any>(url: string, searchForm?: S
   const getList = () => {
     loading.value = true
 
-    const params = { pageSize: pageSize.value, pageIndex: pageIndex.value, ...query, ...toQueryForm() }
+    const params = { pageSize: pageSize.value, pageIndex: pageIndex.value, ...toQueryForm() }
 
     return new Promise<void>((resolve) => {
       http
@@ -97,7 +95,6 @@ export default function useList<T extends any = any>(url: string, searchForm?: S
     total,
     pageSize,
     tableCheck,
-    query,
     getList,
     reset,
   }
