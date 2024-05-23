@@ -1,5 +1,5 @@
 <template>
-  <main class="w-full h-full p-5">
+  <main class="w-full h-full p-5 flex flex-col" ref="mainRef">
     <!-- 搜索区域 -->
     <section class="p-2 pl-0 hidden sm:block" v-show="showSearch">
       <el-form
@@ -76,38 +76,44 @@
     </section>
     <!-- 按钮区域 end -->
     <!-- 表格区域 -->
-    <el-table
-      show-overflow-tooltip
-      v-loading="loading"
-      :max-height="scrollHeight - 230"
-      @selection-change="(rows:any[]) => (tableCheck = rows)"
-      stripe
-      :data="list"
-      border
-      style="width: 100%"
-    >
-      <template v-for="column in columns">
-        <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'expand'">
-          <template #default="props: ItableColumnDefaultSlotProps">
-            <!-- 
+    <section class="flex-1 overflow-auto">
+      <el-table
+        show-overflow-tooltip
+        v-loading="loading"
+        @selection-change="(rows:any[]) => (tableCheck = rows)"
+        stripe
+        :data="list"
+        border
+        style="width: 100%; height: 100%"
+      >
+        <template v-for="column in columns">
+          <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'expand'">
+            <template #default="props: ItableColumnDefaultSlotProps">
+              <!-- 
               使用示例
               <template #expand="{row}">
                 <div>{{row}}</div>
               </template>  
              -->
-            <slot name="expand" v-bind="{ ...props }" />
-          </template>
-        </el-table-column>
-        <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'index'" />
-        <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'selection'" />
+              <slot name="expand" v-bind="{ ...props }" />
+            </template>
+          </el-table-column>
+          <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'index'" />
+          <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'selection'" />
 
-        <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'default'">
-          <template #default="scope">
-            {{ column.render ? column.render(scope) : scope.row[column.prop] || '' }}
-          </template>
-        </el-table-column>
-      </template>
-    </el-table>
+          <el-table-column
+            show-overflow-tooltip
+            align="center"
+            v-bind="column"
+            v-if="!column.type || column.type == 'default'"
+          >
+            <template #default="scope">
+              {{ column.render ? column.render(scope) : scope.row[column.prop] || '' }}
+            </template>
+          </el-table-column>
+        </template>
+      </el-table>
+    </section>
     <!-- 表格区域 end -->
 
     <!-- 分页区域 -->
@@ -126,13 +132,13 @@
 </template>
 <script lang="ts" setup generic="T">
 // import viewImg from '@/components/ViewImg/index'
-import useClient from '@/hooks/useClient'
 import useList from '@/hooks/useList'
 import { http } from '@/http'
 import { Refresh, Search } from '@element-plus/icons-vue'
 import type { ElTableColumn, FormInstance } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
-const { scrollHeight } = useClient()
+const searchFormRef = ref<FormInstance>()
+
 type IProTableProps = {
   api: string
   columns: IProTableColumns & T[]
@@ -160,8 +166,6 @@ const { list, total, loading, pageIndex, pageSize, tableCheck, reset, getList, s
 )
 
 await getList()
-
-const searchFormRef = ref<FormInstance>()
 
 defineExpose({
   getList,

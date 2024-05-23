@@ -11,10 +11,6 @@
         <el-button plain type="primary" @click="handleAdd">新增</el-button>
         <el-button plain type="danger" :disabled="tableCheck.length == 0" @click="handleDelete()">删 除</el-button>
       </template>
-      <template #expand="{ row, $index }">
-        <div>$index,{{$index}}</div>
-        {{ row }}
-      </template>
     </ProTable>
     <el-dialog v-model="dialogVisible" :title="state.showName" width="500" draggable>
       <el-form ref="formRef" :model="form" status-icon :rules="rules" label-width="auto" class="demo-form">
@@ -54,18 +50,6 @@ import type { FormInstance, UploadUserFile } from 'element-plus'
 import { ElMessage } from 'element-plus'
 
 const uploadRef = ref()
-const roleList = ref([])
-
-export interface IUser {
-  id: number
-  username: string
-  avatar: string
-  email: string
-  address: string
-  password: string
-  age: number
-  sex: number
-}
 
 const searchForm = reactive<IProTableSearchForm>({
   name: { type: 'input', label: '名称', value: null },
@@ -73,16 +57,12 @@ const searchForm = reactive<IProTableSearchForm>({
 })
 
 const columns = ref<IProTableColumns>([
-  { type: 'expand' },
   { type: 'selection' },
-  {
-    type: 'default',
-    prop: 'name',
-    label: '名称',
-    render: ({ row }) => {
-      return row.name
-    },
-  },
+  { type: 'index', label: '序号', width: 70 },
+  { prop: 'id', label: 'id' },
+  { prop: 'key', label: '字符' },
+  { prop: 'name', label: '名称' },
+  { prop: 'remark', label: '备注' },
 ])
 
 const API = ref('/role/list')

@@ -16,7 +16,7 @@ export type IQuery = {
   [props: string]: any
 }
 
-export default function useList<T extends any = any>(url: string, searchForm?: ISearchForm) {
+export default function useList<T extends any = any>(url: string, searchForm?: IProTableSearchForm) {
   /**数据列表 */
   const list = ref<T>()
 

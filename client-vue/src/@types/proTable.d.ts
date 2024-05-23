@@ -46,7 +46,7 @@ type IDate = {
 }
 
 type IProTableColumn = InstanceType<typeof ElTableColumn>['$props'] & {
-  type: 'default' | 'selection' | 'index' | 'expand'
+  type?: 'default' | 'selection' | 'index' | 'expand'
   render?: (args: { $index: number; row: Record<string, any>; column: Record<string, any> }) => any
 }
 
