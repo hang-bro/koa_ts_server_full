@@ -1,6 +1,7 @@
-import { DatePickType, ElDatePicker, ElInput, ElSelect, ElForm } from 'element-plus'
+import type { ElTableColumn } from 'element-plus'
+import { ElDatePicker, ElForm, ElInput, ElSelect } from 'element-plus'
 
-import Crud from '@/components/Crud/index.vue'
+import ProTable from '@/components/proTable/index.vue'
 
 type Value = string | number | null | any[]
 
@@ -44,13 +45,17 @@ type IDate = {
   placeholder?: string
 }
 
+type IProTableColumn = InstanceType<typeof ElTableColumn>['$props'] & {
+  type: 'default' | 'selection' | 'index' | 'expand'
+  render?: (args: { $index: number; row: Record<string, any>; column: Record<string, any> }) => any
+}
+
 declare global {
-  type ICrudProps = InstanceType<typeof Crud>['$props']
-  type ISearchFormSize = InstanceType<typeof ElForm>['$props']['size']
+  type IProTableSearchFormSize = InstanceType<typeof ElForm>['$props']['size']
   /**
-   * searchForm 示例
+   * columns 示例
    *  ``` js
-   * const searchForm = reactive<ISearchForm>({
+   * const columns = reactive<IProTableColumns>({
    *  name: { type: 'input', label: '名称', value: null },
    *  remark: { type: 'input', label: '备注', value: null },
    *  select: {
@@ -83,7 +88,45 @@ declare global {
    * })
    * ```
    */
-  interface ISearchForm {
+  type IProTableColumns = IProTableColumn[]
+
+  /**
+   * IProTableSearchForm 示例
+   *  ``` js
+   * const searchForm = reactive<IProTableSearchForm>({
+   *  name: { type: 'input', label: '名称', value: null },
+   *  remark: { type: 'input', label: '备注', value: null },
+   *  select: {
+   *    type: 'select',
+   *    label: '选择',
+   *    value: null,
+   *    options: [
+   *      {
+   *        label: '1',
+   *        value: 1,
+   *      },
+   *      {
+   *        label: '2',
+   *        value: 2,
+   *      },
+   *    ],
+   *  },
+   *  date: {
+   *    type: 'date',
+   *    label: '日期',
+   *    props: {
+   *      type: 'daterange',
+   *    },
+   *    value: [],
+   *    formateValue: (value, form) => {
+   *      form.startTime = value[0]
+   *      form.endTime = value[1]
+   *    },
+   *  },
+   * })
+   * ```
+   */
+  interface IProTableSearchForm {
     [prop: string]: IInput | ISelect | IDate
   }
 }

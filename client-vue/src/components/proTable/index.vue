@@ -1,9 +1,3 @@
-<!--
- * @Description: 
- * @Author: HYH
- * @LastEditors: HYH
- * @LastEditTime: 2023-07-18 10:16:15
--->
 <template>
   <main class="w-full h-full p-5">
     <!-- 搜索区域 -->
@@ -14,16 +8,23 @@
         :model="searchForm"
         inline
         @submit.prevent
-        v-if="Object.entries(searchForm).length > 0">
-        <el-form-item v-for="(item, key) in searchForm" :key="key" :label="showLabel ? item.label : null" :prop="key">
+        v-if="Object.entries(searchForm).length > 0"
+      >
+        <el-form-item
+          v-for="(item, key) in searchForm"
+          :key="key"
+          :label="showLabel ? item.label : null"
+          :prop="key as string"
+        >
           <!-- input -->
           <el-input
             clearable
             @keyup.enter="getList"
             v-if="item.type === 'input'"
             v-bind="item.props"
-            v-model="searchForm[key]['value']"
-            :placeholder="item.placeholder || item.label" />
+            v-model="searchForm[key]['value'] as any"
+            :placeholder="item.placeholder || item.label"
+          />
           <!-- select -->
           <el-select
             @change="getList"
@@ -31,7 +32,8 @@
             v-if="item.type === 'select'"
             v-model="searchForm[key]['value']"
             v-bind="item.props"
-            :placeholder="item.placeholder || item.label">
+            :placeholder="item.placeholder || item.label"
+          >
             <el-option v-for="option in item.options" :key="option.value" :label="option.label" :value="option.value" />
           </el-select>
           <!-- date -->
@@ -39,11 +41,12 @@
             @change="getList"
             clearable
             v-if="item.type === 'date'"
-            v-model="searchForm[key]['value']"
+            v-model="searchForm[key]['value'] as any"
             v-bind="item.props"
             :type="item.props && item.props.type ? item.props.type : 'date'"
             :value-format="item.props && item.props.valueFormat ? item.props.valueFormat : 'YYYY-MM-DD'"
-            :placeholder="item.placeholder || item.label" />
+            :placeholder="item.placeholder || item.label"
+          />
         </el-form-item>
         <el-form-item>
           <el-button color="#626aef" type="primary" @click="getList" :icon="Search">查询</el-button>
@@ -56,8 +59,9 @@
     <section class="mb-3 hidden sm:block">
       <div class="flex items-center justify-between">
         <section>
-          <slot name="buttons" :getList="getList" :handleDelete="handleDelete" :tableCheck="tableCheck"></slot>
+          <slot name="actions" :getList="getList" :handleDelete="handleDelete" :tableCheck="tableCheck"></slot>
         </section>
+        <!--  -->
         <section>
           <el-tooltip placement="top">
             <template #content> {{ showSearch ? '隐藏搜索' : '显示搜索' }} </template>
@@ -76,12 +80,33 @@
       show-overflow-tooltip
       v-loading="loading"
       :max-height="scrollHeight - 230"
-      @selection-change="(rows) => (tableCheck = rows)"
+      @selection-change="(rows:any[]) => (tableCheck = rows)"
       stripe
       :data="list"
       border
-      style="width: 100%">
-      <slot name="table" :errorImg="errorImg" :viewImg="() => {}" :handleDelete="handleDelete"></slot>
+      style="width: 100%"
+    >
+      <template v-for="column in columns">
+        <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'expand'">
+          <template #default="props: ItableColumnDefaultSlotProps">
+            <!-- 
+              使用示例
+              <template #expand="{row}">
+                <div>{{row}}</div>
+              </template>  
+             -->
+            <slot name="expand" v-bind="{ ...props }" />
+          </template>
+        </el-table-column>
+        <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'index'" />
+        <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'selection'" />
+
+        <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'default'">
+          <template #default="scope">
+            {{ column.render ? column.render(scope) : scope.row[column.prop] || '' }}
+          </template>
+        </el-table-column>
+      </template>
     </el-table>
     <!-- 表格区域 end -->
 
@@ -93,36 +118,43 @@
         v-model:page-size="pageSize"
         layout="total,prev, pager, next,sizes,"
         :page-sizes="[10, 20, 40, 80, 100]"
-        :total="total" />
+        :total="total"
+      />
     </section>
     <!-- 分页区域 end -->
   </main>
 </template>
-<script lang="ts" setup>
-import errorImg from '@/assets/svg/img-error.svg'
+<script lang="ts" setup generic="T">
 // import viewImg from '@/components/ViewImg/index'
 import useClient from '@/hooks/useClient'
 import useList from '@/hooks/useList'
 import { http } from '@/http'
 import { Refresh, Search } from '@element-plus/icons-vue'
+import type { ElTableColumn, FormInstance } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import type { FormInstance, UploadUserFile } from 'element-plus'
-
 const { scrollHeight } = useClient()
-type IProps = {
+type IProTableProps = {
   api: string
-  searchForm?: ISearchForm
+  columns: IProTableColumns & T[]
+  searchForm?: IProTableSearchForm
   showLabel?: boolean
-  searchFormSize?: ISearchFormSize
+  searchFormSize?: IProTableSearchFormSize
 }
 
-const props = withDefaults(defineProps<IProps>(), {
+const props = withDefaults(defineProps<IProTableProps>(), {
   searchFormSize: () => 'default',
   showLabel: () => false,
   searchForm: () => ({}),
 })
 
-const { list, total, loading, pageIndex, pageSize, tableCheck, reset, getList, showSearch } = useList<any[]>(
+type ItableColumnDefaultSlotProps = {
+  row: Record<string, any>
+  $index: number
+  store: Record<string, any>
+  expanded: boolean
+}
+
+const { list, total, loading, pageIndex, pageSize, tableCheck, reset, getList, showSearch } = useList(
   props.api,
   props.searchForm,
 )
@@ -156,12 +188,12 @@ const handleDelete = (id?: string) => {
 }
 </script>
 <style lang="scss" scoped>
-:deep(.el-table__body) {
-  .el-table__cell {
-    padding: 4px 0;
-  }
-}
-:deep(.el-avatar) {
-  background: transparent;
-}
+// :deep(.el-table__body) {
+//   .el-table__cell {
+//     padding: 4px 0;
+//   }
+// }
+// :deep(.el-avatar) {
+//   background: transparent;
+// }
 </style>

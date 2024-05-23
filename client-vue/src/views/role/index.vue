@@ -6,45 +6,16 @@
 -->
 <template>
   <main class="w-full h-full">
-    <Crud ref="CrudRef" :api="API" :searchForm="searchForm">
-      <template #search="{ query, getList }">
-        <el-form-item>
-          <el-input style="width: 200px" @keyup.enter="getList" placeholder="名称" v-model="query.name" clearable />
-        </el-form-item>
-        <el-form-item>
-          <el-input style="width: 200px" @keyup.enter="getList" placeholder="备注" v-model="query.remark" clearable />
-        </el-form-item>
-      </template>
-      <template #buttons="{ tableCheck, handleDelete }">
+    <ProTable ref="ProTableRef" :api="API" :columns="columns" :searchForm="searchForm">
+      <template #actions="{ tableCheck, handleDelete }">
         <el-button plain type="primary" @click="handleAdd">新增</el-button>
         <el-button plain type="danger" :disabled="tableCheck.length == 0" @click="handleDelete()">删 除</el-button>
       </template>
-      <template #table="{ handleDelete, viewImg, errorImg }">
-        <el-table-column type="selection" align="center" width="55" />
-        <el-table-column type="index" align="center" label="序号" width="70" />
-        <el-table-column show-overflow-tooltip align="center" prop="id" label="id" width="170">
-          <template #default="{ row }">
-            <Copy :value="row.id" size="mini" />
-          </template>
-        </el-table-column>
-
-        <el-table-column show-overflow-tooltip align="center" prop="name" label="名称" />
-        <el-table-column show-overflow-tooltip align="center" prop="remark" label="备注" />
-
-        <el-table-column show-overflow-tooltip align="center" label="注册时间">
-          <template #default="{ row }">
-            {{ dayjs(row.createTime).format('YYYY-MM-DD HH:mm:ss') }}
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" align="center" width="200">
-          <template #default="{ row }">
-            <el-button @click="handleDelete(row.id)" link type="danger">删除</el-button>
-            <el-button @click="handleEdit(row)" link type="warning">编辑</el-button>
-            <el-button @click="handleSetPermission(row)" link type="warning">分配权限</el-button>
-          </template>
-        </el-table-column>
+      <template #expand="{ row, $index }">
+        <div>$index,{{$index}}</div>
+        {{ row }}
       </template>
-    </Crud>
+    </ProTable>
     <el-dialog v-model="dialogVisible" :title="state.showName" width="500" draggable>
       <el-form ref="formRef" :model="form" status-icon :rules="rules" label-width="auto" class="demo-form">
         <el-form-item label="用户名" prop="username">
@@ -81,8 +52,8 @@ import useValidate from '@/hooks/useValidate'
 import { http } from '@/http'
 import type { FormInstance, UploadUserFile } from 'element-plus'
 import { ElMessage } from 'element-plus'
-const uploadRef = ref()
 
+const uploadRef = ref()
 const roleList = ref([])
 
 export interface IUser {
@@ -96,10 +67,23 @@ export interface IUser {
   sex: number
 }
 
-const searchForm = reactive<ISearchForm>({
+const searchForm = reactive<IProTableSearchForm>({
   name: { type: 'input', label: '名称', value: null },
   remark: { type: 'input', label: '备注', value: null },
 })
+
+const columns = ref<IProTableColumns>([
+  { type: 'expand' },
+  { type: 'selection' },
+  {
+    type: 'default',
+    prop: 'name',
+    label: '名称',
+    render: ({ row }) => {
+      return row.name
+    },
+  },
+])
 
 const API = ref('/role/list')
 
@@ -107,7 +91,7 @@ const formRef = ref<FormInstance>()
 
 const dialogVisible = ref(false)
 
-const CrudRef = ref()
+const ProTableRef = ref()
 
 const form = reactive<any>({
   age: null,
@@ -139,7 +123,7 @@ const state = reactive<IState>({
   fileList: [],
 })
 
-const getList = () => CrudRef.value?.getList()
+const getList = () => ProTableRef.value?.getList()
 
 const handleSubmit = () => {
   formRef.value.validate((valid) => {

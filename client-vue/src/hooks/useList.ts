@@ -5,7 +5,6 @@
  * @LastEditTime: 2023-07-07 15:08:56
  */
 
-import { SearchFormProps } from '@/components/CURD/type'
 import { http } from '@/http'
 import { FormInstance } from 'element-plus'
 
@@ -17,7 +16,7 @@ export type IQuery = {
   [props: string]: any
 }
 
-export default function useList<T extends any = any>(url: string, searchForm?: SearchFormProps) {
+export default function useList<T extends any = any>(url: string, searchForm?: ISearchForm) {
   /**数据列表 */
   const list = ref<T>()
 
