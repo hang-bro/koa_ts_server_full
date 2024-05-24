@@ -34,7 +34,12 @@
             v-bind="item.props"
             :placeholder="item.placeholder || item.label"
           >
-            <el-option v-for="option in item.options" :key="option.value" :label="option.label" :value="option.value" />
+            <el-option
+              v-for="option in item.options"
+              :key="option.value"
+              :label="option.label"
+              :value="option.value"
+            />
           </el-select>
           <!-- date -->
           <el-date-picker
@@ -93,7 +98,12 @@
         style="width: 100%; height: 100%"
       >
         <template v-if="columns" v-for="column in columns">
-          <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'expand'">
+          <el-table-column
+            show-overflow-tooltip
+            align="center"
+            v-bind="column"
+            v-if="column.type == 'expand'"
+          >
             <template #default="props: ITableColumnDefaultSlotProps">
               <!-- 
               使用示例
@@ -104,8 +114,18 @@
               <slot name="expand" v-bind="{ ...props }" />
             </template>
           </el-table-column>
-          <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'index'" />
-          <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'selection'" />
+          <el-table-column
+            show-overflow-tooltip
+            align="center"
+            v-bind="column"
+            v-if="column.type == 'index'"
+          />
+          <el-table-column
+            show-overflow-tooltip
+            align="center"
+            v-bind="column"
+            v-if="column.type == 'selection'"
+          />
 
           <el-table-column
             show-overflow-tooltip
@@ -115,7 +135,12 @@
           >
             <template #default="props: ITableColumnDefaultSlotProps">
               <!-- 使用插槽  -->
-              <slot v-if="column.useSlot" :name="column.prop" v-bind="{ ...props }" />
+              <slot
+                v-if="column.useSlot"
+                :name="column.prop"
+                v-bind="{ ...props }"
+                :handleDelete="handleDelete"
+              />
               <!-- 使用render函数 -->
               <div v-else-if="column.render" v-html="column.render(props)"></div>
               <!-- 默认渲染方式 -->

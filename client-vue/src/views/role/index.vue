@@ -13,9 +13,9 @@
           删除
         </el-button>
       </template>
-      <template #option="{ row }">
+      <template #option="{ row, handleDelete }">
         <el-button link type="warning" @click="handleEdit(row)">修改</el-button>
-        <el-button link type="danger" @click="">删除</el-button>
+        <el-button link type="danger" @click="handleDelete(row.id)">删除</el-button>
       </template>
     </ProTable>
     <AddAndEditDialog v-model:show="addAndEditDialog.show" v-bind="addAndEditDialog" @getList="getList" />
