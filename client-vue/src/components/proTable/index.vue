@@ -59,7 +59,13 @@
     <section class="mb-3 hidden sm:block">
       <div class="flex items-center justify-between">
         <section>
-          <slot name="actions" :getList="getList" :handleDelete="handleDelete" :tableCheck="tableCheck"></slot>
+          <slot
+            name="actions"
+            :getList="getList"
+            :handleDelete="handleDelete"
+            :tableCheck="tableCheck"
+            :tableCheckDisabled="tableCheckDisabled"
+          />
         </section>
         <!--  -->
         <section>
@@ -86,9 +92,9 @@
         border
         style="width: 100%; height: 100%"
       >
-        <template v-for="column in columns">
+        <template v-if="columns" v-for="column in columns">
           <el-table-column show-overflow-tooltip align="center" v-bind="column" v-if="column.type == 'expand'">
-            <template #default="props: ItableColumnDefaultSlotProps">
+            <template #default="props: ITableColumnDefaultSlotProps">
               <!-- 
               使用示例
               <template #expand="{row}">
@@ -107,11 +113,19 @@
             v-bind="column"
             v-if="!column.type || column.type == 'default'"
           >
-            <template #default="scope">
-              {{ column.render ? column.render(scope) : scope.row[column.prop] || '' }}
+            <template #default="props: ITableColumnDefaultSlotProps">
+              <!-- 使用插槽  -->
+              <slot v-if="column.useSlot" :name="column.prop" v-bind="{ ...props }" />
+              <!-- 使用render函数 -->
+              <div v-else-if="column.render" v-html="column.render(props)"></div>
+              <!-- 默认渲染方式 -->
+              <div v-else>
+                {{ props.row[column.prop] || '' }}
+              </div>
             </template>
           </el-table-column>
         </template>
+        <slot v-else name="table" />
       </el-table>
     </section>
     <!-- 表格区域 end -->
@@ -130,7 +144,7 @@
     <!-- 分页区域 end -->
   </main>
 </template>
-<script lang="ts" setup generic="T">
+<script lang="ts" setup>
 // import viewImg from '@/components/ViewImg/index'
 import useList from '@/hooks/useList'
 import { http } from '@/http'
@@ -139,9 +153,9 @@ import type { ElTableColumn, FormInstance } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 const searchFormRef = ref<FormInstance>()
 
-type IProTableProps = {
+export type IProTableProps = {
   api: string
-  columns: IProTableColumns & T[]
+  columns?: IProTableColumns
   searchForm?: IProTableSearchForm
   showLabel?: boolean
   searchFormSize?: IProTableSearchFormSize
@@ -153,17 +167,12 @@ const props = withDefaults(defineProps<IProTableProps>(), {
   searchForm: () => ({}),
 })
 
-type ItableColumnDefaultSlotProps = {
-  row: Record<string, any>
-  $index: number
-  store: Record<string, any>
-  expanded: boolean
-}
-
 const { list, total, loading, pageIndex, pageSize, tableCheck, reset, getList, showSearch } = useList(
   props.api,
   props.searchForm,
 )
+
+const tableCheckDisabled = computed(() => tableCheck.value.length == 0)
 
 await getList()
 
@@ -173,10 +182,8 @@ defineExpose({
 
 onMounted(() => {})
 
-const selectRowIds = computed(() => tableCheck.value.map((i) => i.id).toString())
-
 const handleDelete = (id?: string) => {
-  const ids = id || selectRowIds.value
+  const ids = id || tableCheck.value.map((i) => i.id)
 
   ElMessageBox.confirm('确定删除?', '提示', { type: 'warning' })
     .then(() => {

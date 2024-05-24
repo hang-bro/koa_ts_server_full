@@ -22,7 +22,7 @@ export default useLoading
 export const loading = async () => {
   const vNode = createVNode(Index)
   render(vNode, document.body)
-  const { open, close } = vNode.component?.exposed
+  const { open, close } = vNode.component?.exposed as InstanceType<typeof Index>
   
   return {
     open,

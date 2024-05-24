@@ -4,6 +4,7 @@ import 'nprogress/nprogress.css'
 
 import userStore from '@/store/user'
 import router from '@/router'
+import { IRequestConfig } from '..'
 const baseURL = import.meta.env.VITE_BASE_URL + import.meta.env.VITE_BASE_API
 const instance = axios.create({
   baseURL, //跨域问题  后端没解决这里要打开  vite.configt.ts 要去设置server proxy
@@ -55,7 +56,8 @@ export const uploadActions = {
   audio: baseURL + '/upload/audio',
 }
 
-const start = async () => {
+const start = async (config: IRequestConfig) => {
+  if (config.animate === false) return
   const { open } = await loading()
   // NProgress.start()
   await open()
@@ -71,7 +73,7 @@ const end = async () => {
 instance.interceptors.request.use(
   async (config) => {
     config.headers['authorization'] = userStore().token
-    await start()
+    await start(config)
     return config
   },
   async (error) => {
@@ -115,7 +117,7 @@ instance.interceptors.response.use(
       userStore().lastVisitPath = router.currentRoute.value.path as string
       switch (statusCode) {
         case 401: //未认证 token失效
-          router.push({path:'/login',replace: true})
+          router.push({ path: '/login', replace: true })
           break
         default:
           break

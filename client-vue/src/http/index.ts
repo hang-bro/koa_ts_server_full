@@ -32,7 +32,7 @@ export class Http {
     })
   }
 
-  static post = <T>(url: string, data?: object, config?: AxiosRequestConfig<any>) => {
+  static post = <T>(url: string, data?: object, config?: IRequestConfig) => {
     return new Promise<IResponse<T>>((resolve, reject) => {
       instance
         .post(url, data, config)
@@ -52,13 +52,18 @@ export class Http {
   }
 }
 
+export type IRequestConfig = AxiosRequestConfig<any> & {
+  /**是否使用动画 */
+  animate?: boolean
+}
+
 export type IHttp = {
-  get: <T extends any = any>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
-  patch: <T extends any = any>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
-  post: <T extends any = any>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
-  put: <T extends any = any>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
-  delete: <T extends any = any>(url: string, params?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
-  upload: <T extends any = any>(url: string, data?: object, config?: AxiosRequestConfig<any>) => Promise<IResponse<T>>
+  get: <T extends any = any>(url: string, params?: object, config?: IRequestConfig) => Promise<IResponse<T>>
+  patch: <T extends any = any>(url: string, params?: object, config?: IRequestConfig) => Promise<IResponse<T>>
+  post: <T extends any = any>(url: string, params?: object, config?: IRequestConfig) => Promise<IResponse<T>>
+  put: <T extends any = any>(url: string, params?: object, config?: IRequestConfig) => Promise<IResponse<T>>
+  delete: <T extends any = any>(url: string, params?: object, config?: IRequestConfig) => Promise<IResponse<T>>
+  upload: <T extends any = any>(url: string, data?: object, config?: IRequestConfig) => Promise<IResponse<T>>
 }
 
 /**http请求 */
@@ -67,7 +72,7 @@ export const http: IHttp = {}
 ;['get', 'post', 'put', 'patch', 'delete', 'upload'].map((method) => {
   switch (method) {
     case 'get':
-      return (http[method] = <T>(url: string, params?: object, config?: AxiosRequestConfig<any>) => {
+      return (http[method] = <T>(url: string, params?: object, config?: IRequestConfig) => {
         return new Promise<IResponse<T>>((resolve, reject) => {
           instance[method](url, { params, ...config })
             .then((res) => resolve(res.data))
@@ -78,7 +83,7 @@ export const http: IHttp = {}
     case 'post':
     case 'patch':
     case 'put':
-      return (http[method] = <T>(url: string, data?: object, config?: AxiosRequestConfig<any>) => {
+      return (http[method] = <T>(url: string, data?: object, config?: IRequestConfig) => {
         return new Promise<IResponse<T>>((resolve, reject) => {
           instance[method](url, data, config)
             .then((res) => {
@@ -88,7 +93,7 @@ export const http: IHttp = {}
         })
       })
     case 'delete':
-      return (http[method] = <T>(url: string, data?: object, config?: AxiosRequestConfig<any>) => {
+      return (http[method] = <T>(url: string, data?: object, config?: IRequestConfig) => {
         return new Promise<IResponse<T>>((resolve, reject) => {
           instance[method](url, { data })
             .then((res) => resolve(res.data))

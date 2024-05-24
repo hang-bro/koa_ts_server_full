@@ -1,31 +1,23 @@
-import joi from 'joi'
+import Joi from 'joi'
 
-const validator = {
-  password: (rule: any, value: any, callback: Function) => {
-    /**
-     *  校验规则
-     */
-    const { error } = joi.string().min(6).max(20).error(new Error('密码长度应在6~20')).validate(value)
+export const defineValidator = (
+  cb: (joi: typeof Joi) => any,
+  trigger: 'blur' | 'change' | ['blur', 'change'] = ['blur', 'change'],
+  required: boolean = true,
+) => {
+  return [
+    {
+      validator: (_rule: any, value: any, callback: Function) => {
+        const { error } = cb(Joi).validate(value)
 
-    if (error) return callback(new Error(error.message))
+        if (error) return callback(new Error(error.message))
 
-    return callback()
-  },
-
-  email: (rule: any, value: any, callback: Function) => {
-    /**
-     *  校验规则
-     */
-    const { error } = joi
-      .string()
-      .email({ tlds: { allow: false } })
-      .error(new Error('邮箱不符合规范'))
-      .validate(value)
-
-    if (error) return callback(new Error(error.message))
-
-    return callback()
-  },
+        return callback()
+      },
+      required,
+      trigger,
+    },
+  ]
 }
 
 /**表单校验规则 */
@@ -33,19 +25,28 @@ const useValidate = {
   /**
    * 请输入
    */
-  pleaseInput: [{ required: true, message: '请输入', trigger: 'blur' }],
+  pleaseInput: defineValidator((joi) => {
+    return joi.alternatives().try(joi.string(), joi.number()).error(new Error('请输入'))
+  }),
   /**
    * 请选择
    */
-  pleaseSelect: [{ required: true, message: '请选择', trigger: 'blur' }],
+  pleaseSelect: [{ required: true, trigger: 'blur', message: '请选择' }],
   /**
-   * 密码
+   * 密码  (6~20)
    */
-  password: [{ validator: validator.password, required: true, trigger: 'blur' }],
+  password: defineValidator((joi) => {
+    return joi.string().min(6).max(20).error(new Error('密码长度应在6~20'))
+  }),
   /**
    * 邮箱
    */
-  email: [{ validator: validator.email, required: true, trigger: 'blur' }],
+  email: defineValidator((joi) => {
+    return joi
+      .string()
+      .email({ tlds: { allow: false } })
+      .error(new Error('邮箱不符合规范'))
+  }),
 }
 
 export default useValidate

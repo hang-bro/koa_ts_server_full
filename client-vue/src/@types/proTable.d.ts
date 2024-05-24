@@ -47,10 +47,19 @@ type IDate = {
 
 type IProTableColumn = InstanceType<typeof ElTableColumn>['$props'] & {
   type?: 'default' | 'selection' | 'index' | 'expand'
-  render?: (args: { $index: number; row: Record<string, any>; column: Record<string, any> }) => any
+  render?: (props: ITableColumnDefaultSlotProps) => string | number | null | undefined
+  /**是否使用插槽 */
+  useSlot?: boolean
 }
 
 declare global {
+  type ITableColumnDefaultSlotProps = {
+    row: Record<string, any>
+    $index: number
+    store?: Record<string, any>
+    expanded?: boolean
+  }
+  type IProTable = InstanceType<typeof ProTable>
   type IProTableSearchFormSize = InstanceType<typeof ElForm>['$props']['size']
   /**
    * columns 示例

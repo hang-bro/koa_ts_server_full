@@ -70,7 +70,8 @@
     "request": "^2.88.2",
     "socket.io": "^4.7.1",
     "svg-captcha": "^1.4.0",
-    "turndown": "^7.1.2"
+    "turndown": "^7.1.2",
+    "vee-validate": "^4.12.8"
   },
   "devDependencies": {
     "@inquirer/prompts": "^2.3.0",
