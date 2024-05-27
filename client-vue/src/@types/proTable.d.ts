@@ -50,6 +50,8 @@ type IProTableColumn = InstanceType<typeof ElTableColumn>['$props'] & {
   render?: (props: ITableColumnDefaultSlotProps) => string | number | null | undefined
   /**是否使用插槽 */
   useSlot?: boolean
+  /**是否添加复制图标  内容是否可复制 */
+  useCopy?: boolean
 }
 
 declare global {

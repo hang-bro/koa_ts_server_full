@@ -6,7 +6,7 @@
     :before-close="cancel"
     :close-on-click-modal="false"
   >
-    <el-form ref="formRef" :model="form" :rules="rules" label-width="auto">
+    <el-form label-position="top" ref="formRef" :model="form" :rules="rules" label-width="auto">
       <el-form-item label="名称" prop="name">
         <el-input v-model="form.name" />
       </el-form-item>
@@ -23,7 +23,7 @@
         />
       </el-form-item>
       <el-form-item label="备注" prop="remark">
-        <el-input type="textarea" v-model="form.remark" />
+        <el-input :rows="4" type="textarea" v-model="form.remark" />
       </el-form-item>
     </el-form>
     <template #footer>

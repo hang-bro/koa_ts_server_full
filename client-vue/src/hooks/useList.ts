@@ -23,9 +23,6 @@ export default function useList<T extends any = any>(url: string, searchForm?: I
   /**选中的表格项目 */
   const tableCheck = ref([])
 
-  /**是否显示搜索 */
-  const showSearch = ref(true)
-
   /**加载态 */
   const loading = ref(false)
 
@@ -89,7 +86,7 @@ export default function useList<T extends any = any>(url: string, searchForm?: I
   return {
     list,
     loading,
-    showSearch,
+
     pageIndex,
     total,
     pageSize,

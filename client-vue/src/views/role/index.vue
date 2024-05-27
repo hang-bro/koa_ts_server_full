@@ -33,6 +33,7 @@ const addAndEditDialog = reactive<IProps>({
 const searchForm = reactive<IProTableSearchForm>({
   name: { type: 'input', label: '名称', value: null },
   remark: { type: 'input', label: '备注', value: null },
+  key: { type: 'input', label: '字符', value: null },
 })
 
 const columns = ref<IProTableColumns>([
@@ -45,6 +46,7 @@ const columns = ref<IProTableColumns>([
     render: ({ row }) => {
       return `<div>${row.key}</div>`
     },
+    useCopy: true,
   },
   { prop: 'name', label: '名称' },
   { prop: 'remark', label: '备注' },
